@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gradys | Scratch Kitchen &amp; Bar in Midvale, Utah</title>
-  <meta name="description" content="Gradys is a 21+ scratch kitchen and sports bar in Midvale, Utah. Open daily until 1 AM, weekend brunch 10 AM – 2 PM. Burger Thursdays, Meaty Mondays and every game on.">
+  <meta name="description" content="Gradys is a 21+ scratch kitchen and sports bar in Midvale, Utah. Open daily until 1 AM, weekend brunch 11 AM – 3 PM. Burger Thursdays, Meaty Mondays and every game on.">
   <meta property="og:title" content="Gradys | Midvale, UT">
   <meta property="og:description" content="Scratch kitchen &amp; bar. Weekend brunch, Burger Thursdays and every game on.">
   <meta property="og:type" content="website">
@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -30,8 +31,7 @@
       "addressCountry": "US"
     },
     "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "11:00", "closes": "01:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday","Sunday"], "opens": "10:00", "closes": "01:00" }
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "11:00", "closes": "01:00" }
     ],
     "servesCuisine": "American, Pub food, Brunch",
     "priceRange": "$$",
@@ -44,6 +44,49 @@
   <a class="skip" href="#main">Skip to content</a>
   <div class="progress" aria-hidden="true"><span></span></div>
 
+  <!-- ===== Marquee-bulb intro (plays once per visit, tap to skip) ===== -->
+  <div class="marquee-intro" data-intro aria-hidden="true">
+    <div class="marquee-sign" data-bulbs>
+      <img class="marquee-logo" src="assets/logo.png" alt="" width="700" height="350">
+    </div>
+    <p class="marquee-line">Every game on</p>
+  </div>
+  <script>
+    // Intro: skip on repeat visits this session, for reduced motion, or on deep links
+    (() => {
+      const el = document.querySelector('[data-intro]');
+      let seen = false;
+      try { seen = sessionStorage.getItem('gradysIntro') === '1'; sessionStorage.setItem('gradysIntro', '1'); } catch (e) {}
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (seen || reduce || (location.hash && location.hash !== '#top')) { el.remove(); return; }
+      // Light bulbs around the sign: they switch on in a sweep, then chase
+      const sign = el.querySelector('[data-bulbs]');
+      const TOP = 14, SIDE = 7, pts = [];
+      for (let i = 0; i < TOP; i++) pts.push([4 + i * (92 / (TOP - 1)), 0]);
+      for (let i = 1; i <= SIDE; i++) pts.push([100, i * (100 / (SIDE + 1))]);
+      for (let i = TOP - 1; i >= 0; i--) pts.push([4 + i * (92 / (TOP - 1)), 100]);
+      for (let i = SIDE; i >= 1; i--) pts.push([0, i * (100 / (SIDE + 1))]);
+      pts.forEach(([x, y], i) => {
+        const b = document.createElement('i');
+        b.className = 'bulb';
+        b.style.left = x + '%'; b.style.top = y + '%';
+        b.style.setProperty('--on', (i * (0.75 / pts.length)).toFixed(3) + 's');
+        b.style.setProperty('--chase', (-(i % 3) * 0.3).toFixed(2) + 's');
+        sign.appendChild(b);
+      });
+      document.documentElement.classList.add('intro-on');
+      const done = () => {
+        if (el.classList.contains('done')) return;
+        el.classList.add('done');
+        document.documentElement.classList.remove('intro-on');
+        setTimeout(() => el.remove(), 800);
+      };
+      el.addEventListener('click', done);
+      addEventListener('keydown', done, { once: true });
+      setTimeout(done, 2300);
+    })();
+  </script>
+
   <!-- ===== Header ===== -->
   <header class="site-header" id="top">
     <div class="infobar">
@@ -54,7 +97,7 @@
         </a>
         <span class="info">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          <b>Mon–Fri</b>&nbsp;11a–1a <span class="sep">·</span> <b>Sat–Sun</b>&nbsp;10a–1a
+          <b>Open daily</b>&nbsp;11a–1a <span class="sep">·</span> <b>Brunch</b>&nbsp;Sat–Sun 11–3
         </span>
         <span class="info info-21">21+ &middot; Bring your ID</span>
         <a class="info info-ig" href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener" aria-label="Gradys on Instagram">
@@ -68,10 +111,10 @@
       </a>
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <a href="#full-menu" data-nav="menu">Menu</a>
-        <a href="#favorites">Favorites</a>
         <a href="#weekly">Specials</a>
-        <a href="#full-menu/brunch" data-nav="menu">Brunch</a>
-        <a href="#parties">Parties</a>
+        <a href="game-day.html" data-nav="page">Game Day</a>
+        <a href="events.html" data-nav="page">Events</a>
+        <a href="our-story.html" data-nav="page">Our Story</a>
         <a href="#visit">Visit</a>
         <!-- TODO: swap to a tel: link once the client provides a phone number -->
         <a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener" class="btn btn-small">Message Us</a>
@@ -121,14 +164,14 @@
       <div class="ticker-track">
         <span>Burger Thursday · $13 burgers</span><i>★</i>
         <span>Meaty Monday</span><i>★</i>
-        <span>Weekend brunch 10–2</span><i>★</i>
-        <span>Tallow-fried Kennebec fries</span><i>★</i>
+        <span>Weekend brunch 11–3</span><i>★</i>
+        <span>New menu: entrées after 4 PM</span><i>★</i>
         <span>Monday &amp; Thursday Night Football</span><i>★</i>
         <span>Now booking holiday parties</span><i>★</i>
         <span>Burger Thursday · $13 burgers</span><i>★</i>
         <span>Meaty Monday</span><i>★</i>
-        <span>Weekend brunch 10–2</span><i>★</i>
-        <span>Tallow-fried Kennebec fries</span><i>★</i>
+        <span>Weekend brunch 11–3</span><i>★</i>
+        <span>New menu: entrées after 4 PM</span><i>★</i>
         <span>Monday &amp; Thursday Night Football</span><i>★</i>
         <span>Now booking holiday parties</span><i>★</i>
       </div>
@@ -147,7 +190,7 @@
         <div class="values">
           <div class="value">
             <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 40 10 16h28l-4 24Z"/><path d="M17 16V8M23 16V6M29 16V8M35 16v-6"/></svg>
-            <h3>Tallow-Fried</h3><p>Kennebec fries and chips, fried in beef tallow.</p>
+            <h3>Tallow-Fried</h3><p>House-made fries and chips, fried in beef tallow.</p>
           </div>
           <div class="value">
             <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 30c0-8 7-14 16-14s16 6 16 14Z"/><path d="M6 30h36M10 36h28"/><path d="M24 16v-4"/></svg>
@@ -186,25 +229,25 @@
             <li class="fav" data-img="assets/wings-beer.jpg" data-cap="Wings" tabindex="0">
               <div class="fav-row"><h3>Wings</h3><span class="fav-price">$17</span></div>
               <p class="fav-tag">Shareables</p>
-              <p class="fav-desc">Black Pepper Buffalo, Fermented Chili Honey or Utah Gold BBQ, with green goddess ranch.</p>
+              <p class="fav-desc">Buffalo, Stout BBQ, Chipotle Cherry, Fermented Chili Honey or INFERNO, with green goddess ranch.</p>
             </li>
-            <li class="fav" data-img="assets/brussels-caesar.jpg" data-cap="Brussels Caesar" tabindex="0">
-              <div class="fav-row"><h3>Brussels Caesar</h3><span class="fav-price">$15</span></div>
-              <p class="fav-tag">Salads</p>
-              <p class="fav-desc">Fried Brussels sprouts, lemon Caesar, sourdough crumble and pecorino.</p>
+            <li class="fav" data-img="assets/brussels-caesar.jpg" data-cap="Brussels" tabindex="0">
+              <div class="fav-row"><h3>Brussels</h3><span class="fav-price">$15</span></div>
+              <p class="fav-tag">Soups &amp; Salads</p>
+              <p class="fav-desc">Fried Brussels sprouts, lemon Caesar, bacon, sourdough crumble, pecorino and balsamic fig glaze.</p>
             </li>
             <li class="fav" data-img="assets/steak-eggs.jpg" data-cap="Steak &amp; Eggs" tabindex="0">
               <div class="fav-row"><h3>Steak &amp; Eggs</h3><span class="fav-price">$26</span></div>
               <p class="fav-tag">Weekend Brunch</p>
-              <p class="fav-desc">Seared 8 oz flat iron, home fries, egg your way and pickled Fresno chimichurri.</p>
+              <p class="fav-desc">Seared 8 oz sirloin, home fries, 2 eggs your way and pickled Fresno chimichurri.</p>
             </li>
             <li class="fav" data-img="assets/chilaquiles.jpg" data-cap="Short Rib Chilaquiles" tabindex="0">
-              <div class="fav-row"><h3>Short Rib Chilaquiles</h3><span class="fav-price">$20</span></div>
+              <div class="fav-row"><h3>Short Rib Chilaquiles</h3><span class="fav-price">$18</span></div>
               <p class="fav-tag">Weekend Brunch</p>
               <p class="fav-desc">Salsa roja, fried tortilla chips, egg your way, avocado and cotija.</p>
             </li>
             <li class="fav" data-img="assets/french-toast.jpg" data-cap="Sourdough French Toast" tabindex="0">
-              <div class="fav-row"><h3>Sourdough French Toast</h3><span class="fav-price">$15</span></div>
+              <div class="fav-row"><h3>Sourdough French Toast</h3><span class="fav-price">$14</span></div>
               <p class="fav-tag">Weekend Brunch</p>
               <p class="fav-desc">Spiced vanilla custard, bourbon caramel, tart whipped cream and Gra-deez Nuts crumble.</p>
             </li>
@@ -243,8 +286,8 @@
           <li data-day="3"><small>Wed</small><b>Full Menu</b><span>11a–1a</span></li>
           <li data-day="4"><small>Thu</small><b>Burger Thursday</b><span>$13 + TNF</span></li>
           <li data-day="5"><small>Fri</small><b>Full Menu</b><span>11a–1a</span></li>
-          <li data-day="6"><small>Sat</small><b>Brunch</b><span>10a–2p + CFB</span></li>
-          <li data-day="0"><small>Sun</small><b>Brunch</b><span>10a–2p</span></li>
+          <li data-day="6"><small>Sat</small><b>Brunch</b><span>11a–3p + CFB</span></li>
+          <li data-day="0"><small>Sun</small><b>Brunch</b><span>11a–3p + NFL</span></li>
         </ol>
 
         <div class="countdowns">
@@ -279,7 +322,7 @@
           <article class="ticket">
             <p class="ticket-day">Saturday &amp; Sunday</p>
             <h3>Weekend Brunch</h3>
-            <p class="ticket-sub">10 AM – 2 PM</p>
+            <p class="ticket-sub">11 AM – 3 PM</p>
             <hr>
             <p class="ticket-foot">College game days &amp; brunch with beer</p>
           </article>
@@ -292,7 +335,7 @@
       <div class="container photo-band-inner">
         <h2>Weekend<br>Brunch</h2>
         <div>
-          <p>Steak and eggs, short rib chilaquiles, sourdough French toast and biscuits with sausage gravy. Every Saturday and Sunday from 10 AM to 2 PM.</p>
+          <p>Steak and eggs, short rib chilaquiles, sourdough French toast and biscuits with sausage gravy. Every Saturday and Sunday from 11 AM to 3 PM.</p>
           <p class="photo-band-note">Brunch, beer &amp; the early games</p>
           <a href="#full-menu/brunch" class="btn">See the Brunch Menu</a>
         </div>
@@ -352,7 +395,8 @@
             <li>Gift cards available at the bar</li>
           </ul>
           <div class="actions">
-            <a class="btn" href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener">DM Us to Book</a>
+            <a class="btn" href="events.html#planner">Plan Your Party</a>
+            <a class="btn btn-ghost" href="game-day.html">Game Day Info</a>
           </div>
         </div>
       </div>
@@ -402,8 +446,8 @@
             <tr data-day="3"><th>Wednesday</th><td>11 AM – 1 AM</td></tr>
             <tr data-day="4"><th>Thursday</th><td>11 AM – 1 AM</td></tr>
             <tr data-day="5"><th>Friday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="6"><th>Saturday</th><td>10 AM – 1 AM <small>Brunch 10–2</small></td></tr>
-            <tr data-day="0"><th>Sunday</th><td>10 AM – 1 AM <small>Brunch 10–2</small></td></tr>
+            <tr data-day="6"><th>Saturday</th><td>11 AM – 1 AM <small>Brunch 11–3</small></td></tr>
+            <tr data-day="0"><th>Sunday</th><td>11 AM – 1 AM <small>Brunch 11–3</small></td></tr>
           </tbody>
         </table>
 
@@ -436,7 +480,8 @@
       <div class="container">
         <p class="kicker">Scratch-made sports bar food</p>
         <h1>The Menu</h1>
-        <p class="lead">Burgers and handhelds come with house chips or fries. Swap in sweet potato tots, onion rings or a house salad for +2.</p>
+        <p class="lead">The new menu just dropped: shareables, soups, burgers, handhelds and entrées after 4 PM. Burgers and handhelds come with house chips or fries.</p>
+        <p class="menu-legend"><abbr class="diet" title="Vegetarian">V</abbr> Vegetarian <abbr class="diet" title="Vegan">VG</abbr> Vegan <a class="print-link" href="print.html">Print / save as PDF ↗</a></p>
         <div class="menu-search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <input type="search" placeholder="Search the menu… try “short rib” or “bacon”" aria-label="Search the menu" data-menu-search autocomplete="off">
@@ -444,9 +489,10 @@
         </div>
         <nav class="cat-pills" aria-label="Menu categories">
           <a href="#full-menu/shareables" data-cat="shareables">Shareables</a>
+          <a href="#full-menu/salads" data-cat="salads">Soups &amp; Salads</a>
           <a href="#full-menu/burgers" data-cat="burgers">Burgers</a>
           <a href="#full-menu/handhelds" data-cat="handhelds">Handhelds</a>
-          <a href="#full-menu/salads" data-cat="salads">Salads &amp; Sides</a>
+          <a href="#full-menu/entrees" data-cat="entrees">Entrées</a>
           <a href="#full-menu/brunch" data-cat="brunch">Brunch</a>
           <a href="#full-menu/desserts" data-cat="desserts">Desserts</a>
         </nav>
@@ -456,9 +502,10 @@
     <div class="cat-bar" aria-hidden="true">
       <div class="container cat-bar-row">
         <a href="#full-menu/shareables" data-cat="shareables">Shareables</a>
+        <a href="#full-menu/salads" data-cat="salads">Soups &amp; Salads</a>
         <a href="#full-menu/burgers" data-cat="burgers">Burgers</a>
         <a href="#full-menu/handhelds" data-cat="handhelds">Handhelds</a>
-        <a href="#full-menu/salads" data-cat="salads">Salads</a>
+        <a href="#full-menu/entrees" data-cat="entrees">Entrées</a>
         <a href="#full-menu/brunch" data-cat="brunch">Brunch</a>
         <a href="#full-menu/desserts" data-cat="desserts">Desserts</a>
       </div>
@@ -468,113 +515,8 @@
       <div class="container"><p class="mresults-count" data-results-count></p><div class="mresults-list" data-results-list></div></div>
     </section>
 
-    <div data-menu-bands>
-      <section class="mband" id="cat-shareables" data-cat-band="shareables">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Shareables</h2>
-            <p>Made for the middle of the table.</p>
-            <img src="assets/taquitos.jpg" alt="Short rib taquitos" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item"><div class="item-head"><h4>Dip Chips</h4><span class="leader"></span><span class="price">11</span></div><p>Tallow-fried Kennebec chips, onion dip, chive oil, crispy shallots</p></div>
-            <div class="item"><div class="item-head"><h4>Beer Cheese Fries</h4><span class="leader"></span><span class="price">15</span></div><p>Tallow-fried Kennebec fries, roasted garlic beer cheese, bacon, pickled red onions, chives</p><p class="add">Add chicken +6 · short rib +8 · egg +2</p></div>
-            <div class="item"><div class="item-head"><h4>Roasted Carrots</h4><span class="leader"></span><span class="price">16</span></div><p>Coriander-roasted baby carrots, whipped feta, candied pistachios, brown butter, mint</p></div>
-            <div class="item"><div class="item-head"><h4>Brown Butter Pretzel Dips</h4><span class="leader"></span><span class="price">16</span></div><p>Pretzel braids, roasted garlic beer cheese, charred shallot whole grain mustard, maple bourbon caramel</p></div>
-            <div class="item"><div class="item-head"><h4>Fried Cheese Curds</h4><span class="leader"></span><span class="price">12</span></div><p>Crispy tempura batter</p><ul class="sauces"><li class="s-honey">Fermented chili honey</li><li class="s-aioli">Garlic chive aioli</li></ul></div>
-            <div class="item"><div class="item-head"><h4>Short Rib Taquitos</h4><span class="leader"></span><span class="price">18</span></div><p>Chili-braised short rib, white cheddar, corn tortilla, pickled red onion, cilantro, almond poblano crema, chili jus</p></div>
-            <div class="item"><div class="item-head"><h4>Wings</h4><span class="leader"></span><span class="price">17</span></div><p>Fried chicken wings with green goddess ranch or blue cheese</p><ul class="sauces"><li class="s-buffalo">Black Pepper Buffalo</li><li class="s-honey">Fermented Chili Honey</li><li class="s-bbq">Utah Gold BBQ</li><li class="s-rub">Lemon Pepper</li><li class="s-rub">Blue Cheese Buffalo</li><li class="s-rub">House Seasoning</li></ul></div>
-            <div class="item"><div class="item-head"><h4>Brown Butter Bar Nuts</h4><span class="leader"></span><span class="price">10</span></div><p>Maple glaze, rosemary, flaky salt</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mband alt" id="cat-burgers" data-cat-band="burgers">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Burgers</h2>
-            <p>Potato buns, house blend patties, chips or fries on the side.</p>
-            <img src="assets/burger-egg.jpg" alt="Burger with bacon and a fried egg" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item callout"><div class="item-head"><h4>Burger Thursday</h4><span class="leader"></span><span class="price">13</span></div><p>Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.</p></div>
-            <div class="item"><div class="item-head"><h4>Smash Burger*</h4><span class="leader"></span><span class="price">16</span></div><p>House blend smash patty, American, iceberg, dill pickle, Pop Off sauce, potato bun</p></div>
-            <div class="item"><div class="item-head"><h4>Bison Stack Burger*</h4><span class="leader"></span><span class="price">24</span></div><p>Bison patty, whipped feta, house chips, pickled red onion, arugula, potato bun</p></div>
-            <div class="item"><div class="item-head"><h4>Fresno Fire Burger*</h4><span class="leader"></span><span class="price">18</span></div><p>House blend patty, white cheddar, pickled Fresno, almond poblano aioli, iceberg, potato bun</p></div>
-            <div class="item"><div class="item-head"><h4>Burger Add-Ons</h4><span class="leader"></span><span class="price"></span></div><p>Extra patty +4 · Bacon or egg +2 · Pickled red onion, pickled Fresno, crispy shallots, house chips, red onion or tomato +1 · Onion dip, garlic aioli, Utah Gold BBQ or fermented chili honey +1.50</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mband" id="cat-handhelds" data-cat-band="handhelds">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Handhelds</h2>
-            <p>Sandwiches, tacos and tenders. Chips or fries included.</p>
-            <img src="assets/steak-sandwich.jpg" alt="Steak sandwich and fries" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item"><div class="item-head"><h4>Grilled Cheese</h4><span class="leader"></span><span class="price">14</span></div><p>American, Swiss, white cheddar, tomato soup jam, roasted garlic spread, sourdough</p></div>
-            <div class="item"><div class="item-head"><h4>Chicken Sandwich</h4><span class="leader"></span><span class="price">18</span></div><p>Crispy or grilled chicken, dill pickle slaw, tomato, garlic chive aioli, potato bun</p></div>
-            <div class="item"><div class="item-head"><h4>Poblano Chicken Tacos</h4><span class="leader"></span><span class="price">18</span></div><p>Crispy or grilled chicken, cabbage, roasted poblano almond crema, pickled red onion, avocado, cilantro, white cheddar crisp, white corn tortilla</p><p class="add">Substitute short rib +2</p></div>
-            <div class="item"><div class="item-head"><h4>Smoked Turkey Club</h4><span class="leader"></span><span class="price">18</span></div><p>Smoked turkey, bacon, sharp white cheddar, avocado, pickled red onion, tomato, iceberg, green goddess ranch, sourdough</p></div>
-            <div class="item"><div class="item-head"><h4>Tender Basket</h4><span class="leader"></span><span class="price">17</span></div><p>5 fried tenders</p><ul class="sauces"><li class="s-bbq">Utah Gold BBQ</li><li class="s-honey">Fermented chili honey</li><li class="s-aioli">Honey mustard</li><li class="s-rub">Ranch</li><li class="s-rub">Blue cheese</li></ul></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mband alt" id="cat-salads" data-cat-band="salads">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Salads &amp; Sides</h2>
-            <p>Add chicken to any salad +6.</p>
-            <img src="assets/brussels-caesar.jpg" alt="Brussels Caesar salad" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item"><div class="item-head"><h4>Brussels Caesar</h4><span class="leader"></span><span class="price">15</span></div><p>Fried Brussels sprouts, lemon Caesar, sourdough crumble, pecorino</p></div>
-            <div class="item"><div class="item-head"><h4>Classic Wedge*</h4><span class="leader"></span><span class="price">16</span></div><p>Little gem wedge, bacon, egg, tomato, avocado, chive, blue cheese crumble, green goddess ranch</p></div>
-            <div class="item"><div class="item-head"><h4>Market Salad</h4><span class="leader"></span><span class="price">13</span></div><p>Little gem, arugula, cucumber, pickled red onion, tomato, carrot, chopped almond, herb vinaigrette</p></div>
-            <div class="item"><div class="item-head"><h4>Fried Goodie Baskets</h4><span class="leader"></span><span class="price"></span></div><p>Kennebec chips 6 · Kennebec fries 6 · Sweet potato fries 8 · Onion rings 9</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mband" id="cat-brunch" data-cat-band="brunch">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Brunch</h2>
-            <p>Saturdays &amp; Sundays, 10 AM – 2 PM.</p>
-            <img src="assets/steak-eggs.jpg" alt="Steak and eggs" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item"><div class="item-head"><h4>Steak &amp; Eggs</h4><span class="leader"></span><span class="price">26</span></div><p>Seared 8 oz flat iron, home fries, egg your way, horseradish &amp; pickled Fresno chimichurri</p></div>
-            <div class="item"><div class="item-head"><h4>Short Rib Chilaquiles</h4><span class="leader"></span><span class="price">20</span></div><p>Chili-braised short rib, salsa roja, fried tortilla chips, egg your way, garlic chive aioli, avocado, cotija, cilantro</p></div>
-            <div class="item"><div class="item-head"><h4>Sourdough French Toast</h4><span class="leader"></span><span class="price">15</span></div><p>Thick-cut sourdough, spiced vanilla custard, bourbon caramel, tart whipped cream, Gra-deez Nuts crumble</p></div>
-            <div class="item"><div class="item-head"><h4>Breakfast Burrito</h4><span class="leader"></span><span class="price">17</span></div><p>House-made sausage, scrambled egg, potatoes, gouda, green chiles, almond poblano crema, seared flour tortilla</p></div>
-            <div class="item"><div class="item-head"><h4>Biscuits &amp; Gravy</h4><span class="leader"></span><span class="price">14</span></div><p>House-made garlic-cheddar biscuits, sausage gravy, eggs your way</p></div>
-            <div class="item"><div class="item-head"><h4>Croissant Breakfast Sandwich</h4><span class="leader"></span><span class="price">18</span></div><p>Toasted croissant, bacon, tomato jam, scrambled egg, gouda, tarragon-Dijon aioli, home fries</p></div>
-            <div class="item"><div class="item-head"><h4>Breakfast Plate</h4><span class="leader"></span><span class="price">14</span></div><p>Two eggs your way, house-made sausage or thick-cut bacon, home fries, sourdough toast, tomato jam</p></div>
-            <div class="item"><div class="item-head"><h4>Parfait</h4><span class="leader"></span><span class="price">13</span></div><p>Whipped Greek yogurt, maple-brown butter rosemary nuts, macerated berries, honey</p></div>
-            <div class="item"><div class="item-head"><h4>Brunch Sides</h4><span class="leader"></span><span class="price"></span></div><p>Toast 3 · Egg 4 · Bacon or sausage 5 · Fruit 5</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mband alt" id="cat-desserts" data-cat-band="desserts">
-        <div class="container mband-grid">
-          <div class="mband-head">
-            <h2>Desserts</h2>
-            <p>Save room. Trust us.</p>
-            <img src="assets/french-toast.jpg" alt="Sourdough French toast with whipped cream" loading="lazy" data-zoom>
-          </div>
-          <div class="mband-items">
-            <div class="item"><div class="item-head"><h4>Brûléed Banana Bread</h4><span class="leader"></span><span class="price">12</span></div><p>Banana bread, maple bourbon caramel, vanilla whipped cream, toasted pecan</p></div>
-            <div class="item"><div class="item-head"><h4>Stout Toffee Cake</h4><span class="leader"></span><span class="price">14</span></div><p>Dark chocolate stout cake, toffee, vanilla whipped cream</p></div>
-            <div class="item"><div class="item-head"><h4>Snickerdoodle Shortcake</h4><span class="leader"></span><span class="price">13</span></div><p>Macerated strawberries, snickerdoodle shortbread, vanilla whipped cream, mint</p></div>
-          </div>
-        </div>
-      </section>
-    </div>
+    <!-- Menu bands are rendered from menu-data.js (edit the menu there) -->
+    <div data-menu-bands></div>
 
     <section class="mfoot">
       <div class="container center">
@@ -601,11 +543,11 @@
       </div>
       <div>
         <h4>Hours</h4>
-        <p>Mon–Fri 11 AM – 1 AM<br>Sat–Sun 10 AM – 1 AM<br>Brunch Sat–Sun 10 – 2</p>
+        <p>Daily 11 AM – 1 AM<br>Brunch Sat–Sun 11 – 3<br>Entrées after 4 PM</p>
       </div>
       <div>
         <h4>Explore</h4>
-        <p><a href="#full-menu">Full Menu</a><br><a href="#weekly">Weekly Specials</a><br><a href="#parties">Parties</a><br><a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener">Instagram</a></p>
+        <p><a href="#full-menu">Full Menu</a><br><a href="game-day.html">Game Day</a><br><a href="events.html">Parties &amp; Events</a><br><a href="our-story.html">Our Story</a><br><a href="print.html">Printable Menu</a><br><a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener">Instagram</a></p>
       </div>
     </div>
     <div class="container footer-base">
@@ -638,6 +580,7 @@
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
+  <script src="menu-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

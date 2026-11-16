@@ -567,3 +567,39 @@ body:not(.header-hidden) .cat-bar { top: 66px; }
   .mosaic-track { animation: none !important; }
   .site-header.hidden { transform: none; }
 }
+
+/* Fan Favorites autoplay: gold timer line fills under the current dish */
+.fav { overflow: hidden; }
+.fav::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: 0 50%; }
+.fav.autoplay::after { animation: favTimer 4s linear forwards; }
+@keyframes favTimer { to { transform: scaleX(1); } }
+.fav-photo img { transition: opacity .45s ease, transform 4.4s ease-out; }
+.fav-photo img:not(.swap) { transform: scale(1.04); }
+
+/* ==========================================================================
+   Intro: vintage marquee sign. Bulbs switch on in a sweep, start chasing,
+   the logo pops in, then the whole thing fades into the site.
+   ========================================================================== */
+html.intro-on { overflow: hidden; }
+.marquee-intro { position: fixed; inset: 0; z-index: 200; display: grid; place-content: center; justify-items: center; gap: 1.6rem; cursor: pointer;
+  background: radial-gradient(ellipse at center, #2a1a06 0%, #110c07 50%, #060504 100%);
+  transition: opacity .75s ease, visibility 0s .75s; }
+.marquee-intro.done { opacity: 0; visibility: hidden; }
+.marquee-sign { position: relative; width: min(80vw, 440px); aspect-ratio: 330 / 200; display: grid; place-items: center;
+  border-radius: 26px; background: linear-gradient(#1c130a, #0e0a06); border: 4px solid #3d2c13;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, .85), 0 25px 50px rgba(0, 0, 0, .6), 0 0 90px rgba(227, 160, 28, .12); }
+.marquee-logo { width: 74%; height: auto; opacity: 0; transform: scale(.9);
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .6));
+  animation: marqueePop .7s .8s cubic-bezier(.2, .8, .2, 1.25) forwards; }
+.marquee-sign .bulb { position: absolute; width: clamp(9px, 2.6vw, 13px); aspect-ratio: 1; border-radius: 50%;
+  transform: translate(-50%, -50%); background: #5a4214; box-shadow: inset 0 -2px 3px rgba(0, 0, 0, .5);
+  animation: bulbOn .15s var(--on) forwards, bulbChase .9s calc(1s + var(--chase)) infinite; }
+.marquee-line { margin: 0; font-family: var(--f-head); text-transform: uppercase; letter-spacing: .5em; font-weight: 600;
+  font-size: clamp(.8rem, 2.6vw, 1rem); color: var(--gold); opacity: 0; animation: marqueeFade .6s 1.2s forwards; }
+@keyframes bulbOn { to { background: #fff4c9; box-shadow: 0 0 6px #fff1b8, 0 0 14px #f4c35a, 0 0 26px #e3a01c; } }
+@keyframes bulbChase {
+  0%, 100% { background: #fff4c9; box-shadow: 0 0 6px #fff1b8, 0 0 14px #f4c35a, 0 0 26px #e3a01c; }
+  50% { background: #6a4d16; box-shadow: inset 0 -2px 3px rgba(0, 0, 0, .5); } }
+@keyframes marqueePop { to { opacity: 1; transform: none; } }
+@keyframes marqueeFade { to { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .marquee-intro { display: none; } }

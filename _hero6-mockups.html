@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradys header 6 variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@700&family=Modak&family=Shrikhand&family=Oswald:wght@500;600;700&family=Inter:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0d0c0b;--gold:#e3a01c;--gold2:#f4c35a;--cream:#f3eee3;--bg:url(assets/interior.webp)}
+*{box-sizing:border-box}body{margin:0;background:#222;font-family:Inter,sans-serif;color:var(--cream)}
+.label{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:20;background:var(--gold);color:var(--black);font:700 12px/1 Inter;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.mock{position:relative;height:720px;overflow:hidden;border-bottom:8px solid #222;display:flex;flex-direction:column;justify-content:flex-end}
+.nav{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 40px}
+.nav img{height:54px}.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font:600 14px Oswald;letter-spacing:.12em;text-transform:uppercase}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#4cc76a;box-shadow:0 0 0 4px rgba(76,199,106,.25);margin-right:8px;vertical-align:middle}
+.kick{font:600 14px Oswald;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.out{color:transparent;-webkit-text-stroke:3px var(--gold)}
+.fill{color:var(--cream);text-shadow:6px 6px 0 #000}
+.bar{display:grid;grid-template-columns:repeat(3,1fr) 1.1fr;background:var(--black);border-top:3px solid var(--gold)}
+.bar div{padding:20px 26px;border-right:1px solid rgba(243,238,227,.12)}
+.bar small{display:block;font:600 11px Oswald;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.bar b{font:600 19px Oswald;text-transform:uppercase}
+.bar .cta{background:var(--gold);color:var(--black);display:grid;place-items:center;font:700 18px Oswald;letter-spacing:.12em;text-transform:uppercase}
+
+/* 6A — current */
+.a{background:linear-gradient(0deg,rgba(13,12,11,.96) 12%,rgba(13,12,11,.45) 55%,rgba(13,12,11,.55)),var(--bg) center/cover}
+.a .g{text-align:center;padding-bottom:26px}
+.a h1{margin:0;font:clamp(80px,11vw,170px)/.82 Modak;text-transform:uppercase;white-space:nowrap}
+
+/* 6B — stacked left + ticker bar */
+.b{background:linear-gradient(90deg,rgba(13,12,11,.95) 10%,rgba(13,12,11,.3) 70%),linear-gradient(0deg,rgba(13,12,11,.9),transparent 40%),var(--bg) center/cover}
+.b .g{padding:0 48px 30px}
+.b h1{margin:0;font:150px/.78 Modak;text-transform:uppercase}
+.b h1 span{display:block}
+.b .side{position:absolute;right:48px;bottom:140px;width:300px;display:grid;gap:10px}
+.b .card{background:rgba(13,12,11,.7);backdrop-filter:blur(8px);border:1px solid rgba(227,160,28,.4);border-radius:14px;padding:14px 18px}
+.b .card small{display:block;font:600 11px Oswald;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.b .card b{font:600 20px Oswald;text-transform:uppercase}
+.tick{display:flex;align-items:stretch;background:var(--gold);color:var(--black);border-top:3px solid var(--black)}
+.tick .run{flex:1;overflow:hidden;display:flex;align-items:center}
+.tick .t{display:flex;gap:28px;white-space:nowrap;font:700 20px Oswald;text-transform:uppercase;letter-spacing:.1em;animation:mq 25s linear infinite;padding-left:20px}
+@keyframes mq{to{transform:translateX(-50%)}}
+.tick .cta{background:var(--black);color:var(--gold);display:grid;place-items:center;padding:0 34px;font:700 18px Oswald;letter-spacing:.12em;text-transform:uppercase}
+
+/* 6C — all gold with glass cards */
+.c{background:linear-gradient(0deg,rgba(13,12,11,.95) 10%,rgba(13,12,11,.5) 60%),var(--bg) center/cover}
+.c .g{text-align:center;padding-bottom:20px}
+.c h1{margin:0;font:clamp(80px,11vw,170px)/.82 Modak;text-transform:uppercase;white-space:nowrap;color:var(--gold);-webkit-text-stroke:3px #000;paint-order:stroke fill;text-shadow:0 0 0 #000,7px 7px 0 var(--cream),10px 10px 0 #000}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:0 40px 34px}
+.cards div{background:rgba(243,238,227,.1);backdrop-filter:blur(10px);border:1px solid rgba(243,238,227,.2);border-radius:16px;padding:16px 20px}
+.cards small{display:block;font:600 11px Oswald;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.cards b{font:600 19px Oswald;text-transform:uppercase}
+.cards .cta{background:var(--gold);color:var(--black);display:grid;place-items:center;font:700 18px Oswald;letter-spacing:.12em;text-transform:uppercase;border:0}
+
+/* 6D — mixed fonts + LED scoreboard bar */
+.d{background:linear-gradient(0deg,rgba(13,12,11,.96) 12%,rgba(13,12,11,.4) 60%),var(--bg) center/cover}
+.d .g{text-align:center;padding-bottom:22px;line-height:.85}
+.d .w1{font:700 86px Kalnia;color:var(--cream);text-shadow:4px 4px 0 #000;vertical-align:middle}
+.d .w2{font:170px/.8 Modak;text-transform:uppercase;color:var(--cream);text-shadow:7px 7px 0 #000;vertical-align:middle;margin:0 18px}
+.d .w3{font:96px Shrikhand;color:var(--gold);text-shadow:4px 4px 0 #000;vertical-align:middle}
+.led{display:grid;grid-template-columns:repeat(3,1fr) 1.1fr;background:#070707;border-top:4px solid #2b2b2b}
+.led div{padding:16px 24px;border-right:2px solid #1d1d1d}
+.led small{display:block;font:600 11px Oswald;letter-spacing:.25em;color:#7b7b7b;text-transform:uppercase}
+.led b{font:38px/1 VT323;color:#ffb627;text-shadow:0 0 8px rgba(255,182,39,.8)}
+.led b.gr{color:#5dff7a;text-shadow:0 0 8px rgba(93,255,122,.8)}
+.led .cta{background:var(--gold);display:grid;place-items:center;font:700 18px Oswald;letter-spacing:.12em;text-transform:uppercase;color:var(--black)}
+
+/* 6E — photo inside the letters */
+.e{background:var(--black)}
+.e .g{flex:1;display:grid;place-items:center;text-align:center;padding-top:70px}
+.e h1{margin:0;font:clamp(140px,19vw,280px)/.8 Modak;text-transform:uppercase;background:var(--bg) center 40%/cover;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:2px var(--gold);filter:drop-shadow(8px 8px 0 #000)}
+.e h1 span{display:block}
+.e .kick{text-align:center}
+
+/* 6F — tilted sticker type */
+.f{background:linear-gradient(0deg,rgba(13,12,11,.96) 12%,rgba(13,12,11,.4) 60%),var(--bg) center/cover}
+.f .g{display:flex;justify-content:center;align-items:center;gap:18px;padding-bottom:34px}
+.stk{font:110px/.9 Modak;text-transform:uppercase;padding:14px 28px 6px;border-radius:22px;border:4px solid #000;box-shadow:8px 8px 0 #000}
+.stk.s1{background:var(--cream);color:var(--black);transform:rotate(-6deg)}
+.stk.s2{background:var(--gold);color:var(--black);transform:rotate(3deg) translateY(-14px);font-size:140px}
+.stk.s3{background:var(--black);color:var(--gold);border-color:var(--gold);transform:rotate(-3deg)}
+</style></head><body>
+
+<section class="mock a"><span class="label">6A · Current (on the site now)</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="g"><p class="kick">Scratch Kitchen &amp; Bar · Midvale, Utah</p><h1><span class="out">Every</span> <span class="fill">Game</span> <span class="out">On</span></h1></div>
+  <div class="bar"><div><small>Now</small><b><span class="dot"></span>Open until 1 AM</b></div><div><small>Today</small><b>Brunch 11–3 · NFL Sunday</b></div><div><small>Find us</small><b>736 W Blue Vista Ln</b></div><div class="cta">See the Menu →</div></div>
+</section>
+
+<section class="mock b"><span class="label">6B · Stacked Left + Ticker Bar</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="side">
+    <div class="card"><small>Now</small><b><span class="dot"></span>Open until 1 AM</b></div>
+    <div class="card"><small>Today</small><b>Brunch 11–3 · NFL Sunday</b></div>
+    <div class="card"><small>Find us</small><b>736 W Blue Vista Ln</b></div>
+  </div>
+  <div class="g"><p class="kick">Scratch Kitchen &amp; Bar · Midvale</p><h1><span class="out">Every</span><span class="fill">Game</span><span class="out">On.</span></h1></div>
+  <div class="tick"><div class="run"><div class="t"><span>★ $13 Burger Thursday</span><span>★ Meaty Monday</span><span>★ Brunch Sat &amp; Sun</span><span>★ Tallow-fried fries</span><span>★ 21+ · Bring your ID</span><span>★ $13 Burger Thursday</span><span>★ Meaty Monday</span><span>★ Brunch Sat &amp; Sun</span><span>★ Tallow-fried fries</span><span>★ 21+ · Bring your ID</span></div></div><div class="cta">See the Menu →</div></div>
+</section>
+
+<section class="mock c"><span class="label">6C · All Gold + Glass Cards</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="g"><p class="kick">Scratch Kitchen &amp; Bar · Midvale, Utah</p><h1>Every Game On</h1></div>
+  <div class="cards"><div><small>Now</small><b><span class="dot"></span>Open until 1 AM</b></div><div><small>Today</small><b>Brunch 11–3</b></div><div><small>Find us</small><b>736 W Blue Vista</b></div><div class="cta">See the Menu →</div></div>
+</section>
+
+<section class="mock d"><span class="label">6D · Mixed Fonts + LED Scoreboard</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="g"><span class="w1">Every</span><span class="w2">Game</span><span class="w3">On.</span></div>
+  <div class="led"><div><small>Status</small><b class="gr">OPEN · TIL 1AM</b></div><div><small>Today</small><b>BRUNCH 11-3</b></div><div><small>Find us</small><b>736 W BLUE VISTA</b></div><div class="cta">See the Menu →</div></div>
+</section>
+
+<section class="mock e"><span class="label">6E · Photo Inside the Letters</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="g"><div><p class="kick">Scratch Kitchen &amp; Bar · Midvale, Utah</p><h1><span>Game</span><span>On.</span></h1></div></div>
+  <div class="bar"><div><small>Now</small><b><span class="dot"></span>Open until 1 AM</b></div><div><small>Today</small><b>Brunch 11–3 · NFL Sunday</b></div><div><small>Find us</small><b>736 W Blue Vista Ln</b></div><div class="cta">See the Menu →</div></div>
+</section>
+
+<section class="mock f"><span class="label">6F · Tilted Stickers</span>
+  <div class="nav"><img src="assets/logo.png" alt=""><ul><li>Menu</li><li>Specials</li><li>Events</li><li>Visit</li></ul></div>
+  <div class="g"><span class="stk s1">Every</span><span class="stk s2">Game</span><span class="stk s3">On</span></div>
+  <div class="bar"><div><small>Now</small><b><span class="dot"></span>Open until 1 AM</b></div><div><small>Today</small><b>Brunch 11–3 · NFL Sunday</b></div><div><small>Find us</small><b>736 W Blue Vista Ln</b></div><div class="cta">See the Menu →</div></div>
+</section>
+
+</body></html>

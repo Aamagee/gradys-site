@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Day | Gradys, Midvale UT</title>
+  <meta name="description" content="Every game on at Gradys in Midvale, Utah: Monday & Thursday Night Football, college football Saturdays, NFL Sundays with brunch, plus Meaty Monday and $13 Burger Thursday features.">
+  <meta property="og:title" content="Game Day at Gradys | Midvale, UT">
+  <meta property="og:description" content="MNF, TNF, college Saturdays and NFL Sundays on every screen. Weekly features every Monday and Thursday.">
+  <meta property="og:image" content="assets/bar-sandwich-tvs.jpg">
+  <meta name="theme-color" content="#0d0c0b">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"><span></span></div>
+
+  <!-- ===== Header (shared across pages) ===== -->
+  <header class="site-header" id="top">
+    <div class="infobar">
+      <div class="container infobar-row">
+        <a class="info" href="index.html#visit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          736 W Blue Vista Ln, Midvale
+        </a>
+        <span class="info">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <b>Open daily</b>&nbsp;11a–1a <span class="sep">·</span> <b>Brunch</b>&nbsp;Sat–Sun 11–3
+        </span>
+        <span class="info info-21">21+ &middot; Bring your ID</span>
+        <a class="info info-ig" href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener" aria-label="Gradys on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo" aria-label="Gradys home">
+        <img src="assets/logo.png" alt="Gradys, Est. 2026" width="700" height="350">
+      </a>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="index.html#full-menu">Menu</a>
+        <a href="index.html#weekly">Specials</a>
+        <a href="game-day.html" data-nav="page">Game Day</a>
+        <a href="events.html" data-nav="page">Events</a>
+        <a href="our-story.html" data-nav="page">Our Story</a>
+        <a href="index.html#visit">Visit</a>
+        <a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener" class="btn btn-small">Message Us</a>
+      </nav>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="mhero" style="--bg:url('assets/bar-sandwich-tvs.jpg')">
+      <div class="container hero-copy">
+        <p class="kicker">Every game · every screen</p>
+        <h1>Game Day</h1>
+        <p class="lead">A wall of TVs over a long marble bar, cold drinks, and a kitchen that drops a new feature every Monday and Thursday. Bring your crew and your wildly incorrect football takes.</p>
+        <p class="now-pill calm" data-now-pill><span class="dot"></span><span>Open daily 11 AM – 1 AM</span></p>
+        <div class="actions">
+          <a href="#week" class="btn">This Week on the Screens</a>
+          <a href="#request" class="btn btn-ghost">Request a Game</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="bigword" aria-hidden="true">
+      <div class="bigword-track">
+        <span>Monday Night Football</span><span>Meaty Monday</span><span>Thursday Night Football</span><span>$13 Burgers</span><span>College Saturdays</span><span>NFL Sundays + Brunch</span>
+        <span>Monday Night Football</span><span>Meaty Monday</span><span>Thursday Night Football</span><span>$13 Burgers</span><span>College Saturdays</span><span>NFL Sundays + Brunch</span>
+      </div>
+    </div>
+
+    <!-- ===== Week rail ===== -->
+    <section class="band band-black" id="week">
+      <div class="container">
+        <div class="row-head">
+          <div>
+            <p class="kicker">The Week on the Screens</p>
+            <h2>Plan your week</h2>
+            <p class="sub light">Swipe through the week. Today is highlighted.</p>
+          </div>
+          <div class="rail-nav">
+            <button type="button" class="round-btn" data-rail-prev aria-label="Previous day">←</button>
+            <button type="button" class="round-btn" data-rail-next aria-label="Next day">→</button>
+          </div>
+        </div>
+        <div class="rail" data-rail tabindex="0" aria-label="Weekly game schedule"></div>
+        <!-- TODO: confirm with client which leagues they carry (NBA/NHL packages) -->
+        <p class="rail-note">Times are typical kickoff windows in Mountain Time. Matchups change weekly, so check the league schedule or DM us.</p>
+      </div>
+    </section>
+
+    <!-- ===== Feature board ===== -->
+    <section class="band band-char" id="features">
+      <div class="container">
+        <div class="row-head">
+          <div>
+            <p class="kicker">Meaty Monday &amp; Burger Thursday</p>
+            <h2>The Feature Board</h2>
+            <p class="script">here today, gone when it sells out</p>
+            <p class="sub light">Every week the kitchen drops a new feature. Here are the recent ones. Tap a card to see what was on it, and if you miss one, ask us to bring it back.</p>
+          </div>
+        </div>
+        <div class="features" data-features></div>
+      </div>
+    </section>
+
+    <!-- ===== Playbook + request ===== -->
+    <section class="band band-parchment" id="request">
+      <div class="container playbook-grid">
+        <div>
+          <p class="kicker dark">The Game Day Playbook</p>
+          <h2>How to do game day right</h2>
+          <p class="script dark">get here before kickoff</p>
+          <ol class="playbook">
+            <li><div><h3>Show up early for the big ones</h3><p>Booths go first. For huge games we open the doors early. We opened at 10 AM for the Holy War.</p></div></li>
+            <li><div><h3>Bring your ID</h3><p>We're 21+ and we scan every ID at the door, every day. No exceptions.</p></div></li>
+            <li><div><h3>Order for the table</h3><p>Wings, nachos, pretzel dips and Gra-deez Nuts. Shareables travel well from one screen to the next.</p></div></li>
+            <li><div><h3>Want your game on? Ask</h3><p>Use the form to send us the matchup and we'll do our best to get it on a screen.</p></div></li>
+            <li><div><h3>Watching with a crowd?</h3><p>Ten or more of you? <a href="events.html?type=Watch%20Party#planner">Plan a watch party</a> and we'll set you up.</p></div></li>
+          </ol>
+        </div>
+
+        <form class="card-form" data-request novalidate>
+          <h3>Request a game</h3>
+          <p class="sub">This writes the DM for you. It's copied when you hit send, then Instagram opens so you can paste it.</p>
+          <label class="field"><span>League</span>
+            <select name="league">
+              <option>NFL</option><option>college football</option><option>NBA</option><option>NHL</option><option>college basketball</option><option>MLB</option><option>soccer</option><option>UFC / boxing</option><option>other</option>
+            </select>
+          </label>
+          <label class="field"><span>Matchup or team</span><input type="text" name="game" placeholder="e.g. Utes vs. BYU" autocomplete="off"></label>
+          <div class="two-col">
+            <label class="field"><span>Date</span><input type="date" name="date"></label>
+            <label class="field"><span>Your crew</span><input type="number" name="crew" min="1" max="200" placeholder="How many?"></label>
+          </div>
+          <div class="form-actions"><button class="btn" type="submit">Copy &amp; Open DM</button></div>
+          <p class="form-note">Nothing gets sent from this site. You send the DM yourself on Instagram.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== House rules ===== -->
+    <section class="band band-black">
+      <div class="container">
+        <div class="rules">
+          <div><b>21+ always</b><span>Valid photo ID, scanned at the door.</span></div>
+          <div><b>Open daily</b><span>11 AM – 1 AM, seven days a week.</span></div>
+          <div><b>Weekend brunch</b><span>Sat &amp; Sun, 11 AM – 3 PM, with the early games.</span></div>
+          <div><b>Gift cards</b><span>In stock at the bar. Great for the fan who has everything.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container center">
+        <h2>Big burgers.<br>Big plays.</h2>
+        <p class="script">questionable referee decisions</p>
+        <div class="actions center">
+          <a href="index.html#full-menu" class="btn">See the Menu</a>
+          <a href="index.html#visit" class="btn btn-ghost">Get Directions</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer (shared) ===== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="Gradys" width="700" height="350" loading="lazy">
+        <p>Scratch kitchen &amp; bar in Midvale, Utah. 21+.</p>
+      </div>
+      <div><h4>Find Us</h4><p>736 W Blue Vista Ln #200<br>Midvale, UT 84047</p></div>
+      <div><h4>Hours</h4><p>Daily 11 AM – 1 AM<br>Brunch Sat–Sun 11 – 3<br>Entrées after 4 PM</p></div>
+      <div><h4>Explore</h4><p><a href="index.html#full-menu">Full Menu</a><br><a href="game-day.html">Game Day</a><br><a href="events.html">Parties &amp; Events</a><br><a href="our-story.html">Our Story</a><br><a href="print.html">Printable Menu</a><br><a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener">Instagram</a></p></div>
+    </div>
+    <div class="container footer-base">
+      <p>&copy; <span id="year"></span> Gradys. All rights reserved.</p>
+      <a href="#top" data-to-top-link>Back to top ↑</a>
+    </div>
+  </footer>
+
+  <button type="button" class="to-top" data-to-top aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <nav class="mobile-bar" aria-label="Quick actions">
+    <a href="index.html#full-menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Menu</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=736+W+Blue+Vista+Ln+%23200+Midvale+UT+84047" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>Directions</a>
+    <a href="#week"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>This Week</a>
+    <a href="#request" class="mb-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="11" rx="1.5"/><path d="M9 20h6M12 17v3"/></svg>Request</a>
+  </nav>
+
+  <dialog class="lightbox" data-lightbox aria-label="Photo viewer">
+    <button type="button" class="lb-close round-btn" data-lb-close aria-label="Close">×</button>
+    <button type="button" class="lb-prev round-btn" data-lb-prev aria-label="Previous photo">←</button>
+    <figure><img src="" alt="" data-lb-img><figcaption><span data-lb-cap></span><small data-lb-count></small></figcaption></figure>
+    <button type="button" class="lb-next round-btn" data-lb-next aria-label="Next photo">→</button>
+  </dialog>
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+
+  <script src="menu-data.js"></script>
+  <script src="script.js"></script>
+  <script src="pages.js"></script>
+</body>
+</html>

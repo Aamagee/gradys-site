@@ -88,6 +88,7 @@
   function route(hash, { instant = false } = {}) {
     hash = hash || '#home';
     if (hash.startsWith('#full-menu')) {
+      if (!pages.menu) { location.href = 'index.html' + hash; return; }
       const wasHome = currentPage !== 'menu';
       showPage('menu');
       const cat = hash.split('/')[1];
@@ -108,7 +109,7 @@
     }
     const target = document.getElementById(hash.slice(1));
     if (!target) return;
-    const switching = !pages.menu.hidden && pages.home.contains(target);
+    const switching = !!pages.menu && !pages.menu.hidden && pages.home.contains(target);
     if (switching) showPage('home');
     requestAnimationFrame(() => {
       if (switching || instant) scrollTo(0, target.getBoundingClientRect().top + scrollY - 70);
@@ -140,19 +141,20 @@
 
   /* =========================================================
      Hours, live status, "today", dial & countdowns (Mountain Time)
-     Mon–Fri 11:00–01:00 · Sat–Sun 10:00–01:00 · Brunch Sat–Sun 10:00–14:00
+     Daily 11:00–01:00 · Brunch Sat–Sun 11:00–15:00 (per Instagram, Nov 2026)
      ========================================================= */
-  const OPEN = { 0: 10, 1: 11, 2: 11, 3: 11, 4: 11, 5: 11, 6: 10 };
+  const OPEN = { 0: 11, 1: 11, 2: 11, 3: 11, 4: 11, 5: 11, 6: 11 };
   const CLOSE = 1; // 1 AM next day
+  const BRUNCH = [11, 15];
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const SPECIALS = {
-    0: 'Weekend brunch 10 AM – 2 PM.',
+    0: 'Weekend brunch 11 AM – 3 PM + NFL Sunday.',
     1: 'Meaty Monday + Monday Night Football.',
-    2: 'Full menu, 11 AM – 1 AM.',
-    3: 'Full menu, 11 AM – 1 AM.',
+    2: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
+    3: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
     4: 'Burger Thursday: every burger $13 (bison excluded).',
-    5: 'Full menu, 11 AM – 1 AM.',
-    6: 'Weekend brunch 10 AM – 2 PM + college game day.'
+    5: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
+    6: 'Weekend brunch 11 AM – 3 PM + college game day.'
   };
   const fmt = h => (h % 12 || 12) + (h % 24 < 12 ? ' AM' : ' PM');
   const isWeekend = d => d === 0 || d === 6;
@@ -213,11 +215,11 @@
     }
     const brunch = $('[data-countdown="brunch"]');
     if (brunch) {
-      const live = isWeekend(now.day) && now.h >= 10 && now.h < 14;
+      const live = isWeekend(now.day) && now.h >= BRUNCH[0] && now.h < BRUNCH[1];
       brunch.classList.toggle('live', live);
       $('.cd-clock', brunch).hidden = live;
       $('.cd-live', brunch).hidden = !live;
-      if (!live) setClock(brunch, Math.min(untilNext(now, 6, 10), untilNext(now, 0, 10)));
+      if (!live) setClock(brunch, Math.min(untilNext(now, 6, BRUNCH[0]), untilNext(now, 0, BRUNCH[0])));
     }
 
     if (now.m === lastMinute) return;
@@ -241,10 +243,10 @@
     if (openD) {
       openD.setAttribute('d', arc(OPEN[barDay], 24 + CLOSE));
       const br = $('[data-dial-brunch]');
-      br.setAttribute('d', isWeekend(barDay) ? arc(10, 14) : '');
+      br.setAttribute('d', isWeekend(barDay) ? arc(BRUNCH[0], BRUNCH[1]) : '');
       $('[data-dial-day]').textContent = DAYS[barDay];
       $('[data-dial-hours]').textContent = `${fmt(OPEN[barDay])} – 1 AM`;
-      $('[data-dial-extra]').textContent = isWeekend(barDay) ? 'Brunch 10 AM – 2 PM' : (barDay === 4 ? '$13 Burger Thursday' : barDay === 1 ? 'Meaty Monday' : '');
+      $('[data-dial-extra]').textContent = isWeekend(barDay) ? 'Brunch 11 AM – 3 PM' : (barDay === 4 ? '$13 Burger Thursday' : barDay === 1 ? 'Meaty Monday' : '');
       const [nx, ny] = pt(now.h + now.m / 60);
       ['[data-dial-now]', '[data-dial-glow]'].forEach(s => { const c = $(s); c.setAttribute('cx', nx.toFixed(1)); c.setAttribute('cy', ny.toFixed(1)); });
     }
@@ -308,6 +310,30 @@
   }
   const favPhoto = $('.fav-photo');
   if (favPhoto) onSwipe(favPhoto, () => activate(favIndex + 1), () => activate(favIndex - 1));
+
+  // ---- Autoplay: walk down the dishes on its own ----
+  // Pauses while a mouse is over the list/photo (hover still pulls up a dish),
+  // only runs while the section is on screen, and restarts after taps/swipes.
+  const FAV_MS = 4000;
+  const favGrid = $('.fav-grid');
+  let favAuto = null, favInView = false, favHover = false;
+  function favSchedule() {
+    clearTimeout(favAuto);
+    favs.forEach(f => f.classList.remove('autoplay'));
+    if (!favs.length || !favInView || favHover || document.hidden || reduceMotion) return;
+    const cur = favs[favIndex];
+    void cur.offsetWidth;                       // restart the timer-line animation
+    cur.classList.add('autoplay');
+    favAuto = setTimeout(() => { activate(favIndex + 1); favSchedule(); }, FAV_MS);
+  }
+  if (favGrid) {
+    new IntersectionObserver(([en]) => { favInView = en.isIntersecting; favSchedule(); }, { threshold: 0.35 }).observe(favGrid);
+    favGrid.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { favHover = true; favSchedule(); } });
+    favGrid.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { favHover = false; favSchedule(); } });
+    // Touch: after a tap or swipe, keep going from the chosen dish
+    favGrid.addEventListener('touchend', () => setTimeout(favSchedule, 0), { passive: true });
+    document.addEventListener('visibilitychange', favSchedule);
+  }
 
   /* =========================================================
      Mosaic: clickable tiles that keep moving
@@ -445,6 +471,28 @@
   /* =========================================================
      Full menu: search + category bar spy
      ========================================================= */
+  // Render menu bands from menu-data.js (single source shared with print.html)
+  const bandsHost = $('[data-menu-bands]');
+  if (bandsHost && window.GRADYS_MENU) {
+    const TAGS = { V: 'Vegetarian', VG: 'Vegan' };
+    bandsHost.innerHTML = GRADYS_MENU.map((c, i) => `
+      <section class="mband${i % 2 ? ' alt' : ''}" id="cat-${c.id}" data-cat-band="${c.id}">
+        <div class="container mband-grid">
+          <div class="mband-head">
+            <h2>${esc(c.title)}</h2>
+            <p>${esc(c.note)}</p>
+            <img src="${c.img}" alt="${esc(c.alt)}" loading="lazy" data-zoom>
+          </div>
+          <div class="mband-items">${c.items.map(it => `
+            <div class="item${it.callout ? ' callout' : ''}">
+              <div class="item-head"><h4>${esc(it.n)}${it.tag ? ` <abbr class="diet" title="${TAGS[it.tag]}">${it.tag}</abbr>` : ''}</h4><span class="leader"></span><span class="price">${esc(it.p)}</span></div>
+              <p>${esc(it.d)}</p>${it.add ? `<p class="add">${esc(it.add)}</p>` : ''}${it.sauces ? `<ul class="sauces">${it.sauces.map(([s, k]) => `<li class="${k}">${esc(s)}</li>`).join('')}</ul>` : ''}
+            </div>`).join('')}
+          </div>
+        </div>
+      </section>`).join('');
+  }
+
   const search = $('[data-menu-search]');
   const clearBtn = $('[data-search-clear]');
   const results = $('[data-menu-results]');
