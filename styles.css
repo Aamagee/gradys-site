@@ -603,3 +603,71 @@ html.intro-on { overflow: hidden; }
 @keyframes marqueePop { to { opacity: 1; transform: none; } }
 @keyframes marqueeFade { to { opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .marquee-intro { display: none; } }
+
+/* ==========================================================================
+   Color refresh: less black. Colors pulled from the bar itself:
+   olive walls, red bar stools, plus the logo's cream & gold.
+   Black is kept for the hero photo, Fan Favorites spotlight and footer.
+   ========================================================================== */
+:root {
+  --olive: #4b5530;
+  --olive-2: #3a4325;
+  --oxblood: #7d2219;
+  --oxblood-2: #5f1812;
+  --ink-line: rgba(27, 24, 21, .14);
+}
+html, body { background: var(--parchment); }
+
+/* --- Specials & Game Days: bar-stool red --- */
+.band-black.weekly { background: radial-gradient(ellipse at 50% 0%, rgba(244, 195, 90, .22), transparent 60%), linear-gradient(180deg, var(--oxblood), var(--oxblood-2)); }
+.weekly .today-line { background: rgba(0, 0, 0, .28); border-color: rgba(255, 255, 255, .18); }
+.weekly .week li { background: rgba(0, 0, 0, .26); border-color: rgba(255, 255, 255, .14); }
+.weekly .week li.today { background: var(--parchment); }
+.weekly .countdown { background: rgba(0, 0, 0, .28); border-color: rgba(255, 255, 255, .16); }
+.weekly .cd-clock span { background: rgba(0, 0, 0, .35); border-color: rgba(255, 255, 255, .14); }
+.weekly .script { color: var(--gold-light); }
+
+/* --- Step inside: cream --- */
+.band-black.inside { background: var(--parchment-2); color: var(--ink); }
+.inside h2 { color: var(--ink); }
+.inside .kicker { color: var(--gold-dark); }
+.inside .sub.light { color: var(--muted); }
+.inside .btn-ghost { color: var(--ink); border-color: var(--ink); }
+.inside .btn-ghost:hover { background: var(--ink); color: var(--parchment); }
+
+/* --- Parties: olive green (the bar's walls) --- */
+.band-char.parties { background: radial-gradient(ellipse at 20% 30%, rgba(244, 195, 90, .14), transparent 55%), linear-gradient(160deg, var(--olive), var(--olive-2)); }
+.parties .script { color: var(--gold-light); }
+.parties .script::after { filter: brightness(1.25); }
+
+/* --- Visit: warm cream --- */
+.band-black.visit { background: var(--parchment); color: var(--ink); }
+.visit h2 { color: var(--ink); }
+.visit .kicker { color: var(--gold-dark); }
+.visit .copy-btn { color: var(--gold-dark); border-color: rgba(168, 116, 26, .6); }
+.visit .btn-ghost { color: var(--ink); border-color: var(--ink); }
+.visit .btn-ghost:hover { background: var(--ink); color: var(--parchment); }
+.visit .hours th, .visit .hours td { border-bottom-color: var(--ink-line); }
+.visit .hours th { color: var(--muted); }
+.visit .hours small { color: var(--gold-dark); }
+.visit .hours tr.today { background: rgba(227, 160, 28, .16); }
+.visit .hours tr.today th { color: var(--gold-dark); }
+.visit .dial-track { stroke: #e2d8c2; }
+.visit .dial-ticks text { fill: var(--muted); }
+.visit .dial-ticks line { stroke: rgba(27, 24, 21, .25); }
+.visit .dial-brunch { stroke: var(--oxblood); }
+.visit .dial-now { stroke: var(--parchment); }
+.visit .lg-brunch::before { background: var(--oxblood); }
+.visit .dial-center small { color: var(--gold-dark); }
+.visit .section-dark a:not(.btn), .visit a:not(.btn):not(.copy-btn) { color: var(--gold-dark); }
+.visit .map iframe { filter: none; box-shadow: 0 0 0 1px var(--ink-line), var(--shadow); }
+
+/* --- Closing banner: gold --- */
+.cta { background: radial-gradient(ellipse at 50% 120%, rgba(255, 255, 255, .25), transparent 60%), linear-gradient(180deg, var(--gold), #d18f12); color: var(--black); border-top: 0; }
+.cta h2 { color: var(--black); }
+.cta .script { color: var(--black); }
+.cta .script::after { filter: brightness(0); }
+.cta .btn { background: var(--black); color: var(--gold); border-color: var(--black); box-shadow: 0 4px 0 #000; }
+.cta .btn:hover { background: var(--char-2); border-color: var(--char-2); }
+.cta .btn-ghost { background: transparent; color: var(--black); border-color: var(--black); box-shadow: none; }
+.cta .btn-ghost:hover { background: var(--black); color: var(--gold); }
