@@ -671,3 +671,50 @@ html, body { background: var(--parchment); }
 .cta .btn:hover { background: var(--char-2); border-color: var(--char-2); }
 .cta .btn-ghost { background: transparent; color: var(--black); border-color: var(--black); box-shadow: none; }
 .cta .btn-ghost:hover { background: var(--black); color: var(--gold); }
+
+/* ==========================================================================
+   Spacing pass: give text room to breathe (applies site-wide)
+   ========================================================================== */
+h2 { line-height: 1.04; margin-bottom: .45em; }
+.kicker { margin-bottom: 1.15em; line-height: 1.4; }
+/* Script accent lines ("pull up a stool", "plan your week around it"…) */
+.script { line-height: 1.28; margin: .25em 0 1.1em; }
+.script::after { margin-top: .5em; }
+h1 + .script { margin-top: .45em; }
+.script + .lead, .script + .sub, .script + p { margin-top: .2em; }
+.lead { line-height: 1.6; }
+.sub { line-height: 1.6; }
+.section-head .sub { margin-top: .4em; }
+/* Buttons → small print / status */
+.actions + .fine, .actions + p { margin-top: 1.4rem; }
+.fine { line-height: 1.5; }
+/* Visit block: address, copy button and status each get their own line */
+.visit address { margin-bottom: .9rem; line-height: 1.25; }
+.visit .copy-btn { display: flex; width: fit-content; margin: 0 0 .9rem; }
+.visit .status { display: flex; margin-top: 0; }
+.visit .actions { margin-top: 1.5rem; }
+/* Ticket cards */
+.ticket-day { margin-bottom: .9rem; }
+.ticket h3 { margin-bottom: .55rem; line-height: 1.05; }
+.ticket-big { margin: .5rem 0 .7rem; }
+.ticket-sub { line-height: 1.45; }
+.ticket hr { margin: 1.5rem 0 1.1rem; }
+.ticket-foot { line-height: 1.45; }
+/* Fan favorites list */
+.fav-tag { margin-top: .45rem; }
+.fav.active .fav-desc { margin-top: .75rem; line-height: 1.55; }
+/* Checklists & small labels */
+.checks { gap: .8rem; margin-top: 1.4rem; }
+.checks li { line-height: 1.45; }
+.hb-item small, .cd-label { line-height: 1.4; }
+/* Menu items */
+.item p { margin-top: .5rem; }
+.item p.add { margin-top: .45rem; line-height: 1.5; }
+.mband-head p { margin-top: .5em; line-height: 1.45; }
+/* Footer */
+.site-footer h4 { margin-bottom: 1.1rem; }
+.site-footer p { line-height: 1.75; }
+@media (max-width: 960px) {
+  .script { margin-bottom: 1rem; }
+  .section-head { margin-bottom: 40px; }
+}
