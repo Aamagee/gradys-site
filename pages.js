@@ -1,7 +1,7 @@
 // ===== Gradys — Game Day, Events, Our Story =====
 // Loaded after script.js on the sub-pages.
 // The party planner emails requests to gradysmidvale@gmail.com via FormSubmit (formsubmit.co).
-// The Game Day request form still composes a message and opens an Instagram DM to @gradys_midvale.
+// The Game Day request form sends the same way. FormSubmit must be activated once from that inbox.
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -35,6 +35,30 @@
     if (open) window.open(IG_DM, '_blank', 'noopener');
   }
 
+  // Email a request to Gradys via FormSubmit; if that fails, open the guest's email app instead.
+  async function sendEmail(form, subject, fields, contact, body) {
+    const btn = $('button[type="submit"]', form);
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const res = await fetch(PARTY_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ _subject: subject, _template: 'table', _captcha: 'false', ...(contact.includes('@') ? { _replyto: contact } : {}), ...fields })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false || data.success === 'false') throw new Error(data.message || 'send failed');
+      btn.textContent = 'Sent ✓';
+      toast('Request sent ✓ We’ll get back to you soon');
+      setTimeout(() => { btn.disabled = false; btn.textContent = label; }, 4000);
+    } catch {
+      btn.disabled = false; btn.textContent = label;
+      toast('Opening your email app to send it…');
+      location.href = `mailto:${PARTY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  }
+  const mailto = (subject, body) => { location.href = `mailto:${PARTY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; };
+
   /* ---------- Mountain Time "now" ---------- */
   function mt() {
     const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
@@ -63,10 +87,10 @@
   };
   const WEEK = [
     { d: 1, name: 'Monday', special: 'Meaty Monday', slots: [['11a', [], 'Doors open · lunch'], ['6:15p', ['nfl'], 'Monday Night Football'], ['All night', [], 'Meaty Monday feature until it’s gone']] },
-    { d: 2, name: 'Tuesday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['jazz', 'nba'], 'Jazz & NBA games'], ['Evening', ['mammoth', 'nhl'], 'Mammoth & NHL games']] },
-    { d: 3, name: 'Wednesday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['jazz', 'nba'], 'Hoops on the big screens'], ['Evening', ['mammoth', 'nhl'], 'Hockey on the side screens']] },
+    { d: 2, name: 'Tuesday', special: 'Taquito Tuesday', slots: [['11a', [], 'Taquito Tuesday all day'], ['Evening', ['jazz', 'nba'], 'Jazz & NBA games'], ['Evening', ['mammoth', 'nhl'], 'Mammoth & NHL games']] },
+    { d: 3, name: 'Wednesday', special: 'Wing Wednesday', slots: [['11a', [], 'Wing Wednesday all day'], ['Evening', ['jazz', 'nba'], 'Hoops on the big screens'], ['Evening', ['mammoth', 'nhl'], 'Hockey on the side screens']] },
     { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', [], 'Every burger $13 (bison excluded)'], ['6:15p', ['nfl'], 'Thursday Night Football'], ['All day', [], 'New feature burger each week']] },
-    { d: 5, name: 'Friday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['utes', 'byu'], 'College hoops & Friday football'], ['Evening', ['jazz', 'nba'], 'Late games till close']] },
+    { d: 5, name: 'Friday', special: 'Game night', slots: [['11a', [], 'Doors open'], ['Evening', ['utes', 'byu'], 'College hoops & Friday football'], ['Evening', ['jazz', 'nba'], 'Late games till close']] },
     { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', [], 'Brunch, beer & the early games'], ['All day', ['utes', 'byu', 'ncaa'], 'College football, every screen'], ['Big games', ['utes', 'byu'], 'We open early (10 AM for the Holy War)']] },
     { d: 0, name: 'Sunday', special: 'Brunch 11–3', slots: [['11a', ['nfl'], 'Early slate + brunch'], ['2:05p', ['nfl'], 'Late games'], ['6:20p', ['nfl'], 'Sunday Night Football']] }
   ];
@@ -169,7 +193,14 @@
       if (!game) { toast('Tell us which game first'); $('[name="game"]', req).focus(); return; }
       const when = fd.get('date') ? new Date(fd.get('date') + 'T12:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) : 'soon';
       const crew = fd.get('crew');
-      sendDM(`Hey Gradys! Can you put the ${fd.get('league')} game ${game} on ${when}?${crew ? ` We'll have about ${crew} people.` : ''} Thanks!`);
+      const name = (fd.get('name') || '').trim();
+      const contact = (fd.get('contact') || '').trim();
+      if (!/@.+\./.test(contact) && contact.replace(/\D/g, '').length < 7) { toast('Add an email or phone so we can reply'); $('[name="contact"]', req).focus(); return; }
+      if (fd.get('_honey')) return;
+      const body = `Hey Gradys! Can you put the ${fd.get('league')} game ${game} on ${when}?${crew ? ` We'll have about ${crew} people.` : ''}${name ? ` (this is ${name})` : ''} Reach me at: ${contact}. Thanks!`;
+      sendEmail(req, `Game request: ${game} · ${when}${crew ? ` · ${crew} people` : ''}`, {
+        Name: name || '—', 'Email or phone': contact, League: fd.get('league'), Game: game, Date: when, 'Group size': crew || '—', Message: body
+      }, contact, body);
     });
   }
 
@@ -188,7 +219,7 @@
     const sum = k => $(`[data-sum="${k}"]`);
     const last = {};
 
-    const hint = n => n <= 8 ? 'A couple of tables near the screens.' : n <= 20 ? 'Tables together near the big screens.' : n <= 40 ? 'A good chunk of the room. DM early.' : 'That’s a takeover. Let’s talk details.';
+    const hint = n => n <= 8 ? 'A couple of tables near the screens.' : n <= 20 ? 'Tables together near the big screens.' : n <= 40 ? 'A good chunk of the room. Reach out early.' : 'That’s a takeover. Let’s talk details.';
 
     function read() {
       const fd = new FormData(planner);
@@ -291,8 +322,8 @@
         location.href = `mailto:${PARTY_EMAIL}?subject=${encodeURIComponent(`Party request: ${s.occasion} · ${s.date}`)}&body=${encodeURIComponent(body)}`;
       }
     });
-    // Backup: copy the message and open an Instagram DM
-    $('[data-copy-only]')?.addEventListener('click', () => sendDM(message(render())));
+    // Backup: open the guest's own email app with the request filled in
+    $('[data-copy-only]')?.addEventListener('click', () => { const s = render(); mailto(`Party request: ${s.occasion || 'Party'}${s.date ? ` · ${s.date}` : ''}`, message(s)); });
 
     // Deep links like events.html?type=Watch%20Party pre-select an occasion
     const pre = new URLSearchParams(location.search).get('type');

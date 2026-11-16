@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Online | Gradys, Midvale UT</title>
+  <meta name="description" content="Order Gradys for pickup or delivery. Pickup through our online ordering, delivery through DoorDash or Uber Eats.">
+  <meta name="theme-color" content="#0d0c0b">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0d0c0b; --char: #171513; --char-2: #221f1c; --line: rgba(241, 236, 225, .14);
+      --gold: #e3a01c; --gold-light: #f4c35a; --gold-dark: #a8741a; --parchment: #f3eee3; --muted: rgba(241, 236, 225, .7);
+      --f-head: "Oswald", "Arial Narrow", Impact, sans-serif; --f-script: "Playfair Display", Georgia, serif; --f-body: "Inter", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { margin: 0; min-height: 100%; }
+    body { font-family: var(--f-body); color: var(--parchment); background: var(--black); line-height: 1.6;
+      background-image: linear-gradient(180deg, rgba(13, 12, 11, .82), rgba(13, 12, 11, .94) 60%, var(--black)), url("assets/interior.webp");
+      background-size: cover; background-position: center top; background-attachment: fixed; }
+    a { color: inherit; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; max-width: 1100px; margin: 0 auto; }
+    .top img { height: 58px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); }
+    .back { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; text-decoration: none; opacity: .85; }
+    .back:hover { color: var(--gold-light); }
+    main { max-width: 1100px; margin: 0 auto; padding: 30px 24px 80px; }
+    .head { text-align: center; margin: 10px auto 44px; max-width: 640px; }
+    .kicker { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .3em; font-size: .85rem; color: var(--gold); margin: 0 0 .8em; }
+    h1 { font-family: var(--f-head); text-transform: uppercase; font-size: clamp(2.8rem, 8vw, 5rem); line-height: .95; margin: 0 0 .25em; }
+    .script { font-family: var(--f-script); font-style: italic; font-weight: 700; color: var(--gold); font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 0; }
+    .status { display: inline-flex; align-items: center; gap: .6em; margin-top: 1.2rem; font-weight: 600; font-size: .95rem; background: rgba(0,0,0,.35); border: 1px solid var(--line); padding: .45em 1em; border-radius: 999px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #4cc76a; box-shadow: 0 0 0 4px rgba(76,199,106,.25); }
+    .status.closed .dot { background: #e0533d; box-shadow: 0 0 0 4px rgba(224,83,61,.25); }
+
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .choice { position: relative; display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; background: rgba(23, 21, 19, .92); border: 1.5px solid var(--line); box-shadow: 0 30px 60px rgba(0,0,0,.45); transition: transform .25s, border-color .25s; }
+    .choice:hover { transform: translateY(-4px); border-color: rgba(227, 160, 28, .6); }
+    .choice .photo { height: 210px; background-size: cover; background-position: center; position: relative; }
+    .choice .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,21,19,1), transparent 65%); }
+    .choice .icon { position: absolute; left: 24px; bottom: -26px; z-index: 2; width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: var(--gold); box-shadow: 0 10px 25px rgba(0,0,0,.4); }
+    .choice .icon svg { width: 32px; height: 32px; fill: none; stroke: var(--black); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .choice .body { padding: 40px 26px 26px; display: flex; flex-direction: column; flex: 1; }
+    .choice h2 { font-family: var(--f-head); text-transform: uppercase; font-size: 2.2rem; line-height: 1; margin: 0 0 .3em; }
+    .choice p { color: var(--muted); margin: 0 0 22px; }
+    .btns { margin-top: auto; display: grid; gap: 12px; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: .6em; padding: 1em 1.2em; border-radius: 12px; font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-weight: 600; font-size: 1.02rem; text-decoration: none; border: 2px solid transparent; transition: transform .15s, background .2s, box-shadow .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.gold { background: var(--gold); color: var(--black); box-shadow: 0 5px 0 var(--gold-dark); }
+    .btn.gold:hover { background: var(--gold-light); }
+    .btn.dd { background: #eb1700; color: #fff; box-shadow: 0 5px 0 #a51000; }
+    .btn.ue { background: #06c167; color: #000; box-shadow: 0 5px 0 #04894a; }
+    .btn .arrow { margin-left: auto; }
+    .note { text-align: center; color: var(--muted); font-size: .88rem; margin-top: 34px; }
+    .note b { color: var(--parchment); }
+    @media (max-width: 760px) {
+      .choices { grid-template-columns: 1fr; }
+      .choice .photo { height: 150px; }
+      body { background-attachment: scroll; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a href="index.html" aria-label="Gradys home"><img src="assets/logo.png" alt="Gradys" width="700" height="350"></a>
+    <a class="back" href="index.html">← Back to site</a>
+  </header>
+
+  <main>
+    <div class="head">
+      <p class="kicker">Order Online</p>
+      <h1>How do you want it?</h1>
+      <p class="script">pickup or delivery, your call</p>
+      <p class="status" data-status><span class="dot"></span><span data-status-text>Open daily 11 AM – 1 AM</span></p>
+    </div>
+
+    <div class="choices">
+      <!-- Pickup -->
+      <article class="choice">
+        <div class="photo" style="background-image:url('assets/burger-chips.jpg')">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span>
+        </div>
+        <div class="body">
+          <h2>Pickup</h2>
+          <p>Order ahead and grab it at the bar. 736 W Blue Vista Ln #200, Midvale.</p>
+          <div class="btns">
+            <a class="btn gold" href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener">Order for Pickup <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Delivery -->
+      <article class="choice">
+        <div class="photo" style="background-image:url('assets/wings-beer.jpg')">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="17" r="2.5"/><circle cx="18" cy="17" r="2.5"/><path d="M8.5 17h7M3.5 17V9h9v8M12.5 11h4l3 3v3"/></svg></span>
+        </div>
+        <div class="body">
+          <h2>Delivery</h2>
+          <p>Get Gradys brought to your door. Pick your favorite delivery app.</p>
+          <div class="btns">
+            <a class="btn dd" href="https://www.doordash.com/store/53035435" data-delivery="doordash" target="_blank" rel="noopener">DoorDash <span class="arrow">→</span></a>
+            <a class="btn ue" href="https://www.ubereats.com/store-browse-uuid/a3891496-7d92-5062-830c-9b2025be7996?diningMode=DELIVERY" data-delivery="ubereats" target="_blank" rel="noopener">Uber Eats <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p class="note">Delivery prices, fees and times are set by each app.</p>
+  </main>
+
+  <script>
+    // Live open/closed status (Mountain Time). Open daily 11 AM – 1 AM.
+    (() => {
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', hour: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const h = +p.find(x => x.type === 'hour').value;
+      const open = h >= 11 || h < 1;
+      const el = document.querySelector('[data-status]');
+      el.classList.toggle('closed', !open);
+      el.querySelector('[data-status-text]').textContent = open ? 'Open now · until 1 AM' : 'Closed right now · opens at 11 AM';
+    })();
+  </script>
+</body>
+</html>

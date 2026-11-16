@@ -154,12 +154,44 @@
   const SPECIALS = {
     0: 'Weekend brunch 11 AM – 3 PM + NFL Sunday.',
     1: 'Meaty Monday + Monday Night Football.',
-    2: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
-    3: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
+    2: 'Taquito Tuesday. Full menu 11 AM – 1 AM, entrées after 4 PM.',
+    3: 'Wing Wednesday. Full menu 11 AM – 1 AM, entrées after 4 PM.',
     4: 'Burger Thursday: every burger $13 (bison excluded).',
-    5: 'Full menu, 11 AM – 1 AM. Entrées after 4 PM.',
+    5: 'Full menu 11 AM – 1 AM + Friday game night.',
     6: 'Weekend brunch 11 AM – 3 PM + college game day.'
   };
+  // The gold "today" ticket in the Specials section. Edit specials here.
+  const TODAY_TICKET = {
+    1: { name: 'Meaty Monday', big: '', sub: 'A new meat-lover’s feature every week, until it’s gone', foot: 'Monday Night Football on every TV', img: 'assets/steak-sandwich.jpg', desc: 'A new meat-lover’s feature every Monday, served until it’s gone, with Monday Night Football on every TV.' },
+    2: { name: 'Taquito Tuesday', big: '', sub: 'Chili-braised short rib taquitos with almond poblano crema', foot: 'Full menu all day · entrées after 4 PM', img: 'assets/taquitos.jpg', desc: 'Chili-braised short rib taquitos with white cheddar, almond poblano crema and chili jus.' },
+    3: { name: 'Wing Wednesday', big: '', sub: 'Pick your sauce, from Gold BBQ all the way up to INFERNO', foot: 'Full menu all day · entrées after 4 PM', img: 'assets/wings.jpg', desc: 'Pick your sauce, from Gold BBQ and Buffalo all the way up to INFERNO, with green goddess ranch.' },
+    4: { name: 'Burger Thursday', big: '$13', sub: 'Every burger, all day (bison excluded)', foot: 'New feature burger each week + TNF', img: 'assets/burger-egg.jpg', desc: 'Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.' },
+    5: { name: 'Game Night', big: '', sub: 'Full menu, 11 AM – 1 AM', foot: 'Friday night games on every screen', img: 'assets/bar-sandwich-tvs.jpg', desc: 'The full menu from 11 AM to 1 AM and Friday night games on every screen.' },
+    6: { name: 'Weekend Brunch', big: '11–3', sub: 'Brunch, beer & the early games', foot: 'College game day on every TV', img: 'assets/biscuits-gravy.jpg', desc: 'Biscuits & gravy, steak & eggs and chilaquiles from 11 AM to 3 PM, with college game day on every TV.' },
+    0: { name: 'Weekend Brunch', big: '11–3', sub: 'Brunch, beer & the early games', foot: 'NFL Sunday on every TV', img: 'assets/biscuits-gravy.jpg', desc: 'Biscuits & gravy, steak & eggs and chilaquiles from 11 AM to 3 PM, with NFL Sunday on every TV.' }
+  };
+  // Daily Specials list (the big photo section): today's special goes to the top, opens first,
+  // and carries tonight's game. Runs before the slideshow starts, so it picks up the new order.
+  function setFavWeek(day) {
+    const list = $('[data-fav-week]');
+    if (!list) return;
+    const items = $$('.fav', list);
+    const order = [0, 1, 2, 3, 4, 5, 6].map(i => (day + i) % 7);
+    order.forEach((d, i) => {
+      const li = items.find(x => +x.dataset.day === d);
+      if (!li) return;
+      list.append(li);
+      li.classList.toggle('active', i === 0);
+      li.classList.toggle('is-today', i === 0);
+      $('.fav-tag', li).textContent = i === 0 ? `Today · ${DAYS[d]}` : i === 1 ? `Tomorrow · ${DAYS[d]}` : DAYS[d];
+      $('[data-fav-game]', li)?.remove();
+      if (i === 0) $('.fav-desc', li).insertAdjacentHTML('afterend', '<p class="ticket-game fav-game" data-fav-game aria-live="polite" hidden></p>');
+    });
+    const first = $('.fav', list);
+    const img = $('[data-fav-img]'), cap = $('[data-fav-cap]');
+    if (img) { img.src = first.dataset.img; img.alt = $('h3', first).textContent; }
+    if (cap) cap.textContent = $('h3', first).textContent;
+  }
   const fmt = h => (h % 12 || 12) + (h % 24 < 12 ? ' AM' : ' PM');
   const isWeekend = d => d === 0 || d === 6;
 
@@ -236,6 +268,23 @@
       $('[data-status-text]', el).textContent = text;
     });
 
+    // Gold ticket = today's special
+    const gt = $('[data-today-ticket]');
+    if (gt && gt.dataset.day !== String(barDay)) {
+      const t = TODAY_TICKET[barDay];
+      gt.dataset.day = barDay;
+      $('[data-tt-day]', gt).textContent = `Today · ${DAYS[barDay]}`;
+      $('[data-tt-name]', gt).textContent = t.name;
+      const big = $('[data-tt-big]', gt); big.textContent = t.big; big.hidden = !t.big;
+      $('[data-tt-sub]', gt).textContent = t.sub;
+      $('[data-tt-foot]', gt).textContent = t.foot;
+      const next = TODAY_TICKET[(barDay + 1) % 7];
+      const nx = $('[data-tt-next]', gt); if (nx) nx.innerHTML = `Tomorrow: <b>${esc(next.name)}</b>`;
+      loadGames();
+    }
+    const favWeek = $('[data-fav-week]');
+    if (favWeek && !favWeek.dataset.day) { favWeek.dataset.day = barDay; setFavWeek(barDay); }
+
     // Today highlights
     $$('.week li, .hours tr').forEach(el => el.classList.toggle('today', +el.dataset.day === barDay));
     const tn = $('[data-today-name]'); if (tn) tn.textContent = DAYS[barDay];
@@ -250,11 +299,68 @@
       br.setAttribute('d', isWeekend(barDay) ? arc(BRUNCH[0], BRUNCH[1]) : '');
       $('[data-dial-day]').textContent = DAYS[barDay];
       $('[data-dial-hours]').textContent = `${fmt(OPEN[barDay])} – 1 AM`;
-      $('[data-dial-extra]').textContent = isWeekend(barDay) ? 'Brunch 11 AM – 3 PM' : (barDay === 4 ? '$13 Burger Thursday' : barDay === 1 ? 'Meaty Monday' : '');
+      $('[data-dial-extra]').textContent = isWeekend(barDay) ? 'Brunch 11 AM – 3 PM' : (barDay === 5 ? 'Game night' : TODAY_TICKET[barDay].name);
       const [nx, ny] = pt(now.h + now.m / 60);
       ['[data-dial-now]', '[data-dial-glow]'].forEach(s => { const c = $(s); c.setAttribute('cx', nx.toFixed(1)); c.setAttribute('cy', ny.toFixed(1)); });
     }
   }
+  /* ---------- Today's game on the gold ticket (ESPN public scoreboard) ----------
+     Picks the game to feature: live games first, then NFL, then Utah teams
+     (Jazz, Mammoth, Utes, BYU, Utah State), then ranked college football.
+     Shows the live score while it's on, or the kickoff time in Mountain Time. */
+  const LEAGUES = [
+    ['NFL', 'football/nfl', 50],
+    ['CFB', 'football/college-football', 10],
+    ['NBA', 'basketball/nba', 4],
+    ['NHL', 'hockey/nhl', 4]
+  ];
+  const UTAH = /^(UTA|UTAH|BYU|USU)$/;
+  let gamesTimer;
+  async function loadGames() {
+    if (!$('[data-tt-game], [data-fav-game], [data-fav-week]')) return;
+    clearTimeout(gamesTimer);
+    const ymd = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Denver' }).format(new Date()).replace(/-/g, '');
+    const results = await Promise.all(LEAGUES.map(([lg, path, weight]) =>
+      fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${ymd}`)
+        .then(r => r.ok ? r.json() : { events: [] })
+        .then(d => (d.events || []).map(e => ({ e, lg, weight })))
+        .catch(() => [])));
+    // Look up the slots after the fetch: today's Daily Specials item adds its slot during page setup
+    const slots = $$('[data-tt-game], [data-fav-game]');
+    if (!slots.length) return;
+    const games = results.flat().map(({ e, lg, weight }) => {
+      const c = e.competitions?.[0] || {};
+      const teams = c.competitors || [];
+      const away = teams.find(t => t.homeAway === 'away') || teams[0] || {};
+      const home = teams.find(t => t.homeAway === 'home') || teams[1] || {};
+      const state = e.status?.type?.state;                 // pre | in | post
+      const abbr = t => t.team?.abbreviation || '';
+      const rank = t => { const r = t.curatedRank?.current; return r && r <= 25 ? r : 0; };
+      let score = weight;
+      if (state === 'in') score += 100;
+      if (state === 'post') score -= 200;
+      if (UTAH.test(abbr(away)) || UTAH.test(abbr(home))) score += 40;
+      if (lg === 'CFB' && (rank(away) || rank(home))) score += 30 - Math.min(rank(away) || 99, rank(home) || 99);
+      return { lg, state, away, home, abbr, date: new Date(e.date), detail: e.status?.type?.shortDetail || '', score };
+    }).filter(g => g.away.team && g.home.team).sort((a, b) => b.score - a.score || a.date - b.date);
+
+    const pick = games[0];
+    if (!pick) { slots.forEach(el => { el.hidden = true; }); return; }
+    const time = pick.date.toLocaleTimeString('en-US', { timeZone: 'America/Denver', hour: 'numeric', minute: '2-digit' });
+    const vs = `${pick.abbr(pick.away)} @ ${pick.abbr(pick.home)}`;
+    let label, text;
+    if (pick.state === 'in') { label = '<span class="tg-live">Live</span>'; text = `${pick.abbr(pick.away)} ${pick.away.score} – ${pick.abbr(pick.home)} ${pick.home.score} · ${pick.detail}`; }
+    else if (pick.state === 'post') { label = '<span class="tg-tag">Final</span>'; text = `${pick.abbr(pick.away)} ${pick.away.score} – ${pick.abbr(pick.home)} ${pick.home.score}`; }
+    else { label = `<span class="tg-tag">${pick.lg}</span>`; text = `${vs} · ${time}`; }
+    slots.forEach(el => {
+      el.innerHTML = `${label}<span class="tg-text">${esc(text)}</span>`;
+      el.title = `${pick.away.team.displayName} at ${pick.home.team.displayName}`;
+      el.hidden = false;
+    });
+    // Refresh: every minute while live, every 10 minutes otherwise
+    gamesTimer = setTimeout(loadGames, pick.state === 'in' ? 60000 : 600000);
+  }
+
   tick();
   setInterval(tick, 1000);
 
@@ -318,13 +424,16 @@
   // ---- Autoplay: walk down the dishes on its own ----
   // Pauses while a mouse is over the list/photo (hover still pulls up a dish),
   // only runs while the section is on screen, and restarts after taps/swipes.
+  // Turned OFF: the section is now Daily Specials, so it stays on today's special
+  // until someone taps/hovers another day. Set to true to bring the rotation back.
+  const FAV_AUTOPLAY = false;
   const FAV_MS = 4000;
   const favGrid = $('.fav-grid');
   let favAuto = null, favInView = false, favHover = false;
   function favSchedule() {
     clearTimeout(favAuto);
     favs.forEach(f => f.classList.remove('autoplay'));
-    if (!favs.length || !favInView || favHover || document.hidden || reduceMotion) return;
+    if (!FAV_AUTOPLAY || !favs.length || !favInView || favHover || document.hidden || reduceMotion) return;
     const cur = favs[favIndex];
     void cur.offsetWidth;                       // restart the timer-line animation
     cur.classList.add('autoplay');

@@ -15,12 +15,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=202611161208">
-  <link rel="stylesheet" href="pages.css?v=202611161400">
+  <link rel="stylesheet" href="pages.css?v=202611161730">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BarOrPub",
     "name": "Gradys",
+    "telephone": "+1-801-301-0213",
     "image": "assets/interior.webp",
     "address": {
       "@type": "PostalAddress",
@@ -95,7 +96,11 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
           736 W Blue Vista Ln, Midvale
         </a>
-        <span class="info">
+        <a class="info info-phone" href="tel:+18013010213" aria-label="Call Gradys at (801) 301-0213">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+          (801) 301-0213
+        </a>
+        <span class="info info-hours">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           <b>Open daily</b>&nbsp;11a–1a <span class="sep">·</span> <b>Brunch</b>&nbsp;Sat–Sun 11–3
         </span>
@@ -111,14 +116,13 @@
       </a>
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <a href="#full-menu" data-nav="menu">Menu</a>
-        <a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="nav-order" data-nav="order">Order Online</a>
+        <a href="order.html" class="nav-order" data-nav="order">Order Online</a>
         <a href="https://www.toasttab.com/gradys-736-w-blue-vista-ln/rewardsSignup" target="_blank" rel="noopener" data-nav="rewards">Rewards</a>
         <a href="#weekly">Specials</a>
         <a href="game-day.html" data-nav="page">Game Day</a>
         <a href="events.html" data-nav="page">Events</a>
         <a href="our-story.html" data-nav="page">Our Story</a>
         <a href="#visit">Visit</a>
-        <!-- TODO: swap to a tel: link once the client provides a phone number -->
         <a href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener" class="btn btn-small">Message Us</a>
       </nav>
       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
@@ -145,7 +149,7 @@
           <p class="script">pull up a stool</p>
           <p class="lead">Tallow-fried fries, house-made sausage and sauces built from scratch, served under a wall of TVs on a long marble bar.</p>
           <div class="actions">
-            <a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="btn" data-order>Order Online</a>
+            <a href="order.html" class="btn" data-order>Order Online</a>
             <a href="#full-menu" class="btn btn-ghost">View Menu</a>
           </div>
           <p class="status" data-status><span class="dot"></span><span data-status-text>Open daily until 1 AM</span></p>
@@ -214,44 +218,45 @@
     <section class="band band-black favorites" id="favorites">
       <div class="fav-grid">
         <div class="fav-list-wrap">
-          <p class="kicker">Fan Favorites</p>
-          <h2>What's coming<br>out of the kitchen</h2>
-          <p class="sub light">The plates people keep ordering. Tap or hover a name to see it, or swipe the photo.</p>
-          <ol class="fav-list" role="list">
-            <li class="fav active" data-img="assets/burger-egg.jpg" data-cap="Burger Thursday" tabindex="0">
+          <p class="kicker">Daily Specials</p>
+          <h2>Every day<br>has a special</h2>
+          <p class="sub light">Today’s special is up top. Tap or hover a day to see it, or swipe the photo.</p>
+          <!-- One item per day. script.js moves today to the top and opens it (see TODAY_TICKET). -->
+          <ol class="fav-list" role="list" data-fav-week>
+            <li class="fav active" data-day="1" data-img="assets/steak-sandwich.jpg" data-cap="Meaty Monday" tabindex="0">
+              <div class="fav-row"><h3>Meaty Monday</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Monday</p>
+              <p class="fav-desc">A new meat-lover’s feature every Monday, served until it’s gone, with Monday Night Football on every TV.</p>
+            </li>
+            <li class="fav" data-day="2" data-img="assets/taquitos.jpg" data-cap="Taquito Tuesday" tabindex="0">
+              <div class="fav-row"><h3>Taquito Tuesday</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Tuesday</p>
+              <p class="fav-desc">Chili-braised short rib taquitos with white cheddar, almond poblano crema and chili jus.</p>
+            </li>
+            <li class="fav" data-day="3" data-img="assets/wings.jpg" data-cap="Wing Wednesday" tabindex="0">
+              <div class="fav-row"><h3>Wing Wednesday</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Wednesday</p>
+              <p class="fav-desc">Pick your sauce, from Gold BBQ and Buffalo all the way up to INFERNO, with green goddess ranch.</p>
+            </li>
+            <li class="fav" data-day="4" data-img="assets/burger-egg.jpg" data-cap="Burger Thursday" tabindex="0">
               <div class="fav-row"><h3>Burger Thursday</h3><span class="fav-price">$13</span></div>
-              <p class="fav-tag">Every Thursday</p>
+              <p class="fav-tag">Thursday</p>
               <p class="fav-desc">Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.</p>
             </li>
-            <li class="fav" data-img="assets/taquitos.jpg" data-cap="Short Rib Taquitos" tabindex="0">
-              <div class="fav-row"><h3>Short Rib Taquitos</h3><span class="fav-price">$18</span></div>
-              <p class="fav-tag">Shareables</p>
-              <p class="fav-desc">Chili-braised short rib, white cheddar, almond poblano crema and chili jus.</p>
+            <li class="fav" data-day="5" data-img="assets/bar-sandwich-tvs.jpg" data-cap="Game Night" tabindex="0">
+              <div class="fav-row"><h3>Game Night</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Friday</p>
+              <p class="fav-desc">The full menu from 11 AM to 1 AM and Friday night games on every screen.</p>
             </li>
-            <li class="fav" data-img="assets/wings-beer.jpg" data-cap="Wings" tabindex="0">
-              <div class="fav-row"><h3>Wings</h3><span class="fav-price">$17</span></div>
-              <p class="fav-tag">Shareables</p>
-              <p class="fav-desc">Buffalo, Stout BBQ, Chipotle Cherry, Fermented Chili Honey or INFERNO, with green goddess ranch.</p>
+            <li class="fav" data-day="6" data-img="assets/biscuits-gravy.jpg" data-cap="Weekend Brunch" tabindex="0">
+              <div class="fav-row"><h3>Weekend Brunch</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Saturday</p>
+              <p class="fav-desc">Biscuits &amp; gravy, steak &amp; eggs and chilaquiles from 11 AM to 3 PM, with college game day on every TV.</p>
             </li>
-            <li class="fav" data-img="assets/brussels-caesar.jpg" data-cap="Brussels" tabindex="0">
-              <div class="fav-row"><h3>Brussels</h3><span class="fav-price">$15</span></div>
-              <p class="fav-tag">Soups &amp; Salads</p>
-              <p class="fav-desc">Fried Brussels sprouts, lemon Caesar, bacon, sourdough crumble, pecorino and balsamic fig glaze.</p>
-            </li>
-            <li class="fav" data-img="assets/steak-eggs.jpg" data-cap="Steak &amp; Eggs" tabindex="0">
-              <div class="fav-row"><h3>Steak &amp; Eggs</h3><span class="fav-price">$26</span></div>
-              <p class="fav-tag">Weekend Brunch</p>
-              <p class="fav-desc">Seared 8 oz sirloin, home fries, 2 eggs your way and pickled Fresno chimichurri.</p>
-            </li>
-            <li class="fav" data-img="assets/chilaquiles.jpg" data-cap="Short Rib Chilaquiles" tabindex="0">
-              <div class="fav-row"><h3>Short Rib Chilaquiles</h3><span class="fav-price">$18</span></div>
-              <p class="fav-tag">Weekend Brunch</p>
-              <p class="fav-desc">Salsa roja, fried tortilla chips, egg your way, avocado and cotija.</p>
-            </li>
-            <li class="fav" data-img="assets/french-toast.jpg" data-cap="Sourdough French Toast" tabindex="0">
-              <div class="fav-row"><h3>Sourdough French Toast</h3><span class="fav-price">$14</span></div>
-              <p class="fav-tag">Weekend Brunch</p>
-              <p class="fav-desc">Spiced vanilla custard, bourbon caramel, tart whipped cream and Gra-deez Nuts crumble.</p>
+            <li class="fav" data-day="0" data-img="assets/chilaquiles.jpg" data-cap="Weekend Brunch" tabindex="0">
+              <div class="fav-row"><h3>Weekend Brunch</h3><span class="fav-price"></span></div>
+              <p class="fav-tag">Sunday</p>
+              <p class="fav-desc">Short rib chilaquiles, French toast and biscuits &amp; gravy from 11 AM to 3 PM, with NFL Sunday on every TV.</p>
             </li>
           </ol>
           <div class="actions">
@@ -260,11 +265,11 @@
           </div>
         </div>
         <div class="fav-photo">
-          <img src="assets/burger-egg.jpg" alt="" data-fav-img data-zoom>
-          <div class="fav-photo-cap"><span data-fav-cap>Burger Thursday</span><small data-fav-count>1 of 7</small></div>
+          <img src="assets/steak-sandwich.jpg" alt="" data-fav-img data-zoom>
+          <div class="fav-photo-cap"><span data-fav-cap>Meaty Monday</span><small data-fav-count>1 of 7</small></div>
           <div class="fav-nav">
-            <button type="button" class="round-btn" data-fav-prev aria-label="Previous dish">←</button>
-            <button type="button" class="round-btn" data-fav-next aria-label="Next dish">→</button>
+            <button type="button" class="round-btn" data-fav-prev aria-label="Previous day">←</button>
+            <button type="button" class="round-btn" data-fav-next aria-label="Next day">→</button>
           </div>
           <div class="fav-bar" aria-hidden="true"><span data-fav-bar></span></div>
         </div>
@@ -284,10 +289,10 @@
         <p class="today-line" data-today-line><span class="pill" data-today-name>Today</span> <span data-today-text>Open daily until 1 AM.</span></p>
         <ol class="week" role="list">
           <li data-day="1"><small>Mon</small><b>Meaty Monday</b><span>+ MNF</span></li>
-          <li data-day="2"><small>Tue</small><b>Full Menu</b><span>11a–1a</span></li>
-          <li data-day="3"><small>Wed</small><b>Full Menu</b><span>11a–1a</span></li>
+          <li data-day="2"><small>Tue</small><b>Taquito Tuesday</b><span>11a–1a</span></li>
+          <li data-day="3"><small>Wed</small><b>Wing Wednesday</b><span>11a–1a</span></li>
           <li data-day="4"><small>Thu</small><b>Burger Thursday</b><span>$13 + TNF</span></li>
-          <li data-day="5"><small>Fri</small><b>Full Menu</b><span>11a–1a</span></li>
+          <li data-day="5"><small>Fri</small><b>Full Menu</b><span>+ game night</span></li>
           <li data-day="6"><small>Sat</small><b>Brunch</b><span>11a–3p + CFB</span></li>
           <li data-day="0"><small>Sun</small><b>Brunch</b><span>11a–3p + NFL</span></li>
         </ol>
@@ -301,7 +306,7 @@
           <div class="countdown" data-countdown="brunch">
             <p class="cd-label">Next Weekend Brunch</p>
             <div class="cd-clock"><span><b data-d>0</b><small>days</small></span><span><b data-h>0</b><small>hrs</small></span><span><b data-m>0</b><small>min</small></span><span><b data-s>0</b><small>sec</small></span></div>
-            <p class="cd-live" hidden>Brunch is being served until 2 PM</p>
+            <p class="cd-live" hidden>Brunch is being served until 3 PM</p>
           </div>
         </div>
 
@@ -313,13 +318,16 @@
             <hr>
             <p class="ticket-foot">Monday Night Football on every TV</p>
           </article>
-          <article class="ticket ticket-gold">
-            <p class="ticket-day">Thursday</p>
-            <h3>Burger Thursday</h3>
-            <p class="ticket-big">$13</p>
-            <p class="ticket-sub">Every burger, all day (bison excluded)</p>
+          <!-- Gold ticket switches to today's special every day (Mountain Time) — see TODAY_TICKET in script.js -->
+          <article class="ticket ticket-gold" data-today-ticket>
+            <p class="ticket-day" data-tt-day>Thursday</p>
+            <h3 data-tt-name>Burger Thursday</h3>
+            <p class="ticket-big" data-tt-big>$13</p>
+            <p class="ticket-sub" data-tt-sub>Every burger, all day (bison excluded)</p>
             <hr>
-            <p class="ticket-foot">New feature burger each week + TNF</p>
+            <p class="ticket-foot" data-tt-foot>New feature burger each week + TNF</p>
+            <p class="ticket-game" data-tt-game aria-live="polite" hidden></p>
+            <p class="tt-next" data-tt-next></p>
           </article>
           <article class="ticket">
             <p class="ticket-day">Saturday &amp; Sunday</p>
@@ -390,7 +398,7 @@
           <p class="kicker">Holiday Parties &amp; Groups</p>
           <h2>Bring the whole crew.</h2>
           <p class="script">big screens &amp; plenty of room</p>
-          <p class="light-p">We're booking 21+ holiday parties now. Send us a DM with your date and headcount and we'll set you up. Gift cards are in stock too.</p>
+          <p class="light-p">We're booking 21+ holiday parties now. Use the party planner or email <a href="mailto:gradysmidvale@gmail.com">gradysmidvale@gmail.com</a> with your date and headcount and we'll set you up. Gift cards are in stock too.</p>
           <ul class="checks">
             <li>21+ holiday parties &amp; group nights</li>
             <li>Game-day watch parties</li>
@@ -411,6 +419,7 @@
           <p class="kicker">Come See Us</p>
           <h2 data-visit-title>Come see us today.</h2>
           <address>736 W Blue Vista Ln #200<br>Midvale, UT 84047</address>
+          <a class="phone-link" href="tel:+18013010213"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>(801) 301-0213</a>
           <button type="button" class="copy-btn" data-copy="736 W Blue Vista Ln #200, Midvale, UT 84047">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>
             Copy address
@@ -418,7 +427,8 @@
           <p class="status" data-status><span class="dot"></span><span data-status-text>Open daily until 1 AM</span></p>
           <div class="actions">
             <a class="btn" href="https://www.google.com/maps/search/?api=1&query=736+W+Blue+Vista+Ln+%23200+Midvale+UT+84047" target="_blank" rel="noopener">Get Directions</a>
-            <a class="btn btn-ghost" href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" data-order>Order Online</a>
+            <a class="btn btn-ghost" href="tel:+18013010213">Call Us</a>
+            <a class="btn btn-ghost" href="order.html" data-order>Order Online</a>
             <a class="btn btn-ghost" href="https://www.instagram.com/gradys_midvale/" target="_blank" rel="noopener">Message Us</a>
           </div>
           <p class="fine">21+ venue. Please bring your ID.</p>
@@ -467,7 +477,7 @@
         <h2>Grab a seat.<br>Catch the game.</h2>
         <p class="script">see you tonight</p>
         <div class="actions center">
-          <a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="btn" data-order>Order Online</a>
+          <a href="order.html" class="btn" data-order>Order Online</a>
           <a href="#full-menu" class="btn btn-ghost">See the Menu</a>
           <a href="#visit" class="btn btn-ghost">Get Directions</a>
         </div>
@@ -486,7 +496,7 @@
         <h1>The Menu</h1>
         <p class="lead">The new menu just dropped: shareables, soups, burgers, handhelds and entrées after 4 PM. Burgers and handhelds come with house chips or fries.</p>
         <p class="menu-legend"><abbr class="diet" title="Vegetarian">V</abbr> Vegetarian <abbr class="diet" title="Vegan">VG</abbr> Vegan <a class="print-link" href="print.html">Print / save as PDF ↗</a></p>
-        <div class="actions"><a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="btn" data-order>Order Online</a></div>
+        <div class="actions"><a href="order.html" class="btn" data-order>Order Online</a></div>
         <div class="menu-search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <input type="search" placeholder="Search the menu… try “short rib” or “bacon”" aria-label="Search the menu" data-menu-search autocomplete="off">
@@ -529,7 +539,7 @@
         *Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness.</p>
         <div class="actions center">
           <a href="#home" class="btn btn-ghost">← Back to Home</a>
-          <a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="btn" data-order>Order Online</a>
+          <a href="order.html" class="btn" data-order>Order Online</a>
           <a href="#visit" class="btn">Get Directions</a>
         </div>
       </div>
@@ -541,11 +551,11 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <img src="assets/logo.png" alt="Gradys" width="700" height="350" loading="lazy">
-        <p>Scratch kitchen &amp; bar in Midvale, Utah. 21+.</p>
+        <p>Scratch Kitchen &amp; Bar in Midvale, Utah. 21+.</p>
       </div>
       <div>
         <h4>Find Us</h4>
-        <p>736 W Blue Vista Ln #200<br>Midvale, UT 84047</p>
+        <p>736 W Blue Vista Ln #200<br>Midvale, UT 84047<br><a href="tel:+18013010213">(801) 301-0213</a></p>
       </div>
       <div>
         <h4>Hours</h4>
@@ -571,7 +581,7 @@
     <a href="#full-menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Menu</a>
     <a href="https://www.google.com/maps/search/?api=1&query=736+W+Blue+Vista+Ln+%23200+Midvale+UT+84047" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>Directions</a>
     <a href="#weekly"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Specials</a>
-    <a href="https://order.toasttab.com/online/gradys-736-w-blue-vista-ln" target="_blank" rel="noopener" class="mb-cta" data-order><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Order</a>
+    <a href="order.html" class="mb-cta" data-order><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Order</a>
   </nav>
 
   <dialog class="lightbox" data-lightbox aria-label="Photo viewer">
@@ -587,6 +597,6 @@
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
   <script src="menu-data.js?v=202611161208"></script>
-  <script src="script.js?v=202611161208"></script>
+  <script src="script.js?v=202611161745"></script>
 </body>
 </html>
