@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=202611161003">
-  <link rel="stylesheet" href="pages.css?v=202611161003">
+  <link rel="stylesheet" href="styles.css?v=202611161005">
+  <link rel="stylesheet" href="pages.css?v=202611161005">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -203,10 +203,25 @@
     <!-- ===== Gift cards ===== -->
     <section class="band band-char">
       <div class="container gift">
-        <div class="giftcard" aria-hidden="true">
+        <div class="giftcard gc-marquee" aria-hidden="true">
+          <div class="gc-bulbs" data-gc-bulbs></div>
           <img src="assets/logo.png" alt="">
           <div class="gc-row"><span>Gift card<br>Midvale, UT</span><b>$</b></div>
         </div>
+        <script>
+          // Vintage marquee bulbs around the gift card (same look as the loading screen)
+          (() => {
+            const box = document.querySelector('[data-gc-bulbs]');
+            if (!box) return;
+            const TOP = 12, SIDE = 6, pts = [];
+            for (let i = 0; i < TOP; i++) pts.push([i * (100 / (TOP - 1)), 0]);
+            for (let i = 1; i <= SIDE; i++) pts.push([100, i * (100 / (SIDE + 1))]);
+            for (let i = TOP - 1; i >= 0; i--) pts.push([i * (100 / (TOP - 1)), 100]);
+            for (let i = SIDE; i >= 1; i--) pts.push([0, i * (100 / (SIDE + 1))]);
+            box.innerHTML = pts.map(([x, y], i) =>
+              `<i class="bulb" style="left:${x}%;top:${y}%;--chase:${(-(i % 3) * 0.3).toFixed(2)}s"></i>`).join('');
+          })();
+        </script>
         <div>
           <p class="kicker">The easy gift</p>
           <h2>Gift cards are in stock</h2>
@@ -288,8 +303,8 @@
   </dialog>
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
-  <script src="menu-data.js?v=202611161003"></script>
-  <script src="script.js?v=202611161003"></script>
-  <script src="pages.js?v=202611161003"></script>
+  <script src="menu-data.js?v=202611161005"></script>
+  <script src="script.js?v=202611161005"></script>
+  <script src="pages.js?v=202611161005"></script>
 </body>
 </html>

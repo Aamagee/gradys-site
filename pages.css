@@ -273,3 +273,21 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .badges .team-badge + .team-badge { margin-left: -9px; }
 .badges .team-badge:hover { transform: translateY(-2px) scale(1.08); z-index: 2; transition: transform .2s; }
 .day-card .day-special { font-size: 1.05rem; }
+
+/* ==========================================================================
+   Gift card: vintage marquee bulbs (matches the loading screen)
+   ========================================================================== */
+.giftcard.gc-marquee { background: linear-gradient(#1c130a, #0e0a06); border: 4px solid #3d2c13; border-radius: 22px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, .85), 0 30px 60px rgba(0, 0, 0, .5), 0 0 70px rgba(227, 160, 28, .12);
+  align-items: center; justify-content: center; gap: .6rem; padding: 2.2rem 2.4rem 1.6rem; }
+.giftcard.gc-marquee::before { display: none; }           /* drop the old sheen graphic */
+.gc-marquee img { width: 64%; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .6)); }
+.gc-marquee .gc-row { width: 100%; }
+.gc-bulbs { position: absolute; inset: 12px; pointer-events: none; }
+.gc-bulbs .bulb { position: absolute; width: 11px; height: 11px; border-radius: 50%; transform: translate(-50%, -50%);
+  background: #fff4c9; box-shadow: 0 0 6px #fff1b8, 0 0 14px #f4c35a, 0 0 26px #e3a01c;
+  animation: gcChase .9s var(--chase) infinite; }
+@keyframes gcChase {
+  0%, 100% { background: #fff4c9; box-shadow: 0 0 6px #fff1b8, 0 0 14px #f4c35a, 0 0 26px #e3a01c; }
+  50% { background: #6a4d16; box-shadow: inset 0 -2px 3px rgba(0, 0, 0, .5); } }
+@media (prefers-reduced-motion: reduce) { .gc-bulbs .bulb { animation: none; } }
