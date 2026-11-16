@@ -1,12 +1,15 @@
 // ===== Gradys — Game Day, Events, Our Story =====
-// Loaded after script.js on the sub-pages. Nothing here sends data anywhere:
-// forms compose a message, copy it, and open an Instagram DM to @gradys_midvale.
+// Loaded after script.js on the sub-pages.
+// The party planner emails requests to gradysmidvale@gmail.com via FormSubmit (formsubmit.co).
+// The Game Day request form still composes a message and opens an Instagram DM to @gradys_midvale.
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const IG_DM = 'https://ig.me/m/gradys_midvale';
+  const PARTY_EMAIL = 'gradysmidvale@gmail.com';
+  const PARTY_ENDPOINT = `https://formsubmit.co/ajax/${PARTY_EMAIL}`;
 
   /* ---------- Current page in nav ---------- */
   const here = location.pathname.split('/').pop() || 'index.html';
@@ -197,7 +200,9 @@
         size: n >= 60 ? '60+' : String(n),
         extras: fd.getAll('extras'),
         name: (fd.get('name') || '').trim(),
-        notes: (fd.get('notes') || '').trim()
+        contact: (fd.get('contact') || '').trim(),
+        notes: (fd.get('notes') || '').trim(),
+        honey: fd.get('_honey') || ''
       };
     }
     function message(s) {
@@ -206,6 +211,7 @@
       lines.push(`Group size: about ${s.size} people (all 21+)`);
       if (s.extras.length) lines.push(`Interested in: ${s.extras.join(', ')}`);
       if (s.notes) lines.push(`Notes: ${s.notes}`);
+      if (s.contact) lines.push(`Reach me at: ${s.contact}`);
       lines.push('What do you have available?');
       return lines.join('\n');
     }
@@ -229,23 +235,64 @@
       set('size', `${s.size} guests`, '');
       set('extras', s.extras.join(', '), 'Nothing extra yet');
       set('name', s.name, 'Add your name');
+      set('contact', s.contact, 'Add email or phone');
       const title = $('[data-sum-title]');
       if (title) title.textContent = s.occasion || 'Your party';
       preview.textContent = message(s);
-      const done = [!!s.occasion, !!s.date, true, !!s.name];
+      const done = [!!s.occasion, !!s.date, true, !!s.name && !!s.contact];
       steps.forEach((el, i) => el.classList.toggle('on', done[i]));
       return s;
     }
     planner.addEventListener('input', render);
     planner.addEventListener('change', render);
-    planner.addEventListener('submit', e => {
+    // Send the request by email (FormSubmit). If that fails, open the guest's email app instead.
+    const sendBtn = $('[data-send-btn]', planner);
+    const looksLikeContact = v => /@.+\./.test(v) || v.replace(/\D/g, '').length >= 7;
+    planner.addEventListener('submit', async e => {
       e.preventDefault();
       const s = render();
       if (!s.occasion) { toast('Pick an occasion first'); $('[name="occasion"]', planner).focus(); return; }
       if (!s.date) { toast('Pick a date so we can check availability'); date.focus(); return; }
-      sendDM(message(s));
+      if (!s.name) { toast('Add your name'); $('[name="name"]', planner).focus(); return; }
+      if (!looksLikeContact(s.contact)) { toast('Add an email or phone so we can reply'); $('[name="contact"]', planner).focus(); return; }
+      if (s.honey) return;                                   // bot filled the hidden trap field
+
+      const body = message(s);
+      const label = sendBtn.textContent;
+      sendBtn.disabled = true; sendBtn.textContent = 'Sending…';
+      try {
+        const res = await fetch(PARTY_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            _subject: `Party request: ${s.occasion} · ${s.date}${s.size ? ` · ${s.size} people` : ''}`,
+            _template: 'table',
+            _captcha: 'false',
+            ...(s.contact.includes('@') ? { _replyto: s.contact } : {}),
+            Name: s.name,
+            'Email or phone': s.contact,
+            Occasion: s.occasion,
+            Date: s.date,
+            'Time of day': s.time || 'Any time',
+            'Group size': `${s.size} (all 21+)`,
+            'Add-ons': s.extras.join(', ') || 'None',
+            Notes: s.notes || '—',
+            Message: body
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false || data.success === 'false') throw new Error(data.message || 'send failed');
+        sendBtn.textContent = 'Sent ✓';
+        toast('Request sent ✓ We’ll get back to you soon');
+        setTimeout(() => { sendBtn.disabled = false; sendBtn.textContent = label; }, 4000);
+      } catch (err) {
+        sendBtn.disabled = false; sendBtn.textContent = label;
+        toast('Opening your email app to send it…');
+        location.href = `mailto:${PARTY_EMAIL}?subject=${encodeURIComponent(`Party request: ${s.occasion} · ${s.date}`)}&body=${encodeURIComponent(body)}`;
+      }
     });
-    $('[data-copy-only]')?.addEventListener('click', () => sendDM(message(render()), { open: false }));
+    // Backup: copy the message and open an Instagram DM
+    $('[data-copy-only]')?.addEventListener('click', () => sendDM(message(render())));
 
     // Deep links like events.html?type=Watch%20Party pre-select an occasion
     const pre = new URLSearchParams(location.search).get('type');

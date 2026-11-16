@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=202611161010">
-  <link rel="stylesheet" href="pages.css?v=202611161010">
+  <link rel="stylesheet" href="styles.css?v=202611161208">
+  <link rel="stylesheet" href="pages.css?v=202611161208">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -119,7 +119,7 @@
           <p class="kicker dark">Party Planner</p>
           <h2>Build your party in 30 seconds</h2>
           <p class="script dark">we'll take it from there</p>
-          <p class="sub">Fill this in and we'll write the DM for you. We reply on Instagram with availability.</p>
+          <p class="sub">Fill this in and it goes straight to our inbox. We'll get back to you with availability.</p>
         </div>
 
         <div class="planner">
@@ -169,15 +169,18 @@
             </fieldset>
 
             <div class="two-col">
-              <label class="field"><span>4 · Your name</span><input type="text" name="name" autocomplete="given-name" placeholder="First name"></label>
-              <label class="field"><span>Anything else?</span><input type="text" name="notes" placeholder="e.g. it's a surprise!"></label>
+              <label class="field"><span>4 · Your name</span><input type="text" name="name" autocomplete="name" placeholder="Your name"></label>
+              <label class="field"><span>Email or phone</span><input type="text" name="contact" autocomplete="email" inputmode="email" placeholder="So we can get back to you"></label>
             </div>
+            <label class="field"><span>Anything else?</span><input type="text" name="notes" placeholder="e.g. it's a surprise!"></label>
+            <!-- Spam trap for bots (FormSubmit ignores submissions where this is filled) -->
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
 
             <div class="form-actions">
-              <button class="btn" type="submit">Copy &amp; Open DM</button>
-              <button class="btn btn-ghost" type="button" data-copy-only>Just Copy</button>
+              <button class="btn" type="submit" data-send-btn>Send Request</button>
+              <button class="btn btn-ghost" type="button" data-copy-only>DM on Instagram instead</button>
             </div>
-            <p class="form-note">Nothing gets sent from this site. Your message is copied, then Instagram opens so you can paste it to @gradys_midvale.</p>
+            <p class="form-note">Your request is emailed to Gradys at gradysmidvale@gmail.com. We'll reply with availability.</p>
           </form>
 
           <aside class="summary" aria-live="polite">
@@ -191,8 +194,9 @@
                 <div><dt>Group</dt><dd data-sum="size">12 guests</dd></div>
                 <div><dt>Add-ons</dt><dd data-sum="extras" class="empty">Nothing extra yet</dd></div>
                 <div><dt>Name</dt><dd data-sum="name" class="empty">Add your name</dd></div>
+                <div><dt>Contact</dt><dd data-sum="contact" class="empty">Add email or phone</dd></div>
               </dl>
-              <p class="preview-label">Your DM preview</p>
+              <p class="preview-label">Your request</p>
               <div class="preview" data-preview></div>
             </article>
           </aside>
@@ -246,7 +250,7 @@
         <!-- TODO: confirm deposit / minimum policy with client before adding it here -->
         <div class="faq">
           <details open><summary>Is every guest required to be 21+?</summary><p>Yes. Gradys is a bar, so every guest needs a valid photo ID, and we scan every ID at the door. Let your guests know ahead of time.</p></details>
-          <details><summary>How do I book?</summary><p>Use the party planner above. It writes a DM with your date, group size and details, and you send it to us on Instagram at @gradys_midvale. We'll reply with availability.</p></details>
+          <details><summary>How do I book?</summary><p>Use the party planner above. Pick your date, group size and details, add your email or phone, and tap Send Request. It goes straight to our inbox and we'll reply with availability. You can also DM us on Instagram at @gradys_midvale.</p></details>
           <details><summary>Can you put our game on?</summary><p>Usually, yes. Tell us the matchup when you book and we'll do our best to get it on the screens near your group.</p></details>
           <details><summary>How big a group can you handle?</summary><p>Anything from a big booth to a good chunk of the room. The bigger the group, the earlier you should reach out, especially in December.</p></details>
           <details><summary>Can we order off the full menu?</summary><p>Yes. Shareables like wings, nachos, pretzel dips and the chorizo cheese ball are made for groups. Entrées are served after 4 PM, and brunch runs Saturday and Sunday from 11 to 3.</p></details>
@@ -303,8 +307,8 @@
   </dialog>
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
-  <script src="menu-data.js?v=202611161010"></script>
-  <script src="script.js?v=202611161010"></script>
-  <script src="pages.js?v=202611161010"></script>
+  <script src="menu-data.js?v=202611161208"></script>
+  <script src="script.js?v=202611161208"></script>
+  <script src="pages.js?v=202611161208"></script>
 </body>
 </html>
