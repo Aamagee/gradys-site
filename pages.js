@@ -188,7 +188,7 @@
     const sum = k => $(`[data-sum="${k}"]`);
     const last = {};
 
-    const hint = n => n <= 8 ? 'A couple of tables or a big booth.' : n <= 20 ? 'Booths together near the screens.' : n <= 40 ? 'A good chunk of the room. DM early.' : 'That’s a takeover. Let’s talk details.';
+    const hint = n => n <= 8 ? 'A couple of tables near the screens.' : n <= 20 ? 'Tables together near the big screens.' : n <= 40 ? 'A good chunk of the room. DM early.' : 'That’s a takeover. Let’s talk details.';
 
     function read() {
       const fd = new FormData(planner);

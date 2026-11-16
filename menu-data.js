@@ -10,7 +10,7 @@
 window.GRADYS_MENU = [
   {
     id: 'shareables', title: 'Shareables', note: 'Made for the middle of the table.',
-    img: 'assets/taquitos.jpg', alt: 'Short rib taquitos', print: 1,
+    img: 'assets/wings.jpg', alt: 'Sticky glazed wings at the bar', print: 1,
     items: [
       { n: 'Chorizo Cheese Ball', p: '12', d: 'House-made chorizo, sharp white cheddar, cream cheese, chives, bacon, candied pecan, honey, crackers, carrots & celery' },
       { n: 'Nachos', p: '14', d: 'Taco-seasoned tortilla chips or fries, garlic beer cheese, pico de gallo, charred tomatillo-avocado crema, pickled red onion, pickled Fresno, cilantro', add: 'Add chorizo +4 · chicken +6 · braised short rib +8 · shrimp +8 · steak +10' },

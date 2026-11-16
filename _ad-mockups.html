@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gradys Ad Mockups</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700;1,800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0d0c0b; --char: #171513; --char-2: #221f1c; --gold: #e3a01c; --gold-light: #f4c35a; --gold-dark: #a8741a;
+      --parchment: #f3eee3; --parchment-2: #e8e0cd; --ink: #1b1815; --muted: #6d665a; --red: #c8402c; --stool: #b3262b;
+      --f-head: "Oswald", "Arial Narrow", Impact, sans-serif;
+      --f-script: "Playfair Display", Georgia, serif;
+      --f-body: "Inter", system-ui, sans-serif;
+      --f-mono: "Space Mono", ui-monospace, monospace;
+      --f-led: "VT323", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #11100e; color: var(--parchment); font-family: var(--f-body); }
+    img { display: block; }
+
+    /* ===== Gallery chrome ===== */
+    .top { position: sticky; top: 0; z-index: 20; background: rgba(17, 16, 14, .9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(227, 160, 28, .25); }
+    .top-row { max-width: 1400px; margin: 0 auto; padding: 14px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+    .top img { height: 46px; width: auto; }
+    .top h1 { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .06em; font-size: 1.5rem; margin: 0; }
+    .top h1 span { color: var(--gold); }
+    .chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+    .chips button { font: 600 .8rem var(--f-head); text-transform: uppercase; letter-spacing: .12em; color: var(--parchment); background: transparent; border: 1.5px solid rgba(241, 236, 225, .25); border-radius: 999px; padding: .5em 1.1em; cursor: pointer; }
+    .chips button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--black); }
+    .intro { max-width: 1400px; margin: 0 auto; padding: 26px 16px 4px; color: rgba(241, 236, 225, .65); font-size: .95rem; }
+    .grid { max-width: 1400px; margin: 0 auto; padding: 18px 16px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 34px 26px; align-items: start; }
+    .slot { display: grid; gap: 10px; }
+    .slot[hidden] { display: none; }
+    .meta { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    .meta b { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .06em; font-size: 1.05rem; }
+    .meta small { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .14em; font-size: .7rem; color: var(--gold); white-space: nowrap; }
+    .cap { margin: 0; font-size: .85rem; color: rgba(241, 236, 225, .55); line-height: 1.45; }
+    .slot.wide { grid-column: span 2; }
+    @media (max-width: 700px) { .slot.wide { grid-column: auto; } }
+
+    /* Ad frame: everything inside is sized in cqw so it scales perfectly */
+    .ad { position: relative; width: 100%; overflow: hidden; border-radius: 10px; container-type: inline-size; cursor: zoom-in; box-shadow: 0 20px 40px rgba(0, 0, 0, .5); isolation: isolate; transition: transform .25s; }
+    .ad:hover { transform: translateY(-4px); }
+    .r45 { aspect-ratio: 4 / 5; } .r11 { aspect-ratio: 1; } .r916 { aspect-ratio: 9 / 16; } .r191 { aspect-ratio: 1.91 / 1; }
+    .ad .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+    .grain::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: .18; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .logo-sm { width: 26cqw; height: auto; filter: drop-shadow(0 .6cqw 1.4cqw rgba(0, 0, 0, .5)); }
+    .handle { font: 600 2.6cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; }
+
+    /* Zoom overlay */
+    .zoomed { position: fixed !important; z-index: 50; left: 50%; top: 50%; translate: -50% -50%; transform: none !important; cursor: zoom-out; box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .85); border-radius: 6px; }
+    .zoomed.r45 { width: min(92vw, calc(90vh * .8)); } .zoomed.r11 { width: min(92vw, 90vh); }
+    .zoomed.r916 { width: min(92vw, calc(92vh * .5625)); } .zoomed.r191 { width: min(94vw, calc(90vh * 1.91)); }
+
+    /* ===== 1. Burger Thursday (4:5) ===== */
+    .bt::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(13, 12, 11, .82) 0%, rgba(13, 12, 11, 0) 38%, rgba(13, 12, 11, 0) 55%, rgba(13, 12, 11, .92) 100%); }
+    .bt .head { position: absolute; top: 5cqw; left: 6cqw; right: 6cqw; display: flex; justify-content: space-between; align-items: flex-start; }
+    .bt .kick { font: 600 3.4cqw var(--f-head); letter-spacing: .28em; color: var(--gold); text-transform: uppercase; }
+    .bt h2 { margin: 1cqw 0 0; font: 700 13cqw/0.86 var(--f-head); text-transform: uppercase; color: var(--parchment); }
+    .bt .price { position: absolute; right: 5cqw; top: 36cqw; width: 30cqw; height: 30cqw; border-radius: 50%; background: var(--gold); color: var(--black); display: grid; place-items: center; transform: rotate(-12deg); box-shadow: 0 2cqw 4cqw rgba(0, 0, 0, .45); }
+    .bt .price b { font: 700 14cqw/1 var(--f-head); margin-top: -1cqw; }
+    .bt .price svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 18s linear infinite; }
+    .bt .price text { font: 600 9.4px var(--f-head); letter-spacing: 2.2px; fill: var(--black); text-transform: uppercase; }
+    .bt .foot { position: absolute; left: 6cqw; right: 6cqw; bottom: 5.5cqw; }
+    .bt .quip { font: italic 700 5.2cqw/1.15 var(--f-script); color: var(--gold-light); margin: 0 0 3.5cqw; max-width: 78cqw; }
+    .bt .row { display: flex; justify-content: space-between; align-items: center; border-top: .3cqw solid rgba(227, 160, 28, .6); padding-top: 3cqw; }
+    .bt .row span { font: 500 2.9cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== 2. Meaty Monday story (9:16) ===== */
+    .mm { background: var(--parchment); color: var(--ink); }
+    .mm .photo { position: absolute; left: 0; right: 0; top: 0; height: 58%; overflow: hidden; }
+    .mm .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .mm .tear { position: absolute; left: -2%; right: -2%; top: 54%; height: 8%; background: var(--parchment); clip-path: polygon(0 40%, 4% 22%, 9% 44%, 14% 18%, 20% 40%, 26% 14%, 31% 38%, 37% 20%, 43% 46%, 49% 16%, 55% 40%, 61% 22%, 67% 44%, 72% 12%, 78% 36%, 84% 20%, 90% 42%, 95% 18%, 100% 34%, 100% 100%, 0 100%); }
+    .mm .live { position: absolute; top: 6cqw; left: 6cqw; display: inline-flex; align-items: center; gap: 2cqw; background: var(--red); color: #fff; font: 700 4cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; padding: 1.6cqw 3.6cqw; border-radius: 1.5cqw; }
+    .mm .live i { width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: #fff; animation: blink 1.2s infinite; }
+    @keyframes blink { 50% { opacity: .2; } }
+    .mm .body { position: absolute; left: 7cqw; right: 7cqw; top: 61%; bottom: 6cqw; display: flex; flex-direction: column; }
+    .mm .kick { font: 600 4cqw var(--f-head); letter-spacing: .3em; color: var(--gold-dark); text-transform: uppercase; }
+    .mm h2 { margin: 1cqw 0 2cqw; font: 700 19cqw/.84 var(--f-head); text-transform: uppercase; }
+    .mm p { margin: 0; font: italic 700 6cqw/1.15 var(--f-script); color: var(--gold-dark); }
+    .mm .stub { margin-top: auto; display: grid; grid-template-columns: 1fr auto; align-items: center; background: var(--black); color: var(--parchment); border-radius: 3cqw; padding: 4cqw 5cqw; -webkit-mask: radial-gradient(circle at 0 50%, transparent 3cqw, #000 3.2cqw) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 3cqw, #000 3.2cqw) right / 51% 100% no-repeat; mask: radial-gradient(circle at 0 50%, transparent 3cqw, #000 3.2cqw) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 3cqw, #000 3.2cqw) right / 51% 100% no-repeat; }
+    .mm .stub b { font: 700 6.4cqw var(--f-head); text-transform: uppercase; display: block; }
+    .mm .stub small { font: 500 3.4cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+    .mm .stub em { font: normal 700 13cqw/1 var(--f-head); color: var(--gold); }
+
+    /* ===== 3. Scoreboard (1:1) ===== */
+    .sb { background: radial-gradient(ellipse at 50% 0%, #2b241a, var(--black) 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6%; }
+    .sb .board { width: 100%; background: #090807; border: 1.4cqw solid #2a2520; border-radius: 3cqw; padding: 4cqw 4cqw 3cqw; box-shadow: inset 0 0 6cqw rgba(0, 0, 0, .9), 0 3cqw 6cqw rgba(0, 0, 0, .6); }
+    .sb .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2cqw; }
+    .sb .team { font: 600 4.2cqw var(--f-head); letter-spacing: .12em; text-transform: uppercase; color: var(--parchment); }
+    .sb .score { font: 30cqw/0.8 var(--f-led); color: var(--gold); text-shadow: 0 0 2cqw rgba(227, 160, 28, .8), 0 0 6cqw rgba(227, 160, 28, .4); background: repeating-linear-gradient(0deg, transparent 0 .6cqw, rgba(0, 0, 0, .35) .6cqw .8cqw); -webkit-background-clip: text; }
+    .sb .score.zero { color: #4a3a22; text-shadow: none; }
+    .sb .vs { font: 8cqw var(--f-led); color: var(--red); animation: blink 1.6s infinite; }
+    .sb .clock { display: flex; justify-content: center; gap: 6cqw; margin-top: 3cqw; font: 6cqw var(--f-led); color: #e0533d; text-shadow: 0 0 1.5cqw rgba(224, 83, 61, .7); }
+    .sb .clock span small { display: block; font: 600 2.4cqw var(--f-head); letter-spacing: .2em; color: rgba(241, 236, 225, .55); text-shadow: none; }
+    .sb h2 { margin: 5cqw 0 1cqw; font: 700 7.6cqw/1 var(--f-head); text-transform: uppercase; }
+    .sb p { margin: 0; font: 500 3.6cqw var(--f-body); color: rgba(241, 236, 225, .7); }
+    .sb .logo-sm { width: 20cqw; margin-top: 4cqw; }
+
+    /* ===== 4. Text message (4:5) ===== */
+    .tx { background: linear-gradient(180deg, #1a1714, #0d0c0b); padding: 0; display: flex; flex-direction: column; }
+    .tx .bar { display: grid; justify-items: center; gap: 1cqw; padding: 3.5cqw 0 2.5cqw; border-bottom: .2cqw solid rgba(241, 236, 225, .12); background: rgba(34, 31, 28, .7); }
+    .tx .avatar { width: 11cqw; height: 11cqw; border-radius: 50%; background: var(--black) url("assets/logo.png") center / 92% no-repeat; border: .4cqw solid var(--gold); }
+    .tx .name { font: 600 3.4cqw var(--f-body); }
+    .tx .thread { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 1.3cqw; padding: 3.5cqw 5cqw 0; }
+    .tx .stamp { align-self: center; font: 500 2.6cqw var(--f-body); color: rgba(241, 236, 225, .45); margin-bottom: 1cqw; }
+    .tx .b { max-width: 72%; padding: 1.9cqw 3.6cqw; border-radius: 5cqw; font: 500 3.7cqw/1.25 var(--f-body); opacity: 0; transform: translateY(2cqw) scale(.96); animation: pop .45s forwards; }
+    .tx .them { align-self: flex-start; background: #2c2824; color: var(--parchment); border-bottom-left-radius: 1.4cqw; }
+    .tx .me { align-self: flex-end; background: var(--gold); color: var(--black); border-bottom-right-radius: 1.4cqw; font-weight: 600; }
+    .tx .pic { padding: 0; overflow: hidden; width: 40%; aspect-ratio: 4 / 3; flex: none; }
+    .tx .pic img { width: 100%; height: 100%; object-fit: cover; }
+    .tx .b:nth-child(2) { animation-delay: .2s; } .tx .b:nth-child(3) { animation-delay: .9s; } .tx .b:nth-child(4) { animation-delay: 1.6s; } .tx .b:nth-child(5) { animation-delay: 2.3s; } .tx .b:nth-child(6) { animation-delay: 3s; } .tx .b:nth-child(7) { animation-delay: 3.7s; }
+    .tx .read { align-self: flex-end; font: 500 2.5cqw var(--f-body); color: rgba(241, 236, 225, .45); opacity: 0; animation: pop .3s 4.2s forwards; }
+    @keyframes pop { to { opacity: 1; transform: none; } }
+    .tx .typing { align-self: flex-start; display: flex; gap: 1cqw; padding: 3cqw 4cqw; background: #2c2824; border-radius: 5cqw; margin-top: .6cqw; opacity: 0; animation: pop .3s 4.4s forwards; }
+    .tx .typing i { width: 1.8cqw; height: 1.8cqw; border-radius: 50%; background: rgba(241, 236, 225, .6); animation: dot 1.2s infinite; }
+    .tx .typing i:nth-child(2) { animation-delay: .15s; } .tx .typing i:nth-child(3) { animation-delay: .3s; }
+    @keyframes dot { 30% { transform: translateY(-1cqw); opacity: 1; } 0%, 60%, 100% { opacity: .5; transform: none; } }
+    .tx .foot { display: flex; justify-content: space-between; align-items: center; padding: 3cqw 5cqw; }
+    .tx .foot .logo-sm { width: 22cqw; }
+
+    /* ===== 5. Brunch polaroids (9:16) ===== */
+    .br { background: var(--parchment); color: var(--ink); background-image: radial-gradient(rgba(168, 116, 26, .12) .35cqw, transparent .4cqw); background-size: 4.5cqw 4.5cqw; }
+    .br .top-txt { position: absolute; top: 7cqw; left: 7cqw; right: 7cqw; }
+    .br .kick { font: 600 3.8cqw var(--f-head); letter-spacing: .3em; color: var(--gold-dark); text-transform: uppercase; }
+    .br h2 { margin: 2cqw 0 0; font: 700 13.5cqw/.86 var(--f-head); text-transform: uppercase; }
+    .br h2 span { color: var(--gold-dark); }
+    .br .pol { position: absolute; background: #fff; padding: 2.4cqw 2.4cqw 9cqw; box-shadow: 0 2cqw 4cqw rgba(27, 24, 21, .25); }
+    .br .pol img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .br .pol figcaption { position: absolute; left: 0; right: 0; bottom: 2.4cqw; text-align: center; font: italic 700 3.6cqw var(--f-script); color: var(--ink); }
+    .br .pol::before { content: ""; position: absolute; top: -2.4cqw; left: 50%; width: 18cqw; height: 5cqw; translate: -50% 0; background: rgba(227, 160, 28, .55); rotate: -3deg; }
+    .br .p1 { width: 44cqw; left: 6cqw; top: 58cqw; rotate: -7deg; }
+    .br .p2 { width: 42cqw; right: 5cqw; top: 76cqw; rotate: 6deg; }
+    .br .p3 { width: 42cqw; left: 20cqw; top: 104cqw; rotate: -2deg; }
+    .br .when { position: absolute; left: 7cqw; right: 7cqw; bottom: 7cqw; display: flex; justify-content: space-between; align-items: flex-end; }
+    .br .when b { display: block; font: 700 11cqw/1 var(--f-head); }
+    .br .when small { font: 600 3.4cqw var(--f-head); letter-spacing: .2em; text-transform: uppercase; color: var(--gold-dark); }
+    .br .when .logo-sm { width: 30cqw; }
+
+    /* ===== 6. Receipt (1:1) ===== */
+    .rc { background: var(--char); display: grid; place-items: center; }
+    .rc .bg { opacity: .45; filter: saturate(1.1); }
+    .rc .paper { width: 60cqw; background: #fbf8f1; color: #222; font: 400 2.6cqw/1.4 var(--f-mono); padding: 4.5cqw 4.5cqw 4cqw; transform: rotate(-3deg); box-shadow: 0 3cqw 6cqw rgba(0, 0, 0, .55); position: relative; -webkit-mask: linear-gradient(#000, #000) top / 100% calc(100% - 2.4cqw) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 3cqw 2.4cqw repeat-x; mask: linear-gradient(#000, #000) top / 100% calc(100% - 2.4cqw) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 3cqw 2.4cqw repeat-x; }
+    .rc .paper img { width: 26cqw; margin: 0 auto 1.4cqw; filter: grayscale(1) contrast(1.3); }
+    .rc .c { text-align: center; }
+    .rc hr { border: 0; border-top: .35cqw dashed #999; margin: 1.4cqw 0; }
+    .rc .ln { display: flex; justify-content: space-between; gap: 2cqw; }
+    .rc .tot { font-weight: 700; font-size: 3.8cqw; }
+    .rc .tot span:last-child { background: var(--gold); padding: 0 1.2cqw; }
+    .rc .bc { height: 6cqw; margin: 2cqw 0 1cqw; background: repeating-linear-gradient(90deg, #222 0 .5cqw, transparent .5cqw .9cqw, #222 .9cqw 1.8cqw, transparent 1.8cqw 2.2cqw, #222 2.2cqw 2.5cqw, transparent 2.5cqw 3.3cqw); }
+    .rc .sticker { position: absolute; right: 6cqw; top: 7cqw; width: 24cqw; height: 24cqw; border-radius: 50%; background: var(--gold); color: var(--black); display: grid; place-items: center; text-align: center; font: 700 4.6cqw/0.95 var(--f-head); text-transform: uppercase; transform: rotate(12deg); box-shadow: 0 1.5cqw 3cqw rgba(0, 0, 0, .5); }
+
+    /* ===== 7. Holiday parties (4:5) ===== */
+    .hp { background: radial-gradient(ellipse at 50% 110%, rgba(179, 38, 43, .55), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(227, 160, 28, .35), transparent 55%), var(--black); padding: 8% 7%; display: flex; flex-direction: column; overflow: hidden; }
+    .hp .confetti i { position: absolute; top: -5cqw; width: 1.6cqw; height: 3cqw; background: var(--gold); animation: fall linear infinite; opacity: .85; }
+    @keyframes fall { to { transform: translateY(140cqw) rotate(540deg); } }
+    .hp .kick { font: 600 3.6cqw var(--f-head); letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+    .hp h2 { margin: 3cqw 0 0; font: 700 14.5cqw/.86 var(--f-head); text-transform: uppercase; }
+    .hp h2 .s { display: block; font: italic 800 11cqw/1 var(--f-script); text-transform: none; color: var(--gold); margin: 1cqw 0; }
+    .hp .card { margin-top: auto; align-self: flex-end; width: 56cqw; aspect-ratio: 1.6; border-radius: 3cqw; padding: 3.6cqw; background: linear-gradient(135deg, #2a2420, #0d0c0b 60%); border: .3cqw solid var(--gold); transform: rotate(-7deg); box-shadow: 0 3cqw 6cqw rgba(0, 0, 0, .6); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .hp .card::before { content: ""; position: absolute; inset: -50%; background: linear-gradient(115deg, transparent 40%, rgba(244, 195, 90, .4) 50%, transparent 60%); animation: shine 3.5s ease-in-out infinite; }
+    @keyframes shine { from { transform: translateX(-40%); } to { transform: translateX(40%); } }
+    .hp .card img { width: 52%; position: relative; }
+    .hp .card span { position: relative; font: 600 2.8cqw var(--f-head); letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+    .hp .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 5cqw; }
+    .hp .foot p { margin: 0; font: 500 3.3cqw/1.4 var(--f-body); color: rgba(241, 236, 225, .8); max-width: 40cqw; }
+    .hp .foot b { color: var(--gold); }
+
+    /* ===== 8. Banner (1.91:1) ===== */
+    .bn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(13, 12, 11, .92) 0%, rgba(13, 12, 11, .55) 55%, rgba(13, 12, 11, .1) 100%); }
+    .bn .copy { position: absolute; left: 5cqw; top: 6cqw; }
+    .bn .copy .logo-sm { width: 15cqw; margin-bottom: 1.5cqw; }
+    .bn h2 { margin: 0; font: 700 9.6cqw/.86 var(--f-head); text-transform: uppercase; }
+    .bn h2 .o { color: transparent; -webkit-text-stroke: .25cqw var(--parchment); }
+    .bn h2 .g { color: var(--gold); }
+    .bn .sub { margin: 1.6cqw 0 0; font: 500 1.9cqw var(--f-body); color: rgba(241, 236, 225, .8); }
+    .bn .cta { display: inline-block; margin-top: 2.4cqw; background: var(--gold); color: var(--black); font: 600 1.8cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; padding: 1.2cqw 2.6cqw; border-radius: .5cqw; box-shadow: 0 .4cqw 0 var(--gold-dark); }
+    .bn .tick { position: absolute; left: 0; right: 0; bottom: 0; background: var(--gold); color: var(--black); overflow: hidden; padding: 1cqw 0; }
+    .bn .tick div { display: flex; gap: 3cqw; width: max-content; animation: tick 18s linear infinite; font: 700 2.2cqw var(--f-head); text-transform: uppercase; letter-spacing: .06em; }
+    .bn .tick span::after { content: "★"; margin-left: 3cqw; }
+    @keyframes tick { to { transform: translateX(-50%); } }
+
+    /* ===== New Menu Drop (1:1) ===== */
+    .dr { background: var(--parchment); color: var(--ink); padding: 6%; display: flex; flex-direction: column; background-image: linear-gradient(rgba(27, 24, 21, .06) .2cqw, transparent .2cqw), linear-gradient(90deg, rgba(27, 24, 21, .06) .2cqw, transparent .2cqw); background-size: 6cqw 6cqw; }
+    .dr-top { display: flex; justify-content: space-between; align-items: center; }
+    .dr-tag { background: var(--black); color: var(--gold); font: 700 3.2cqw var(--f-head); letter-spacing: .2em; text-transform: uppercase; padding: 1.2cqw 2.8cqw; border-radius: 999px; }
+    .dr-date { font: 700 3cqw var(--f-mono); letter-spacing: .06em; }
+    .dr h2 { margin: 4cqw 0 4cqw; font: 700 12.5cqw/.86 var(--f-head); text-transform: uppercase; }
+    .dr h2 span { color: var(--gold-dark); }
+    .dr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.2cqw; }
+    .dr-grid div { position: relative; background: #fff; border: .35cqw solid var(--ink); border-radius: 2cqw; padding: 2.6cqw 3cqw 3cqw; box-shadow: .9cqw .9cqw 0 var(--ink); transition: transform .2s; }
+    .dr-grid div:nth-child(2) { background: var(--gold); }
+    .dr-grid div:nth-child(3) { background: var(--black); color: var(--parchment); }
+    .dr-grid small { display: block; font: 600 2.2cqw var(--f-head); letter-spacing: .2em; text-transform: uppercase; opacity: .65; }
+    .dr-grid b { display: block; font: 700 4.1cqw/1 var(--f-head); text-transform: uppercase; margin-top: .8cqw; padding-right: 8cqw; }
+    .dr-grid em { position: absolute; right: 2.4cqw; top: 2.2cqw; font: normal 700 4.6cqw var(--f-head); }
+    .dr-grid div::after { content: "NEW"; position: absolute; right: -1.6cqw; bottom: -1.6cqw; background: var(--red); color: #fff; font: 700 2.2cqw var(--f-head); letter-spacing: .1em; padding: .6cqw 1.4cqw; border-radius: 999px; transform: rotate(-8deg); animation: wob 2.4s ease-in-out infinite; }
+    .dr-grid div:nth-child(2)::after { animation-delay: .3s; } .dr-grid div:nth-child(3)::after { animation-delay: .6s; } .dr-grid div:nth-child(4)::after { animation-delay: .9s; }
+    @keyframes wob { 0%, 100% { transform: rotate(-8deg) scale(1); } 50% { transform: rotate(4deg) scale(1.12); } }
+    .dr-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 600 2.9cqw var(--f-head); letter-spacing: .1em; text-transform: uppercase; }
+    .dr-foot .logo-sm { width: 20cqw; }
+
+    /* ===== Pick Your Heat (4:5) ===== */
+    .ht::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(13, 12, 11, .88) 0%, rgba(13, 12, 11, .25) 40%, rgba(13, 12, 11, .3) 55%, rgba(13, 12, 11, .95) 100%); }
+    .ht-top { position: absolute; top: 6cqw; left: 6cqw; right: 6cqw; }
+    .ht .kick { font: 600 3.4cqw var(--f-head); letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+    .ht h2 { margin: 1.5cqw 0 0; font: 700 15cqw/.84 var(--f-head); text-transform: uppercase; }
+    .meter { position: absolute; left: 6cqw; right: 6cqw; bottom: 25cqw; }
+    .scale { display: flex; justify-content: space-between; gap: 1cqw; margin-bottom: 2cqw; }
+    .scale span { flex: 1; font: 600 2.3cqw/1.1 var(--f-head); letter-spacing: .04em; text-transform: uppercase; color: rgba(241, 236, 225, .85); text-align: center; }
+    .scale span:first-child { text-align: left; } .scale span:last-child { text-align: right; }
+    .scale .hot { color: #ff5a3c; font-size: 2.8cqw; animation: blink 1s infinite; }
+    .track { position: relative; height: 4cqw; border-radius: 999px; background: linear-gradient(90deg, #f4c35a, #e3a01c 30%, #e0533d 65%, #b3121b); box-shadow: 0 0 4cqw rgba(224, 83, 61, .45); }
+    .needle { position: absolute; top: 50%; width: 7cqw; height: 7cqw; border-radius: 50%; background: var(--parchment); border: 1cqw solid var(--black); translate: -50% -50%; box-shadow: 0 1cqw 2cqw rgba(0, 0, 0, .5); animation: sweep 4s cubic-bezier(.6, 0, .4, 1) infinite; }
+    @keyframes sweep { 0%, 8% { left: 4%; } 70%, 88% { left: 96%; } 100% { left: 4%; } }
+    .ht-foot { position: absolute; left: 6cqw; right: 6cqw; bottom: 6cqw; display: flex; justify-content: space-between; align-items: flex-end; gap: 4cqw; }
+    .ht-foot p { margin: 0; font: 500 3.2cqw/1.4 var(--f-body); color: rgba(241, 236, 225, .8); max-width: 52cqw; }
+    .ht-foot .logo-sm { width: 22cqw; }
+
+    /* ===== 9. Gra-deez Nuts (1:1) ===== */
+    .gn { background: var(--gold); color: var(--black); padding: 7%; display: flex; flex-direction: column; overflow: hidden; }
+    .gn .kick { font: 600 3.4cqw var(--f-head); letter-spacing: .3em; text-transform: uppercase; }
+    .gn h2 { margin: 2cqw 0 0; font: 700 21cqw/.8 var(--f-head); text-transform: uppercase; letter-spacing: -.01em; }
+    .gn h2 span { display: block; color: var(--parchment); -webkit-text-stroke: .5cqw var(--black); }
+    .gn .joke { font: italic 800 7cqw var(--f-script); margin: 3cqw 0 0; rotate: -3deg; transform-origin: left; }
+    .gn .bottom { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 4cqw; }
+    .gn .bottom p { margin: 0; font: 600 3.3cqw/1.4 var(--f-body); max-width: 46cqw; }
+    .gn .tag { width: 25cqw; height: 25cqw; border-radius: 50%; background: var(--black); color: var(--gold); display: grid; place-items: center; font: 700 11cqw var(--f-head); rotate: 10deg; flex: none; }
+    .gn .nut { position: absolute; font: 700 48cqw var(--f-head); color: rgba(13, 12, 11, .06); right: -6cqw; top: 6cqw; line-height: 1; pointer-events: none; }
+
+    /* ===== 10. 21+ ID (9:16) ===== */
+    .id { background: repeating-linear-gradient(135deg, #141210 0 3cqw, #181614 3cqw 6cqw); display: flex; flex-direction: column; justify-content: center; padding: 8%; }
+    .id > * + * { margin-top: 7cqw; }
+    .id .kick { font: 600 4cqw var(--f-head); letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+    .id h2 { margin: 1cqw 0 0; font: 700 15cqw/.86 var(--f-head); text-transform: uppercase; }
+    .id .card { background: linear-gradient(135deg, #f7f1e3, #e3d6b8); color: var(--ink); border-radius: 4cqw; padding: 5cqw; box-shadow: 0 4cqw 8cqw rgba(0, 0, 0, .6); position: relative; overflow: hidden; transform: rotate(-3deg); }
+    .id .card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .55) 45%, rgba(227, 160, 28, .25) 50%, transparent 65%); background-size: 250% 100%; animation: holo 4s ease-in-out infinite; mix-blend-mode: soft-light; }
+    @keyframes holo { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+    .id .card-top { display: flex; justify-content: space-between; align-items: center; border-bottom: .4cqw solid var(--gold-dark); padding-bottom: 2.4cqw; margin-bottom: 3.4cqw; }
+    .id .card-top img { width: 30cqw; }
+    .id .card-top span { font: 700 3.2cqw var(--f-head); letter-spacing: .2em; color: var(--gold-dark); text-transform: uppercase; text-align: right; }
+    .id .card-body { display: grid; grid-template-columns: 26cqw 1fr; gap: 4cqw; }
+    .id .face { aspect-ratio: 3 / 4; border-radius: 2cqw; background: var(--black) url("assets/burger-egg.jpg") center / cover; }
+    .id dl { margin: 0; display: grid; gap: 1.6cqw; }
+    .id dt { font: 600 2.4cqw var(--f-head); letter-spacing: .2em; color: var(--muted); text-transform: uppercase; }
+    .id dd { margin: 0; font: 700 4.6cqw/1.05 var(--f-head); text-transform: uppercase; }
+    .id dd.ok { color: #2e8b4a; }
+    .id p { margin: 11cqw 0 0; font: 500 4cqw/1.45 var(--f-body); color: rgba(241, 236, 225, .78); }
+    .id p b { color: var(--gold); }
+
+    /* ===== 11. Ski Resort Chili (4:5) ===== */
+    .ch { background: linear-gradient(180deg, #23384a 0%, #2c4256 40%, #e9eef2 40.2%, #f7f9fb 100%); color: var(--ink); overflow: hidden; }
+    .ch .mtn { position: absolute; left: -5%; right: -5%; top: 18%; height: 23%; background: #f7f9fb; clip-path: polygon(0 100%, 12% 40%, 20% 62%, 33% 8%, 46% 58%, 56% 30%, 68% 70%, 80% 22%, 92% 60%, 100% 45%, 100% 100%); }
+    .ch .snow i { position: absolute; top: -3cqw; width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #fff; opacity: .9; animation: fall linear infinite; }
+    .ch .top-txt { position: absolute; top: 7cqw; left: 7cqw; right: 7cqw; color: #fff; }
+    .ch .kick { font: 600 3.4cqw var(--f-head); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-light); }
+    .ch .body { position: absolute; left: 7cqw; right: 7cqw; top: 44%; }
+    .ch h2 { margin: 0; font: 700 11.5cqw/.86 var(--f-head); text-transform: uppercase; }
+    .ch h2 span { color: #b3262b; }
+    .ch .s { font: italic 800 6.6cqw var(--f-script); color: var(--gold-dark); margin: 2cqw 0 2.4cqw; }
+    .ch p { margin: 0; font: 500 3.4cqw/1.45 var(--f-body); color: #3a3530; max-width: 58cqw; }
+    .ch .price { position: absolute; right: 7cqw; bottom: 7cqw; width: 24cqw; height: 24cqw; border-radius: 50%; background: #b3262b; color: #fff; display: grid; place-items: center; text-align: center; font: 700 9cqw/0.9 var(--f-head); rotate: -10deg; box-shadow: 0 2cqw 4cqw rgba(0, 0, 0, .25); }
+    .ch .price small { display: block; font-size: 3cqw; letter-spacing: .12em; }
+    .ch .logo-sm { position: absolute; right: 7cqw; top: 5cqw; width: 24cqw; }
+
+    /* ===== 12. Kickoff countdown (9:16) ===== */
+    .ko { background: var(--black); }
+    .ko .bg { opacity: .5; }
+    .ko::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(13, 12, 11, .9) 0%, rgba(13, 12, 11, .2) 45%, rgba(13, 12, 11, .95) 100%); }
+    .ko .inner { position: absolute; inset: 0; padding: 9cqw 7cqw; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .ko .kick { font: 600 4cqw var(--f-head); letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+    .ko h2 { margin: 2cqw 0 0; font: 700 17cqw/.86 var(--f-head); text-transform: uppercase; }
+    .ko .flip { display: flex; gap: 2cqw; margin-top: 8cqw; }
+    .ko .flip span { display: grid; gap: 1.4cqw; }
+    .ko .flip b { position: relative; display: grid; place-items: center; width: 18cqw; height: 22cqw; border-radius: 2cqw; background: linear-gradient(180deg, #2a2622 50%, #1e1b18 50%); font: 700 13cqw/1 var(--f-head); color: var(--parchment); box-shadow: 0 1.5cqw 3cqw rgba(0, 0, 0, .6); }
+    .ko .flip b::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: .4cqw; background: #0d0c0b; }
+    .ko .flip small { font: 600 2.8cqw var(--f-head); letter-spacing: .2em; color: rgba(241, 236, 225, .6); text-transform: uppercase; }
+    .ko .flip .tick-anim { animation: flipit 1s steps(1) infinite; }
+    @keyframes flipit { 0% { transform: rotateX(0); } 8% { transform: rotateX(-90deg); } 16% { transform: rotateX(0); } }
+    .ko .bottom { margin-top: auto; width: 100%; }
+    .ko .deal { display: flex; justify-content: space-between; align-items: center; background: var(--gold); color: var(--black); padding: 4cqw 5cqw; border-radius: 3cqw; text-align: left; }
+    .ko .deal b { font: 700 6.6cqw/1 var(--f-head); text-transform: uppercase; display: block; }
+    .ko .deal small { font: 600 3cqw var(--f-head); letter-spacing: .14em; text-transform: uppercase; }
+    .ko .deal em { font: normal 700 14cqw/1 var(--f-head); }
+    .ko .bottom .handle { display: block; margin-top: 4cqw; color: rgba(241, 236, 225, .7); }
+
+    @media (prefers-reduced-motion: reduce) { .ad *, .ad *::before { animation: none !important; } .tx .b, .tx .read, .tx .typing { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-row">
+      <img src="assets/logo.png" alt="Gradys">
+      <h1>Ad <span>Mockups</span></h1>
+      <div class="chips" role="group" aria-label="Filter by format">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="post" aria-pressed="false">Feed posts</button>
+        <button type="button" data-f="story" aria-pressed="false">Stories</button>
+        <button type="button" data-f="banner" aria-pressed="false">Banners</button>
+      </div>
+    </div>
+  </header>
+  <p class="intro">12 concepts built from real Gradys photos, specials and voice. Click any ad to see it full-screen (handy for screenshots). Some are animated: the sticker spins, the heat meter sweeps, confetti and snow fall, and the kickoff clock counts down.</p>
+
+  <main class="grid">
+
+    <!-- 1 -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>Burger Thursday</b><small>IG post · 4:5</small></div>
+      <div class="ad r45 bt grain">
+        <img class="bg" src="assets/burger-stack.jpg" alt="">
+        <div class="head">
+          <div><div class="kick">Every Thursday</div><h2>Burger<br>Thursday</h2></div>
+        </div>
+        <div class="price">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="c1" d="M50,50 m-40,0 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><text><textPath href="#c1">every burger · all day · every burger · all day ·</textPath></text></svg>
+          <b>$13</b>
+        </div>
+        <div class="foot">
+          <p class="quip">Bison excluded. That bougie bastard does its own thing.</p>
+          <div class="row"><span>+ TNF on every TV</span><img class="logo-sm" src="assets/logo.png" alt="Gradys" style="width:20cqw"></div>
+        </div>
+      </div>
+      <p class="cap">Their own caption voice, with a spinning price sticker.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="slot" data-type="story">
+      <div class="meta"><b>Meaty Monday</b><small>IG story · 9:16</small></div>
+      <div class="ad r916 mm grain">
+        <div class="photo"><img src="assets/steak-sandwich.jpg" alt=""></div>
+        <div class="tear"></div>
+        <span class="live"><i></i>Live · MNF</span>
+        <div class="body">
+          <div class="kick">The flat-top is screaming</div>
+          <h2>Meaty<br>Monday</h2>
+          <p>A new meat-lover's feature every week. Gone when the steak runs out.</p>
+          <div class="stub"><div><b>This week's feature</b><small>Monday Night Football · every screen</small></div><em>$15</em></div>
+        </div>
+      </div>
+      <p class="cap">Torn-paper story with a ticket-stub price.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>Scoreboard</b><small>IG post · 1:1</small></div>
+      <div class="ad r11 sb grain">
+        <div class="board">
+          <div class="teams">
+            <div><div class="team">Gradys</div><div class="score">13</div></div>
+            <div class="vs">VS</div>
+            <div><div class="team">Your couch</div><div class="score zero">00</div></div>
+          </div>
+          <div class="clock"><span>THU<small>Quarter</small></span><span>6:15<small>Kickoff</small></span><span>$13<small>Burgers</small></span></div>
+        </div>
+        <h2>Don't let the couch win.</h2>
+        <p>Every burger $13 all day Thursday. TNF on every TV.</p>
+        <img class="logo-sm" src="assets/logo.png" alt="Gradys">
+      </div>
+      <p class="cap">LED scoreboard: Gradys 13, your couch 0.</p>
+    </div>
+
+    <!-- 4 (new) -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>New Menu Drop</b><small>IG post · 1:1</small></div>
+      <div class="ad r11 dr grain">
+        <div class="dr-top"><span class="dr-tag">Drop 002</span><span class="dr-date">10.29.26 · Midvale</span></div>
+        <h2>New menu<br><span>just dropped.</span></h2>
+        <div class="dr-grid">
+          <div><small>Shareable</small><b>Chorizo Cheese Ball</b><em>12</em></div>
+          <div><small>Shareable</small><b>Jalapeño Popper Wontons</b><em>13</em></div>
+          <div><small>Burger</small><b>Shroom of Doom</b><em>19</em></div>
+          <div><small>Dessert</small><b>Uncrust We Trust Sunday</b><em>13</em></div>
+        </div>
+        <div class="dr-foot"><span>+ Entrées after 4 PM · Ski Resort Chili</span><img class="logo-sm" src="assets/logo.png" alt="Gradys"></div>
+      </div>
+      <p class="cap">Styled like a sneaker or streetwear "drop" to announce the new menu, highlighting four real new items.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="slot" data-type="story">
+      <div class="meta"><b>Weekend Brunch</b><small>IG story · 9:16</small></div>
+      <div class="ad r916 br grain">
+        <div class="top-txt">
+          <div class="kick">Saturday &amp; Sunday</div>
+          <h2>Brunch, beer<br><span>&amp;</span> the early<br>games</h2>
+        </div>
+        <figure class="pol p1"><img src="assets/chilaquiles.jpg" alt=""><figcaption>short rib chilaquiles</figcaption></figure>
+        <figure class="pol p2"><img src="assets/french-toast.jpg" alt=""><figcaption>sourdough french toast</figcaption></figure>
+        <figure class="pol p3"><img src="assets/biscuits-gravy.jpg" alt=""><figcaption>biscuits &amp; gravy</figcaption></figure>
+        <div class="when"><div><small>Served</small><b>11–3</b></div><img class="logo-sm" src="assets/logo.png" alt="Gradys"></div>
+      </div>
+      <p class="cap">Taped polaroids on parchment, matching the menu's paper look.</p>
+    </div>
+
+    <!-- 6 -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>The Receipt</b><small>IG post · 1:1</small></div>
+      <div class="ad r11 rc grain">
+        <img class="bg" src="assets/wings-beer.jpg" alt="">
+        <div class="paper">
+          <img src="assets/logo.png" alt="Gradys">
+          <div class="c">736 W BLUE VISTA LN · MIDVALE<br>ORDER #13 · TABLE: THE BIG BOOTH</div>
+          <hr>
+          <div class="ln"><span>WINGS (INFERNO!!!!)</span><span>17.00</span></div>
+          <div class="ln"><span>COLD BEER</span><span>YES</span></div>
+          <div class="ln"><span>EVERY GAME ON</span><span>0.00</span></div>
+          <div class="ln"><span>BAD FOOTBALL TAKES</span><span>FREE</span></div>
+          <div class="ln"><span>ONE MORE ROUND</span><span>OBVIOUSLY</span></div>
+          <hr>
+          <div class="ln tot"><span>TOTAL</span><span>A GOOD TIME</span></div>
+          <div class="bc"></div>
+          <div class="c">*** 21+ · THANK YOU · COME AGAIN ***</div>
+        </div>
+        <div class="sticker">Cold<br>drinks<br>good<br>eats</div>
+      </div>
+      <p class="cap">A tongue-in-cheek receipt over the wings and beer photo.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>Holiday Parties</b><small>IG post · 4:5</small></div>
+      <div class="ad r45 hp grain">
+        <div class="confetti" aria-hidden="true"></div>
+        <div class="kick">Now booking · 21+</div>
+        <h2>Book your<span class="s">holiday party</span>before your coworkers do.</h2>
+        <div class="card"><img src="assets/logo.png" alt=""><span>Gift card · in stock at the bar</span></div>
+        <div class="foot"><p>DM <b>@gradys_midvale</b> with your date and headcount.</p><span class="handle" style="color:var(--gold)">Midvale, UT</span></div>
+      </div>
+      <p class="cap">Falling confetti and a shiny gift card. Lifted from their "before your coworkers do" line.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="slot wide" data-type="banner">
+      <div class="meta"><b>Cold Drinks. Good Eats.</b><small>Banner / FB link · 1.91:1</small></div>
+      <div class="ad r191 bn grain">
+        <img class="bg" src="assets/interior.webp" alt="">
+        <div class="copy">
+          <img class="logo-sm" src="assets/logo.png" alt="Gradys">
+          <h2><span class="o">Cold drinks.</span><br><span class="g">Good</span> eats.</h2>
+          <p class="sub">Scratch kitchen &amp; sports bar · Midvale, UT · Open daily 11 AM – 1 AM</p>
+          <span class="cta">See the menu</span>
+        </div>
+        <div class="tick"><div>
+          <span>Meaty Monday</span><span>$13 Burger Thursday</span><span>Brunch Sat–Sun 11–3</span><span>Every game on</span><span>Entrées after 4 PM</span><span>21+</span>
+          <span>Meaty Monday</span><span>$13 Burger Thursday</span><span>Brunch Sat–Sun 11–3</span><span>Every game on</span><span>Entrées after 4 PM</span><span>21+</span>
+        </div></div>
+      </div>
+      <p class="cap">Their hashtag as the headline, with a scrolling ticker of specials. Works for a Facebook link ad or a website header.</p>
+    </div>
+
+    <!-- 9 (new) -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>Pick Your Heat</b><small>IG post · 4:5</small></div>
+      <div class="ad r45 ht grain">
+        <img class="bg" src="assets/wings.jpg" alt="">
+        <div class="ht-top"><div class="kick">Wings · $17</div><h2>Pick your<br>heat.</h2></div>
+        <div class="meter">
+          <div class="scale"><span>Gold BBQ</span><span>Buffalo</span><span>Chipotle Cherry</span><span>Fermented Chili Honey</span><span class="hot">INFERNO!!!!</span></div>
+          <div class="track"><i class="needle"></i></div>
+        </div>
+        <div class="ht-foot"><p>Or go dry rub: lemon pepper, blue cheese buffalo or house seasoning.</p><img class="logo-sm" src="assets/logo.png" alt="Gradys"></div>
+      </div>
+      <p class="cap">An animated heat meter that sweeps from Gold BBQ up to INFERNO, using their real wing sauces.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="slot" data-type="story">
+      <div class="meta"><b>Bring Your ID</b><small>IG story · 9:16</small></div>
+      <div class="ad r916 id grain">
+        <div><div class="kick">House rule #1</div><h2>Bring<br>your ID.</h2></div>
+        <div class="card">
+          <div class="card-top"><img src="assets/logo.png" alt=""><span>Official<br>regular</span></div>
+          <div class="card-body">
+            <div class="face" aria-hidden="true"></div>
+            <dl>
+              <div><dt>Name</dt><dd>You</dd></div>
+              <div><dt>Age</dt><dd class="ok">21+ ✓</dd></div>
+              <div><dt>Status</dt><dd>Hungry</dd></div>
+              <div><dt>Team</dt><dd>Whoever's winning</dd></div>
+            </dl>
+          </div>
+        </div>
+        <p>We're a bar. <b>We scan every ID, every day.</b> No ID, no burger. We don't make the rules (okay, we do).</p>
+      </div>
+      <p class="cap">A holographic "regular" ID card that makes the 21+ rule fun instead of a warning.</p>
+    </div>
+
+    <!-- 11 -->
+    <div class="slot" data-type="post">
+      <div class="meta"><b>Ski Resort Chili</b><small>IG post · 4:5</small></div>
+      <div class="ad r45 ch grain">
+        <div class="snow" aria-hidden="true"></div>
+        <div class="mtn"></div>
+        <div class="top-txt"><div class="kick">Now on the menu</div></div>
+        <div class="body">
+          <h2>Après-ski.<br><span>Minus</span> the ski.</h2>
+          <p class="s">Ski Resort Chili</p>
+          <p>Ground beef, braised short rib, kidney beans, sharp white cheddar and pickled Fresno, served in a sourdough bread bowl.</p>
+        </div>
+        <div class="price"><div>$14<small>bread bowl</small></div></div>
+        <img class="logo-sm" src="assets/logo.png" alt="Gradys">
+      </div>
+      <p class="cap">A winter ad for the new chili, with falling snow. No photo needed.</p>
+    </div>
+
+    <!-- 12 -->
+    <div class="slot" data-type="story">
+      <div class="meta"><b>Kickoff Countdown</b><small>IG story · 9:16</small></div>
+      <div class="ad r916 ko grain">
+        <img class="bg" src="assets/pulled-pork-burger.jpg" alt="">
+        <div class="inner">
+          <div class="kick">Thursday Night Football</div>
+          <h2>Kickoff<br>is coming.</h2>
+          <div class="flip">
+            <span><b data-cd="d">0</b><small>days</small></span>
+            <span><b data-cd="h">06</b><small>hrs</small></span>
+            <span><b data-cd="m">15</b><small>min</small></span>
+            <span><b data-cd="s">00</b><small>sec</small></span>
+          </div>
+          <div class="bottom">
+            <div class="deal"><div><b>Every burger</b><small>All day · bison excluded</small></div><em>$13</em></div>
+            <span class="handle">Get in here · @gradys_midvale</span>
+          </div>
+        </div>
+      </div>
+      <p class="cap">A flip-clock countdown with a $13 deal bar. Can run as a "Kickoff is coming" story every Thursday.</p>
+    </div>
+
+  </main>
+
+  <script>
+    // Confetti + snow
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    document.querySelectorAll('.confetti').forEach(c => {
+      c.innerHTML = Array.from({ length: 26 }, () => `<i style="left:${rnd(0, 100)}%;animation-duration:${rnd(4, 9)}s;animation-delay:-${rnd(0, 9)}s;background:${['#e3a01c', '#f4c35a', '#f3eee3', '#b3262b'][Math.floor(rnd(0, 4))]};rotate:${rnd(0, 180)}deg"></i>`).join('');
+    });
+    document.querySelectorAll('.snow').forEach(c => {
+      c.innerHTML = Array.from({ length: 40 }, () => `<i style="left:${rnd(0, 100)}%;animation-duration:${rnd(6, 14)}s;animation-delay:-${rnd(0, 14)}s;scale:${rnd(.5, 1.4)}"></i>`).join('');
+    });
+
+    // Live countdown to the next Thursday 6:15 PM Mountain Time (TNF kickoff)
+    const cd = k => document.querySelector(`[data-cd="${k}"]`);
+    function kickoff() {
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', weekday: 'short', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = t => p.find(x => x.type === t).value;
+      const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday'));
+      const now = +g('hour') * 3600 + +g('minute') * 60 + +g('second');
+      let s = ((4 - day + 7) % 7) * 86400 + (18 * 3600 + 15 * 60) - now;
+      if (s < 0) s += 7 * 86400;
+      const pad = n => String(n).padStart(2, '0');
+      cd('d').textContent = Math.floor(s / 86400);
+      cd('h').textContent = pad(Math.floor(s % 86400 / 3600));
+      cd('m').textContent = pad(Math.floor(s % 3600 / 60));
+      cd('s').textContent = pad(s % 60);
+    }
+    kickoff(); setInterval(kickoff, 1000);
+
+    // Filter chips
+    document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b));
+      document.querySelectorAll('.slot').forEach(s => { s.hidden = b.dataset.f !== 'all' && s.dataset.type !== b.dataset.f; });
+    }));
+
+    // Click to zoom (replays the text-thread animation too)
+    let open = null;
+    const close = () => { if (open) { open.classList.remove('zoomed'); open = null; } };
+    document.querySelectorAll('.ad').forEach(ad => ad.addEventListener('click', e => {
+      e.stopPropagation();
+      if (open === ad) return close();
+      close();
+      ad.classList.add('zoomed'); open = ad;
+      ad.querySelectorAll('.tx .b, .tx .read, .tx .typing').forEach(el => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; });
+    }));
+    document.addEventListener('click', close);
+    addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  </script>
+</body>
+</html>
