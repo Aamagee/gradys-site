@@ -32,7 +32,11 @@
     const y = scrollY;
     header.classList.toggle('scrolled', y > 40);
     const goingDown = y > lastY + 4, goingUp = y < lastY - 4;
-    if (!nav.classList.contains('open')) {
+    // On the full-menu page the header stays put, so the sticky category bar doesn't jump around
+    const menuPage = document.querySelector('[data-page="menu"]');
+    const onMenu = menuPage && !menuPage.hidden;
+    if (onMenu) { header.classList.remove('hidden'); document.body.classList.remove('header-hidden'); }
+    else if (!nav.classList.contains('open')) {
       if (goingDown && y > 500) { header.classList.add('hidden'); document.body.classList.add('header-hidden'); }
       if (goingUp || y < 200) { header.classList.remove('hidden'); document.body.classList.remove('header-hidden'); }
     }
@@ -549,7 +553,11 @@
       catLinks.forEach(a => {
         const on = a.dataset.cat === cat;
         a.classList.toggle('active', on);
-        if (on) a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+        // Slide only the category bar sideways. scrollIntoView() also nudged the page itself and made scrolling jerky
+        if (on) {
+          const row = a.parentElement;
+          row.scrollTo({ left: a.offsetLeft - (row.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+        }
       });
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
@@ -566,7 +574,7 @@
   /* =========================================================
      Scroll reveal
      ========================================================= */
-  const revealSel = '.section-head, .value, .fav-list-wrap > *, .week li, .ticket, .today-line, .countdown, .photo-band-inner > *, .strip-head > *, .mosaic, .collage, .parties-grid > div:last-child, .visit-grid > *, .cta .container > *, .footer-grid > *, .mband-head, .mband-items .item';
+  const revealSel = '.section-head, .value, .fav-list-wrap > *, .week li, .ticket, .today-line, .countdown, .photo-band-inner > *, .strip-head > *, .mosaic, .collage, .parties-grid > div:last-child, .visit-grid > *, .cta .container > *, .footer-grid > *';  // menu items no longer slide in, so text stays still while reading
   const revealEls = $$(revealSel);
   revealEls.forEach(el => {
     el.classList.add('reveal');
