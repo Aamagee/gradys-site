@@ -46,15 +46,31 @@
      GAME DAY
      ========================================================= */
   // Typical broadcast windows in Mountain Time. Matchups change weekly.
+  // Slot = [time, teams[], text]. Teams render as colored badges (team colors + short name;
+  // official logos are trademarks, so we don't use them).
+  const TEAMS = {
+    nfl:     { t: 'NFL',  name: 'NFL',               bg: '#013369', fg: '#ffffff', ring: '#d50a0a' },
+    nba:     { t: 'NBA',  name: 'NBA',               bg: '#1d428a', fg: '#ffffff', ring: '#c8102e' },
+    nhl:     { t: 'NHL',  name: 'NHL',               bg: '#111111', fg: '#ffffff', ring: '#a2aaad' },
+    ncaa:    { t: 'NCAA', name: 'College',           bg: '#005eb8', fg: '#ffffff', ring: '#ffffff' },
+    jazz:    { t: 'JAZZ', name: 'Utah Jazz',         bg: '#4b2a85', fg: '#ffffff', ring: '#111111' },
+    mammoth: { t: 'UTA',  name: 'Utah Mammoth',      bg: '#0b0b0b', fg: '#71afe5', ring: '#71afe5' },
+    utes:    { t: 'U',    name: 'Utah Utes',         bg: '#cc0000', fg: '#ffffff', ring: '#ffffff' },
+    byu:     { t: 'BYU',  name: 'BYU Cougars',       bg: '#002e5d', fg: '#ffffff', ring: '#ffffff' }
+  };
   const WEEK = [
-    { d: 1, name: 'Monday', special: 'Meaty Monday', slots: [['11a', '', 'Doors open · lunch'], ['6:15p', 'NFL', 'Monday Night Football'], ['All night', '', 'Meaty Monday feature until it’s gone']] },
-    { d: 2, name: 'Tuesday', special: 'Full menu', slots: [['11a', '', 'Doors open'], ['Evening', 'NBA', 'Jazz & league games'], ['Evening', 'NHL', 'Mammoth & league games']] },
-    { d: 3, name: 'Wednesday', special: 'Full menu', slots: [['11a', '', 'Doors open'], ['Evening', 'NBA', 'Hoops on the big screens'], ['Evening', 'NHL', 'Hockey on the side screens']] },
-    { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', '', 'Every burger $13 (bison excluded)'], ['6:15p', 'NFL', 'Thursday Night Football'], ['All day', '', 'New feature burger each week']] },
-    { d: 5, name: 'Friday', special: 'Full menu', slots: [['11a', '', 'Doors open'], ['Evening', 'NCAA', 'College hoops & Friday football'], ['Evening', 'NBA', 'Late games till close']] },
-    { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', '', 'Brunch, beer & the early games'], ['All day', 'NCAA', 'College football, every screen'], ['Big games', '', 'We open early (10 AM for the Holy War)']] },
-    { d: 0, name: 'Sunday', special: 'Brunch 11–3', slots: [['11a', 'NFL', 'Early slate + brunch'], ['2:05p', 'NFL', 'Late games'], ['6:20p', 'NFL', 'Sunday Night Football']] }
+    { d: 1, name: 'Monday', special: 'Meaty Monday', slots: [['11a', [], 'Doors open · lunch'], ['6:15p', ['nfl'], 'Monday Night Football'], ['All night', [], 'Meaty Monday feature until it’s gone']] },
+    { d: 2, name: 'Tuesday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['jazz', 'nba'], 'Jazz & NBA games'], ['Evening', ['mammoth', 'nhl'], 'Mammoth & NHL games']] },
+    { d: 3, name: 'Wednesday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['jazz', 'nba'], 'Hoops on the big screens'], ['Evening', ['mammoth', 'nhl'], 'Hockey on the side screens']] },
+    { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', [], 'Every burger $13 (bison excluded)'], ['6:15p', ['nfl'], 'Thursday Night Football'], ['All day', [], 'New feature burger each week']] },
+    { d: 5, name: 'Friday', special: 'Full menu', slots: [['11a', [], 'Doors open'], ['Evening', ['utes', 'byu'], 'College hoops & Friday football'], ['Evening', ['jazz', 'nba'], 'Late games till close']] },
+    { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', [], 'Brunch, beer & the early games'], ['All day', ['utes', 'byu', 'ncaa'], 'College football, every screen'], ['Big games', ['utes', 'byu'], 'We open early (10 AM for the Holy War)']] },
+    { d: 0, name: 'Sunday', special: 'Brunch 11–3', slots: [['11a', ['nfl'], 'Early slate + brunch'], ['2:05p', ['nfl'], 'Late games'], ['6:20p', ['nfl'], 'Sunday Night Football']] }
   ];
+  const badges = teams => teams.length ? `<span class="badges">${teams.map(k => {
+    const t = TEAMS[k]; if (!t) return '';
+    return `<span class="team-badge" title="${t.name}" aria-label="${t.name}" style="--bg:${t.bg};--fg:${t.fg};--ring:${t.ring}">${t.t}</span>`;
+  }).join('')}</span>` : '';
 
   const rail = $('[data-rail]');
   if (rail) {
@@ -62,7 +78,7 @@
     rail.innerHTML = WEEK.map(w => `
       <article class="day-card${w.d === now.day ? ' today' : ''}" data-day="${w.d}">
         <header><h3>${w.name.slice(0, 3)}</h3><span class="day-special">${esc(w.special)}</span></header>
-        <ul>${w.slots.map(([t, lg, txt]) => `<li><time>${t}</time><span>${lg ? `<span class="league">${lg}</span>` : ''}${esc(txt)}</span></li>`).join('')}</ul>
+        <ul>${w.slots.map(([t, teams, txt]) => `<li><time>${t}</time><span class="slot-body">${badges(teams || [])}<span class="slot-text">${esc(txt)}</span></span></li>`).join('')}</ul>
       </article>`).join('');
     const today = $('.day-card.today', rail);
     if (today) requestAnimationFrame(() => rail.scrollTo({ left: today.offsetLeft - rail.offsetLeft - 2, behavior: 'auto' }));
