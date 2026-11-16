@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Design mockups are for the owner only, not for search
+Disallow: /_
+
+Sitemap: https://gradysmidvale.com/sitemap.xml
