@@ -744,3 +744,20 @@ h1 + .script { margin-top: .45em; }
   .rv-track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; padding: 0 16px; }
   .rv-card[aria-hidden="true"] { display: none; }
 }
+
+
+/* Reviews: olive green band + star graphics */
+.reviews.rv-green { background: radial-gradient(ellipse at 50% 0%, rgba(244, 195, 90, .16), transparent 60%), linear-gradient(160deg, var(--olive), var(--olive-2)); color: var(--parchment); }
+.reviews.rv-green h2 { color: var(--parchment); }
+.reviews.rv-green .kicker { color: var(--gold-light); }
+.reviews.rv-green .rv-marquee { -webkit-mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.reviews.rv-green .rv-card { box-shadow: 0 18px 40px rgba(0, 0, 0, .3); }
+.reviews.rv-green .btn-dark { background: var(--gold); color: var(--black); border-color: var(--gold); box-shadow: 0 4px 0 var(--gold-dark); }
+.reviews.rv-green .btn-dark:hover { background: var(--gold-light); border-color: var(--gold-light); }
+.reviews.rv-green .rv-ghost { color: var(--parchment); border-color: rgba(241, 236, 225, .7); }
+.reviews.rv-green .rv-ghost:hover { background: var(--parchment); color: var(--black); }
+.rv-stars { display: inline-flex; gap: 3px; }
+.rv-star { width: 20px; height: 20px; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25)); }
+.rv-stars.big .rv-star { width: 26px; height: 26px; }
+.reviews.rv-green .rv-card { color: var(--ink); }
+.reviews.rv-green .rv-card b { color: var(--ink); }
