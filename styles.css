@@ -718,3 +718,29 @@ h1 + .script { margin-top: .45em; }
   .script { margin-bottom: 1rem; }
   .section-head { margin-bottom: 40px; }
 }
+
+
+/* ==========================================================================
+   Google reviews: rating summary + auto-scrolling review cards
+   ========================================================================== */
+.reviews { overflow: hidden; }
+.rv-summary { display: inline-flex; align-items: center; gap: .7rem; margin-top: .4rem; padding: .6rem 1.1rem; border-radius: 999px; background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,.08); text-decoration: none; color: var(--ink); font-weight: 600; }
+.rv-summary b { font-family: var(--f-head); font-size: 1.6rem; line-height: 1; }
+.rv-summary:hover { box-shadow: 0 10px 28px rgba(0,0,0,.14); }
+.rv-stars { color: var(--gold); letter-spacing: .12em; font-size: 1rem; }
+.rv-stars.big { font-size: 1.15rem; }
+.rv-marquee { overflow: hidden; padding: 10px 0 30px; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.rv-track { display: flex; gap: 20px; width: max-content; animation: marquee 90s linear infinite; }
+.rv-marquee:hover .rv-track, .rv-marquee:focus-within .rv-track { animation-play-state: paused; }
+.rv-card { flex: none; width: 340px; margin: 0; display: flex; flex-direction: column; gap: .8rem; background: #fff; border-radius: var(--radius); padding: 1.5rem 1.6rem; box-shadow: 0 12px 30px rgba(0,0,0,.09); border-top: 4px solid var(--gold); }
+.rv-card blockquote { margin: 0; font-family: var(--f-script); font-style: italic; font-weight: 600; font-size: 1.05rem; line-height: 1.5; color: var(--ink); flex: 1; }
+.rv-card figcaption { display: flex; align-items: center; gap: .6rem; font-size: .9rem; }
+.rv-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--black); color: var(--gold); font-family: var(--f-head); font-weight: 700; }
+.rv-src { margin-left: auto; font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.reviews .rv-ghost { color: var(--ink); border-color: var(--ink); }
+.reviews .rv-ghost:hover { background: var(--ink); color: var(--parchment); }
+@media (max-width: 560px) { .rv-card { width: 280px; } }
+@media (prefers-reduced-motion: reduce) {
+  .rv-track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; padding: 0 16px; }
+  .rv-card[aria-hidden="true"] { display: none; }
+}
