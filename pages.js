@@ -91,7 +91,7 @@
     { d: 3, name: 'Wednesday', special: 'Wing Wednesday', slots: [['11a', [], 'Wing Wednesday all day'], ['Evening', ['jazz', 'nba'], 'Hoops on the big screens'], ['Evening', ['mammoth', 'nhl'], 'Hockey on the side screens']] },
     { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', [], 'Every burger $13 (bison excluded)'], ['6:15p', ['nfl'], 'Thursday Night Football'], ['All day', [], 'New feature burger each week']] },
     { d: 5, name: 'Friday', special: 'Game night', slots: [['11a', [], 'Doors open'], ['Evening', ['utes', 'byu'], 'College hoops & Friday football'], ['Evening', ['jazz', 'nba'], 'Late games till close']] },
-    { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', [], 'Brunch, beer & the early games'], ['All day', ['utes', 'byu', 'ncaa'], 'College football, every screen'], ['Big games', ['utes', 'byu'], 'We open early (10 AM for the Holy War)']] },
+    { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', [], 'Brunch, beer & the early games'], ['All day', ['utes', 'byu', 'ncaa'], 'College football, every screen'], ['Big games', ['utes', 'byu'], 'We open early (10 AM for rivalry games)']] },
     { d: 0, name: 'Sunday', special: 'Brunch 11–3', slots: [['11a', ['nfl'], 'Early slate + brunch'], ['2:05p', ['nfl'], 'Late games'], ['6:20p', ['nfl'], 'Sunday Night Football']] }
   ];
   const badges = teams => teams.length ? `<span class="badges">${teams.map(k => {
