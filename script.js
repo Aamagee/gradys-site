@@ -248,7 +248,7 @@
     const barDay = lateNight ? (now.day + 6) % 7 : now.day;
     const holiday = CLOSED[now.date(lateNight ? -1 : 0)];
     const open = !holiday && (lateNight || now.h >= OPEN[now.day]);
-    $('[data-holiday-bar]').forEach(b => { if (now.stamp >= b.dataset.until) b.remove(); });
+    $$('[data-holiday-bar]').forEach(b => { if (now.stamp >= b.dataset.until) b.remove(); });
 
     // Countdowns (every second)
     const burger = $('[data-countdown="burger"]');
