@@ -364,7 +364,7 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 .serve-times span { font-family: var(--f-head); text-transform: uppercase; font-size: 1.15rem; letter-spacing: .02em; color: var(--parchment); }
 .serve-times small { font-size: .78rem; color: rgba(241, 236, 225, .7); }
 .serve-times li.now { border-color: var(--gold); background: rgba(227, 160, 28, .14); }
-.serve-times li.now::after { content: "Now"; position: absolute; top: .7rem; right: .8rem; background: var(--gold); color: var(--black); font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .62rem; font-weight: 600; padding: .15em .55em; border-radius: 999px; }
+.serve-times li.now::after { content: "Serving now"; position: absolute; top: 0; right: .8rem; transform: translateY(-50%); white-space: nowrap; background: var(--gold); color: var(--black); font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .62rem; font-weight: 600; padding: .15em .55em; border-radius: 999px; }
 @media (max-width: 760px) {
   .serve-times { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .serve-times span { font-size: 1rem; }
