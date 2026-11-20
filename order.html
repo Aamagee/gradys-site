@@ -128,10 +128,13 @@
       const stamp = `${g('year')}-${g('month')}-${g('day')}T${String(h).padStart(2, '0')}:00`;
       document.querySelectorAll('[data-holiday-bar]').forEach(b => { if (stamp >= b.dataset.until) b.remove(); });
       const holiday = CLOSED[barDate];
+      // Full menu until 11 PM (midnight on Sat & Sun nights), then shareables only until 1 AM.
+      const wknd = [0, 6].includes(new Date(barDate + 'T12:00:00Z').getUTCDay());
+      const kitchenOpen = (h < 1 ? 24 : h) < (wknd ? 24 : 23);
       const open = !holiday && (h >= 11 || h < 1);
       const el = document.querySelector('[data-status]');
       el.classList.toggle('closed', !open);
-      el.querySelector('[data-status-text]').textContent = holiday ? `Closed today for ${holiday} · back tomorrow at 11 AM` : open ? 'Open now · until 1 AM' : 'Closed right now · opens at 11 AM';
+      el.querySelector('[data-status-text]').textContent = holiday ? `Closed today for ${holiday} · back tomorrow at 11 AM` : open ? (kitchenOpen ? `Open now · full menu till ${wknd ? 'midnight' : '11 PM'}` : 'Open now · shareables only till 1 AM') : 'Closed right now · opens at 11 AM';
     })();
   </script>
 </body>

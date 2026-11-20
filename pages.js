@@ -89,7 +89,7 @@
     { d: 1, name: 'Monday', special: 'Meaty Monday', slots: [['11a', [], 'Doors open · lunch'], ['6:15p', ['nfl'], 'Monday Night Football'], ['All night', [], 'Meaty Monday feature until it’s gone']] },
     { d: 2, name: 'Tuesday', special: 'Taquito Tuesday', slots: [['11a', [], 'Taquito Tuesday all day'], ['Evening', ['jazz', 'nba'], 'Jazz & NBA games'], ['Evening', ['mammoth', 'nhl'], 'Mammoth & NHL games']] },
     { d: 3, name: 'Wednesday', special: 'Wing Wednesday', slots: [['11a', [], 'Wing Wednesday all day'], ['Evening', ['jazz', 'nba'], 'Hoops on the big screens'], ['Evening', ['mammoth', 'nhl'], 'Hockey on the side screens']] },
-    { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', [], 'Every burger $13 (bison excluded)'], ['6:15p', ['nfl'], 'Thursday Night Football'], ['All day', [], 'New feature burger each week']] },
+    { d: 4, name: 'Thursday', special: '$13 Burger Thursday', slots: [['11a', [], 'Every burger $13 till 11 PM (bison excluded)'], ['6:15p', ['nfl'], 'Thursday Night Football'], ['All day', [], 'New feature burger each week']] },
     { d: 5, name: 'Friday', special: 'Game night', slots: [['11a', [], 'Doors open'], ['Evening', ['utes', 'byu'], 'College hoops & Friday football'], ['Evening', ['jazz', 'nba'], 'Late games till close']] },
     { d: 6, name: 'Saturday', special: 'Brunch 11–3', slots: [['11a', [], 'Brunch, beer & the early games'], ['All day', ['utes', 'byu', 'ncaa'], 'College football, every screen']] },
     { d: 0, name: 'Sunday', special: 'Brunch 11–3', slots: [['11a', ['nfl'], 'Early slate + brunch'], ['2:05p', ['nfl'], 'Late games'], ['6:20p', ['nfl'], 'Sunday Night Football']] }

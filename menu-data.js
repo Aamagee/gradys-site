@@ -9,7 +9,7 @@
    ========================================================================== */
 window.GRADYS_MENU = [
   {
-    id: 'shareables', title: 'Shareables', note: 'Made for the middle of the table.',
+    id: 'shareables', title: 'Shareables', note: 'Made for the middle of the table. The late-night menu: served until 1 AM.',
     img: 'assets/wings.jpg', alt: 'Sticky glazed wings at the bar', print: 1,
     items: [
       { n: 'Chorizo Cheese Ball', p: '12', d: 'House-made chorizo, sharp white cheddar, cream cheese, chives, bacon, candied pecan, honey, crackers, carrots & celery' },
@@ -41,7 +41,7 @@ window.GRADYS_MENU = [
     id: 'burgers', title: 'Burgers', note: 'Chips or fries on the side. Swap in sweet potato tots, onion rings or a house salad +2.',
     img: 'assets/burger-egg.jpg', alt: 'Burger with bacon and a fried egg', print: 2,
     items: [
-      { n: 'Burger Thursday', p: '13', callout: true, d: 'Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.' },
+      { n: 'Burger Thursday', p: '13', callout: true, d: 'Every burger is $13 Thursday until 11 PM (bison excluded), plus a new feature burger each week.' },
       { n: 'Smash Burger*', p: '16', d: 'House blend smash patty, American, iceberg, dill pickle, Pop Off sauce, potato bun' },
       { n: 'The Gradys Way Bison Burger*', p: '24', d: 'Bison patty, white cheddar, crisp bacon, arugula, house-seasoned chips, Stout BBQ, potato bun' },
       { n: 'Fresno Fire Burger*', p: '18', d: 'House blend burger patty, white cheddar, pickled Fresno, almond poblano aioli, iceberg, potato bun' },

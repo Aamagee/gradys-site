@@ -150,6 +150,8 @@
   const OPEN = { 0: 11, 1: 11, 2: 11, 3: 11, 4: 11, 5: 11, 6: 11 };
   const CLOSE = 1; // 1 AM next day
   const BRUNCH = [11, 15];
+  // Full menu until 11 PM (midnight on Sat & Sun nights), then shareables only until 1 AM.
+  const KITCHEN = d => (d === 0 || d === 6) ? 24 : 23;
   // Holiday closures, keyed by bar day (YYYY-MM-DD, Mountain Time). Closed all day, incl. the 12–1 AM tail.
   // The red bar at the top of each page (data-holiday-bar) removes itself after its data-until time.
   const CLOSED = { '2026-11-26': 'Thanksgiving' };
@@ -157,19 +159,19 @@
   const SPECIALS = {
     0: 'Weekend brunch 11 AM – 3 PM + NFL Sunday.',
     1: 'Meaty Monday + Monday Night Football.',
-    2: 'Taquito Tuesday. Full menu 11 AM – 1 AM, entrées after 4 PM.',
-    3: 'Wing Wednesday. Full menu 11 AM – 1 AM, entrées after 4 PM.',
+    2: 'Taquito Tuesday. Full menu till 11 PM, entrées after 4 PM.',
+    3: 'Wing Wednesday. Full menu till 11 PM, entrées after 4 PM.',
     4: 'Burger Thursday: every burger $13 (bison excluded).',
-    5: 'Full menu 11 AM – 1 AM + Friday game night.',
+    5: 'Full menu till 11 PM, shareables till 1 AM + Friday game night.',
     6: 'Weekend brunch 11 AM – 3 PM + college game day.'
   };
   // The gold "today" ticket in the Specials section. Edit specials here.
   const TODAY_TICKET = {
     1: { name: 'Meaty Monday', big: '', sub: 'A new meat-lover’s feature every week, until it’s gone', foot: 'Monday Night Football on every TV', img: 'assets/steak-sandwich.jpg', desc: 'A new meat-lover’s feature every Monday, served until it’s gone, with Monday Night Football on every TV.' },
-    2: { name: 'Taquito Tuesday', big: '', sub: 'Chili-braised short rib taquitos with almond poblano crema', foot: 'Full menu all day · entrées after 4 PM', img: 'assets/taquitos.jpg', desc: 'Chili-braised short rib taquitos with white cheddar, almond poblano crema and chili jus.' },
-    3: { name: 'Wing Wednesday', big: '', sub: 'Pick your sauce, from Gold BBQ all the way up to INFERNO', foot: 'Full menu all day · entrées after 4 PM', img: 'assets/wings.jpg', desc: 'Pick your sauce, from Gold BBQ and Buffalo all the way up to INFERNO, with green goddess ranch.' },
-    4: { name: 'Burger Thursday', big: '$13', sub: 'Every burger, all day (bison excluded)', foot: 'New feature burger each week + TNF', img: 'assets/burger-egg.jpg', desc: 'Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.' },
-    5: { name: 'Game Night', big: '', sub: 'Full menu, 11 AM – 1 AM', foot: 'Friday night games on every screen', img: 'assets/bar-sandwich-tvs.jpg', desc: 'The full menu from 11 AM to 1 AM and Friday night games on every screen.' },
+    2: { name: 'Taquito Tuesday', big: '', sub: 'Chili-braised short rib taquitos with almond poblano crema', foot: 'Full menu till 11 PM · entrées after 4 PM', img: 'assets/taquitos.jpg', desc: 'Chili-braised short rib taquitos with white cheddar, almond poblano crema and chili jus.' },
+    3: { name: 'Wing Wednesday', big: '', sub: 'Pick your sauce, from Gold BBQ all the way up to INFERNO', foot: 'Full menu till 11 PM · entrées after 4 PM', img: 'assets/wings.jpg', desc: 'Pick your sauce, from Gold BBQ and Buffalo all the way up to INFERNO, with green goddess ranch.' },
+    4: { name: 'Burger Thursday', big: '$13', sub: 'Every burger, until 11 PM (bison excluded)', foot: 'New feature burger each week + TNF', img: 'assets/burger-egg.jpg', desc: 'Every burger is $13 Thursday until 11 PM (bison excluded), plus a new feature burger each week.' },
+    5: { name: 'Game Night', big: '', sub: 'Full menu till 11 PM · shareables till 1 AM', foot: 'Friday night games on every screen', img: 'assets/bar-sandwich-tvs.jpg', desc: 'The full menu until 11 PM, shareables until 1 AM, and Friday night games on every screen.' },
     6: { name: 'Weekend Brunch', big: '11–3', sub: 'Brunch, beer & the early games', foot: 'College game day on every TV', img: 'assets/biscuits-gravy.jpg', desc: 'Biscuits & gravy, steak & eggs and chilaquiles from 11 AM to 3 PM, with college game day on every TV.' },
     0: { name: 'Weekend Brunch', big: '11–3', sub: 'Brunch, beer & the early games', foot: 'NFL Sunday on every TV', img: 'assets/biscuits-gravy.jpg', desc: 'Biscuits & gravy, steak & eggs and chilaquiles from 11 AM to 3 PM, with NFL Sunday on every TV.' }
   };
@@ -251,7 +253,7 @@
     // Countdowns (every second)
     const burger = $('[data-countdown="burger"]');
     if (burger) {
-      const live = barDay === 4 && open;
+      const live = barDay === 4 && open && !lateNight && now.h < KITCHEN(4);
       burger.classList.toggle('live', live);
       $('.cd-clock', burger).hidden = live;
       $('.cd-live', burger).hidden = !live;
@@ -276,7 +278,8 @@
     // Status pills
     const tomorrowClosed = !lateNight && CLOSED[now.date(now.h >= OPEN[now.day] ? 1 : 0)];
     const text = holiday ? `Closed today for ${holiday} · back tomorrow at ${fmt(OPEN[(barDay + 1) % 7])}`
-      : open ? (tomorrowClosed ? `Open now · until 1 AM · closed tomorrow for ${tomorrowClosed}` : 'Open now · until 1 AM')
+      : open ? (tomorrowClosed ? `Open now · until 1 AM · closed tomorrow for ${tomorrowClosed}`
+        : (lateNight ? 24 : 0) + now.h < KITCHEN(barDay) ? `Open now · full menu till ${KITCHEN(barDay) === 24 ? 'midnight' : '11 PM'}` : 'Open now · shareables only till 1 AM')
       : `Closed right now · opens today at ${fmt(OPEN[now.day])}`;
     $$('[data-status]').forEach(el => {
       el.classList.toggle('closed', !open);

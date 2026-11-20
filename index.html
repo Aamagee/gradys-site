@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=202611191500">
-  <link rel="stylesheet" href="pages.css?v=202611191500">
+  <link rel="stylesheet" href="styles.css?v=202611191600">
+  <link rel="stylesheet" href="pages.css?v=202611191600">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -309,12 +309,12 @@
             <li class="fav" data-day="4" data-img="assets/burger-egg.jpg" data-cap="Burger Thursday" tabindex="0">
               <div class="fav-row"><h3>Burger Thursday</h3><span class="fav-price">$13</span></div>
               <p class="fav-tag">Thursday</p>
-              <p class="fav-desc">Every burger is $13 all day Thursday (bison excluded), plus a new feature burger each week.</p>
+              <p class="fav-desc">Every burger is $13 Thursday until 11 PM (bison excluded), plus a new feature burger each week.</p>
             </li>
             <li class="fav" data-day="5" data-img="assets/bar-sandwich-tvs.jpg" data-cap="Game Night" tabindex="0">
               <div class="fav-row"><h3>Game Night</h3><span class="fav-price"></span></div>
               <p class="fav-tag">Friday</p>
-              <p class="fav-desc">The full menu from 11 AM to 1 AM and Friday night games on every screen.</p>
+              <p class="fav-desc">The full menu until 11 PM, shareables until 1 AM, and Friday night games on every screen.</p>
             </li>
             <li class="fav" data-day="6" data-img="assets/biscuits-gravy.jpg" data-cap="Weekend Brunch" tabindex="0">
               <div class="fav-row"><h3>Weekend Brunch</h3><span class="fav-price"></span></div>
@@ -369,7 +369,7 @@
           <div class="countdown" data-countdown="burger">
             <p class="cd-label">Next Burger Thursday</p>
             <div class="cd-clock"><span><b data-d>0</b><small>days</small></span><span><b data-h>0</b><small>hrs</small></span><span><b data-m>0</b><small>min</small></span><span><b data-s>0</b><small>sec</small></span></div>
-            <p class="cd-live" hidden>It's on right now: $13 burgers until 1 AM</p>
+            <p class="cd-live" hidden>It's on right now: $13 burgers until 11 PM</p>
           </div>
           <div class="countdown" data-countdown="brunch">
             <p class="cd-label">Next Weekend Brunch</p>
@@ -391,7 +391,7 @@
             <p class="ticket-day" data-tt-day>Thursday</p>
             <h3 data-tt-name>Burger Thursday</h3>
             <p class="ticket-big" data-tt-big>$13</p>
-            <p class="ticket-sub" data-tt-sub>Every burger, all day (bison excluded)</p>
+            <p class="ticket-sub" data-tt-sub>Every burger, until 11 PM (bison excluded)</p>
             <hr>
             <p class="ticket-foot" data-tt-foot>New feature burger each week + TNF</p>
             <p class="ticket-game" data-tt-game aria-live="polite" hidden></p>
@@ -651,13 +651,13 @@
 
         <table class="hours" aria-label="Hours">
           <tbody>
-            <tr data-day="1"><th>Monday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="2"><th>Tuesday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="3"><th>Wednesday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="4"><th>Thursday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="5"><th>Friday</th><td>11 AM – 1 AM</td></tr>
-            <tr data-day="6"><th>Saturday</th><td>11 AM – 1 AM <small>Brunch 11–3</small></td></tr>
-            <tr data-day="0"><th>Sunday</th><td>11 AM – 1 AM <small>Brunch 11–3</small></td></tr>
+            <tr data-day="1"><th>Monday</th><td>11 AM – 1 AM <small>Full menu till 11 PM · shareables till 1</small></td></tr>
+            <tr data-day="2"><th>Tuesday</th><td>11 AM – 1 AM <small>Full menu till 11 PM · shareables till 1</small></td></tr>
+            <tr data-day="3"><th>Wednesday</th><td>11 AM – 1 AM <small>Full menu till 11 PM · shareables till 1</small></td></tr>
+            <tr data-day="4"><th>Thursday</th><td>11 AM – 1 AM <small>Full menu till 11 PM · shareables till 1</small></td></tr>
+            <tr data-day="5"><th>Friday</th><td>11 AM – 1 AM <small>Full menu till 11 PM · shareables till 1</small></td></tr>
+            <tr data-day="6"><th>Saturday</th><td>11 AM – 1 AM <small>Brunch 11–3</small><small>Full menu till midnight · shareables till 1</small></td></tr>
+            <tr data-day="0"><th>Sunday</th><td>11 AM – 1 AM <small>Brunch 11–3</small><small>Full menu till midnight · shareables till 1</small></td></tr>
           </tbody>
         </table>
 
@@ -756,7 +756,7 @@
       </div>
       <div>
         <h4>Hours</h4>
-        <p>Daily 11 AM – 1 AM<br>Brunch Sat–Sun 11 – 3<br>Entrées after 4 PM</p>
+        <p>Daily 11 AM – 1 AM<br>Full menu till 11 PM (midnight Sat–Sun)<br>Shareables only till 1 AM<br>Brunch Sat–Sun 11 – 3<br>Entrées after 4 PM</p>
       </div>
       <div>
         <h4>Explore</h4>
@@ -793,7 +793,7 @@
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
-  <script src="menu-data.js?v=202611191500"></script>
-  <script src="script.js?v=202611191500"></script>
+  <script src="menu-data.js?v=202611191600"></script>
+  <script src="script.js?v=202611191600"></script>
 </body>
 </html>
