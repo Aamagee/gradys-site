@@ -390,3 +390,9 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
   .mhero.mhero-photo::before { left: 0; -webkit-mask-image: none; mask-image: none; }
   .mhero.mhero-photo::after { background: linear-gradient(0deg, var(--black) 10%, rgba(13, 12, 11, .78) 55%, rgba(13, 12, 11, .55)); }
 }
+
+/* ----- Menu page: the sticky category bar overlaps the hero's bottom while it's hidden,
+   so it doesn't leave an empty dark strip under the category pills ----- */
+.page-menu .mhero { padding-bottom: 56px; }
+.page-menu .cat-bar { margin-top: -65px; }
+.page-menu .cat-bar:not(.show) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; pointer-events: none; }
