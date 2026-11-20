@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=202611191700">
-  <link rel="stylesheet" href="pages.css?v=202611191700">
+  <link rel="stylesheet" href="styles.css?v=202611191800">
+  <link rel="stylesheet" href="pages.css?v=202611191800">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -692,13 +692,14 @@
         <p class="kicker">Scratch-made sports bar food</p>
         <h1>The Menu</h1>
         <p class="lead">The new menu just dropped: shareables, soups, burgers, handhelds and entrées after 4 PM. Burgers and handhelds come with house chips or fries.</p>
+        <ul class="serve-times" aria-label="What's served when">
+          <li data-serve="full"><b>Full Menu</b><span>11 AM – 11 PM</span><small>Sat &amp; Sun till midnight</small></li>
+          <li data-serve="entrees"><b>Entrées</b><span>After 4 PM</span><small>Until the kitchen closes</small></li>
+          <li data-serve="brunch"><b>Brunch</b><span>11 AM – 3 PM</span><small>Saturday &amp; Sunday</small></li>
+          <li data-serve="late"><b>Late Night</b><span>Shareables only</span><small>11 PM – 1 AM · Sat &amp; Sun 12 – 1 AM</small></li>
+        </ul>
         <p class="menu-legend"><abbr class="diet" title="Vegetarian">V</abbr> Vegetarian <abbr class="diet" title="Vegan">VG</abbr> Vegan <a class="print-link" href="print.html">Print / save as PDF ↗</a></p>
         <div class="actions"><a href="order.html" class="btn" data-order>Order Online</a></div>
-        <div class="menu-search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          <input type="search" placeholder="Search the menu… try “short rib” or “bacon”" aria-label="Search the menu" data-menu-search autocomplete="off">
-          <button type="button" class="search-clear" data-search-clear aria-label="Clear search" hidden>×</button>
-        </div>
         <nav class="cat-pills" aria-label="Menu categories">
           <a href="#full-menu/shareables" data-cat="shareables">Shareables</a>
           <a href="#full-menu/salads" data-cat="salads">Soups &amp; Salads</a>
@@ -793,7 +794,7 @@
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 
-  <script src="menu-data.js?v=202611191700"></script>
-  <script src="script.js?v=202611191700"></script>
+  <script src="menu-data.js?v=202611191800"></script>
+  <script src="script.js?v=202611191800"></script>
 </body>
 </html>

@@ -304,6 +304,11 @@
     const favWeek = $('[data-fav-week]');
     if (favWeek && !favWeek.dataset.day) { favWeek.dataset.day = barDay; setFavWeek(barDay); }
 
+    // Menu page: tag what the kitchen is serving right now
+    const barH = (lateNight ? 24 : 0) + now.h, full = open && barH < KITCHEN(barDay);
+    const serving = { full, entrees: full && barH >= 16, brunch: open && isWeekend(barDay) && barH >= BRUNCH[0] && barH < BRUNCH[1], late: open && !full };
+    $$('[data-serve]').forEach(el => el.classList.toggle('now', !!serving[el.dataset.serve]));
+
     // Today highlights
     $$('.week li, .hours tr').forEach(el => el.classList.toggle('today', +el.dataset.day === barDay));
     const tn = $('[data-today-name]'); if (tn) tn.textContent = DAYS[barDay];
