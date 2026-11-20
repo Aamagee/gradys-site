@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=202611191800">
-  <link rel="stylesheet" href="pages.css?v=202611192030">
+  <link rel="stylesheet" href="pages.css?v=202611192100">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -186,7 +186,7 @@
         <a href="#full-menu" data-nav="menu">Menu</a>
         <a href="order.html" class="nav-order" data-nav="order">Order Online</a>
         <a href="https://www.toasttab.com/gradys-736-w-blue-vista-ln/rewardsSignup" target="_blank" rel="noopener" data-nav="rewards">Rewards</a>
-        <a href="#weekly">Specials</a>
+        <a href="#favorites">Specials</a>
         <a href="game-day.html" data-nav="page">Game Day</a>
         <a href="events.html" data-nav="page">Events</a>
         <a href="our-story.html" data-nav="page">Our Story</a>
@@ -344,67 +344,20 @@
       </div>
     </section>
 
-    <!-- ===== Weekly specials ===== -->
-    <section class="band band-black weekly" id="weekly">
+    <!-- ===== What's serving now (same light-up cards as the menu page; script.js lights the live ones) ===== -->
+    <section class="band band-black serving-home" id="serving">
       <div class="container">
         <div class="section-head center">
-          <p class="kicker">Every Week</p>
-          <h2>Specials &amp; Game Days</h2>
-          <p class="script">plan your week around it</p>
+          <p class="kicker">Kitchen Hours</p>
+          <h2>What's Cooking Now</h2>
+          <p class="script">lit up means it's on</p>
         </div>
-
-        <!-- TODO: confirm with client which weekly specials are ongoing -->
-        <p class="today-line" data-today-line><span class="pill" data-today-name>Today</span> <span data-today-text>Open daily until 1 AM.</span></p>
-        <ol class="week" role="list">
-          <li data-day="1"><small>Mon</small><b>Meaty Monday</b><span>+ MNF</span></li>
-          <li data-day="2"><small>Tue</small><b>Taquito Tuesday</b><span>11a–1a</span></li>
-          <li data-day="3"><small>Wed</small><b>Wing Wednesday</b><span>11a–1a</span></li>
-          <li data-day="4"><small>Thu</small><b>Burger Thursday</b><span>$13 + TNF</span></li>
-          <li data-day="5"><small>Fri</small><b>Full Menu</b><span>+ game night</span></li>
-          <li data-day="6"><small>Sat</small><b>Brunch</b><span>11a–3p + CFB</span></li>
-          <li data-day="0"><small>Sun</small><b>Brunch</b><span>11a–3p + NFL</span></li>
-        </ol>
-
-        <div class="countdowns">
-          <div class="countdown" data-countdown="burger">
-            <p class="cd-label">Next Burger Thursday</p>
-            <div class="cd-clock"><span><b data-d>0</b><small>days</small></span><span><b data-h>0</b><small>hrs</small></span><span><b data-m>0</b><small>min</small></span><span><b data-s>0</b><small>sec</small></span></div>
-            <p class="cd-live" hidden>It's on right now: $13 burgers until 11 PM</p>
-          </div>
-          <div class="countdown" data-countdown="brunch">
-            <p class="cd-label">Next Weekend Brunch</p>
-            <div class="cd-clock"><span><b data-d>0</b><small>days</small></span><span><b data-h>0</b><small>hrs</small></span><span><b data-m>0</b><small>min</small></span><span><b data-s>0</b><small>sec</small></span></div>
-            <p class="cd-live" hidden>Brunch is being served until 3 PM</p>
-          </div>
-        </div>
-
-        <div class="tickets">
-          <article class="ticket">
-            <p class="ticket-day">Monday</p>
-            <h3>Meaty Monday</h3>
-            <p class="ticket-sub">A new meat-lover's special every week</p>
-            <hr>
-            <p class="ticket-foot">Monday Night Football on every TV</p>
-          </article>
-          <!-- Gold ticket switches to today's special every day (Mountain Time) — see TODAY_TICKET in script.js -->
-          <article class="ticket ticket-gold" data-today-ticket>
-            <p class="ticket-day" data-tt-day>Thursday</p>
-            <h3 data-tt-name>Burger Thursday</h3>
-            <p class="ticket-big" data-tt-big>$13</p>
-            <p class="ticket-sub" data-tt-sub>Every burger, until 11 PM (bison excluded)</p>
-            <hr>
-            <p class="ticket-foot" data-tt-foot>New feature burger each week + TNF</p>
-            <p class="ticket-game" data-tt-game aria-live="polite" hidden></p>
-            <p class="tt-next" data-tt-next></p>
-          </article>
-          <article class="ticket">
-            <p class="ticket-day">Saturday &amp; Sunday</p>
-            <h3>Weekend Brunch</h3>
-            <p class="ticket-sub">11 AM – 3 PM</p>
-            <hr>
-            <p class="ticket-foot">College game days &amp; brunch with beer</p>
-          </article>
-        </div>
+        <ul class="serve-times" aria-label="What's served when">
+          <li data-serve="full"><b>Full Menu</b><span>11 AM – 11 PM</span><small>Sat &amp; Sun till midnight</small></li>
+          <li data-serve="entrees"><b>Entrées</b><span>After 4 PM</span><small>Until the kitchen closes</small></li>
+          <li data-serve="brunch"><b>Brunch</b><span>11 AM – 3 PM</span><small>Saturday &amp; Sunday</small></li>
+          <li data-serve="late"><b>Late Night</b><span>Shareables only</span><small>11 PM – 1 AM · Sat &amp; Sun 12 – 1 AM</small></li>
+        </ul>
       </div>
     </section>
 
@@ -778,7 +731,7 @@
   <nav class="mobile-bar" aria-label="Quick actions">
     <a href="#full-menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Menu</a>
     <a href="https://www.google.com/maps/search/?api=1&query=736+W+Blue+Vista+Ln+%23200+Midvale+UT+84047" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>Directions</a>
-    <a href="#weekly"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Specials</a>
+    <a href="#favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Specials</a>
     <a href="order.html" class="mb-cta" data-order><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Order</a>
   </nav>
 

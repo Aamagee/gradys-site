@@ -396,3 +396,6 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 .page-menu .mhero { padding-bottom: 56px; }
 .page-menu .cat-bar { margin-top: -65px; }
 .page-menu .cat-bar:not(.show) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; pointer-events: none; }
+
+/* ----- Home: "What's Cooking Now" band (replaced the red Specials & Game Days band) ----- */
+.serving-home .serve-times { margin: 2.2rem auto 0; max-width: 980px; }
