@@ -399,3 +399,20 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 
 /* ----- Home: "What's Cooking Now" band (replaced the red Specials & Game Days band) ----- */
 .serving-home .serve-times { margin: 2.2rem auto 0; max-width: 860px; }
+
+/* ----- Serving cards are links to that part of the menu (whole card clickable) ----- */
+.serve-link { display: flex; flex-direction: column; gap: .15rem; color: inherit; text-decoration: none; }
+.serve-link::before { content: ""; position: absolute; inset: 0; border-radius: 10px; z-index: 1; }
+.serve-times li { cursor: pointer; transition: box-shadow .4s, border-color .25s, transform .25s; }
+.serve-times li:hover, .serve-times li:focus-within { border-color: var(--gold); transform: translateY(-2px); }
+.serve-link:focus-visible { outline: none; }
+.serve-times li:focus-within { outline: 2px solid var(--gold); outline-offset: 3px; }
+.serve-go { position: relative; font-style: normal; font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .66rem; color: var(--gold); margin-top: .45rem; opacity: .85; transition: opacity .25s, transform .25s; }
+.serve-times li:hover .serve-go { opacity: 1; transform: translateX(3px); }
+@media (max-width: 760px) {
+  .serve-times { gap: .6rem; }
+  .serve-times li { padding: .95rem 1.15rem; }
+  .serve-times span { font-size: 1rem; }
+  .serve-go { margin-top: .3rem; }
+  .serve-times li.now::after { margin-top: .35rem; }
+}
