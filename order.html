@@ -36,6 +36,8 @@
     .script { font-family: var(--f-script); font-style: italic; font-weight: 700; color: var(--gold); font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 0; }
     .status { display: inline-flex; align-items: center; gap: .6em; margin-top: 1.2rem; font-weight: 600; font-size: .95rem; background: rgba(0,0,0,.35); border: 1px solid var(--line); padding: .45em 1em; border-radius: 999px; }
     .dot { width: 10px; height: 10px; border-radius: 50%; background: #4cc76a; box-shadow: 0 0 0 4px rgba(76,199,106,.25); }
+    .holiday-note { text-align: center; background: #b8321f; color: #fff; font-family: var(--f-head); text-transform: uppercase; letter-spacing: .1em; font-size: .85rem; padding: .6em 1em; }
+    .holiday-note b { font-weight: 700; }
     .status.closed .dot { background: #e0533d; box-shadow: 0 0 0 4px rgba(224,83,61,.25); }
 
     .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -66,6 +68,7 @@
   </style>
 </head>
 <body>
+  <div class="holiday-note" data-holiday-bar data-until="2026-11-27T01:00"><b>Closed Thanksgiving Day</b> &middot; Thu, Nov 26 &middot; Back Friday at 11 AM</div>
   <header class="top">
     <a href="index.html" aria-label="Gradys home"><img src="assets/logo.png" alt="Gradys" width="700" height="350"></a>
     <a class="back" href="index.html">← Back to site</a>
@@ -116,12 +119,19 @@
   <script>
     // Live open/closed status (Mountain Time). Open daily 11 AM – 1 AM.
     (() => {
-      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', hour: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
-      const h = +p.find(x => x.type === 'hour').value;
-      const open = h >= 11 || h < 1;
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const g = t => p.find(x => x.type === t).value;
+      const h = +g('hour');
+      // Holiday closures by bar day (Mountain Time); 12–1 AM still counts as the previous day.
+      const CLOSED = { '2026-11-26': 'Thanksgiving' };
+      const barDate = new Date(Date.UTC(+g('year'), +g('month') - 1, +g('day') - (h < 1 ? 1 : 0))).toISOString().slice(0, 10);
+      const stamp = `${g('year')}-${g('month')}-${g('day')}T${String(h).padStart(2, '0')}:00`;
+      document.querySelectorAll('[data-holiday-bar]').forEach(b => { if (stamp >= b.dataset.until) b.remove(); });
+      const holiday = CLOSED[barDate];
+      const open = !holiday && (h >= 11 || h < 1);
       const el = document.querySelector('[data-status]');
       el.classList.toggle('closed', !open);
-      el.querySelector('[data-status-text]').textContent = open ? 'Open now · until 1 AM' : 'Closed right now · opens at 11 AM';
+      el.querySelector('[data-status-text]').textContent = holiday ? `Closed today for ${holiday} · back tomorrow at 11 AM` : open ? 'Open now · until 1 AM' : 'Closed right now · opens at 11 AM';
     })();
   </script>
 </body>

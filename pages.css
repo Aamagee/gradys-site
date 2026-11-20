@@ -342,3 +342,17 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .fav .fav-game { margin: .7rem 0 0; background: var(--gold); color: var(--black); }
 .fav .fav-game .tg-tag { background: var(--black); color: var(--gold); }
 .fav.is-today .fav-tag { color: var(--gold); }
+
+/* ----- Holiday closure bar (top of the fixed header; script.js removes it after data-until) ----- */
+:root { --hb: 0px; }
+body:has([data-holiday-bar]) { --hb: 34px; }
+body:has([data-holiday-bar]) { --header-h: calc(116px + var(--hb)); }
+html:has([data-holiday-bar]) { scroll-padding-top: calc(84px + 34px); }
+.holiday-bar { height: var(--hb); display: flex; align-items: center; justify-content: center; gap: .5em; padding: 0 16px; background: #b8321f; color: #fff; font-family: var(--f-head); text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; white-space: nowrap; overflow: hidden; position: relative; z-index: 1; }
+.holiday-bar b { font-weight: 700; }
+.holiday-bar .hb-sep { opacity: .7; }
+body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
+@media (max-width: 640px) {
+  .holiday-bar { font-size: .72rem; letter-spacing: .06em; }
+  .holiday-bar .hb-more { display: none; }
+}

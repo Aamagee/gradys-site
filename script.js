@@ -150,6 +150,9 @@
   const OPEN = { 0: 11, 1: 11, 2: 11, 3: 11, 4: 11, 5: 11, 6: 11 };
   const CLOSE = 1; // 1 AM next day
   const BRUNCH = [11, 15];
+  // Holiday closures, keyed by bar day (YYYY-MM-DD, Mountain Time). Closed all day, incl. the 12–1 AM tail.
+  // The red bar at the top of each page (data-holiday-bar) removes itself after its data-until time.
+  const CLOSED = { '2026-11-26': 'Thanksgiving' };
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const SPECIALS = {
     0: 'Weekend brunch 11 AM – 3 PM + NFL Sunday.',
@@ -196,11 +199,14 @@
   const isWeekend = d => d === 0 || d === 6;
 
   function mountainNow() {
-    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', weekday: 'short', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
     const get = t => parts.find(p => p.type === t).value;
     const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
     const h = +get('hour'), m = +get('minute'), s = +get('second');
-    return { day, h, m, s, secs: h * 3600 + m * 60 + s };
+    const y = +get('year'), mo = +get('month'), dd = +get('day');
+    const date = (offset = 0) => new Date(Date.UTC(y, mo - 1, dd + offset)).toISOString().slice(0, 10);
+    const stamp = `${date()}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    return { day, h, m, s, secs: h * 3600 + m * 60 + s, date, stamp };
   }
 
   // --- Dial geometry (24h ring, midnight at top) ---
@@ -238,7 +244,9 @@
     const now = mountainNow();
     const lateNight = now.h < CLOSE;                 // 12–1 AM still counts as previous bar day
     const barDay = lateNight ? (now.day + 6) % 7 : now.day;
-    const open = lateNight || now.h >= OPEN[now.day];
+    const holiday = CLOSED[now.date(lateNight ? -1 : 0)];
+    const open = !holiday && (lateNight || now.h >= OPEN[now.day]);
+    $('[data-holiday-bar]').forEach(b => { if (now.stamp >= b.dataset.until) b.remove(); });
 
     // Countdowns (every second)
     const burger = $('[data-countdown="burger"]');
@@ -247,7 +255,11 @@
       burger.classList.toggle('live', live);
       $('.cd-clock', burger).hidden = live;
       $('.cd-live', burger).hidden = !live;
-      if (!live) setClock(burger, untilNext(now, 4, OPEN[4]));
+      if (!live) {
+        let secs = untilNext(now, 4, OPEN[4]);
+        if (CLOSED[now.date(Math.floor((now.secs + secs) / 86400))]) secs += 7 * 86400; // skip a closed Thursday
+        setClock(burger, secs);
+      }
     }
     const brunch = $('[data-countdown="brunch"]');
     if (brunch) {
@@ -262,7 +274,10 @@
     lastMinute = now.m;
 
     // Status pills
-    const text = open ? 'Open now · until 1 AM' : `Closed right now · opens today at ${fmt(OPEN[now.day])}`;
+    const tomorrowClosed = !lateNight && CLOSED[now.date(now.h >= OPEN[now.day] ? 1 : 0)];
+    const text = holiday ? `Closed today for ${holiday} · back tomorrow at ${fmt(OPEN[(barDay + 1) % 7])}`
+      : open ? (tomorrowClosed ? `Open now · until 1 AM · closed tomorrow for ${tomorrowClosed}` : 'Open now · until 1 AM')
+      : `Closed right now · opens today at ${fmt(OPEN[now.day])}`;
     $$('[data-status]').forEach(el => {
       el.classList.toggle('closed', !open);
       $('[data-status-text]', el).textContent = text;
@@ -270,9 +285,10 @@
 
     // Gold ticket = today's special
     const gt = $('[data-today-ticket]');
-    if (gt && gt.dataset.day !== String(barDay)) {
-      const t = TODAY_TICKET[barDay];
-      gt.dataset.day = barDay;
+    const ttKey = holiday ? 'h' + barDay : String(barDay);
+    if (gt && gt.dataset.day !== ttKey) {
+      const t = holiday ? { name: `Closed for ${holiday}`, big: '', sub: 'The whole crew is home with family today', foot: `Back tomorrow at ${fmt(OPEN[(barDay + 1) % 7])}` } : TODAY_TICKET[barDay];
+      gt.dataset.day = ttKey;
       $('[data-tt-day]', gt).textContent = `Today · ${DAYS[barDay]}`;
       $('[data-tt-name]', gt).textContent = t.name;
       const big = $('[data-tt-big]', gt); big.textContent = t.big; big.hidden = !t.big;
@@ -294,12 +310,12 @@
     // Dial
     const openD = $('[data-dial-open]');
     if (openD) {
-      openD.setAttribute('d', arc(OPEN[barDay], 24 + CLOSE));
+      openD.setAttribute('d', holiday ? '' : arc(OPEN[barDay], 24 + CLOSE));
       const br = $('[data-dial-brunch]');
-      br.setAttribute('d', isWeekend(barDay) ? arc(BRUNCH[0], BRUNCH[1]) : '');
+      br.setAttribute('d', !holiday && isWeekend(barDay) ? arc(BRUNCH[0], BRUNCH[1]) : '');
       $('[data-dial-day]').textContent = DAYS[barDay];
-      $('[data-dial-hours]').textContent = `${fmt(OPEN[barDay])} – 1 AM`;
-      $('[data-dial-extra]').textContent = isWeekend(barDay) ? 'Brunch 11 AM – 3 PM' : (barDay === 5 ? 'Game night' : TODAY_TICKET[barDay].name);
+      $('[data-dial-hours]').textContent = holiday ? 'Closed today' : `${fmt(OPEN[barDay])} – 1 AM`;
+      $('[data-dial-extra]').textContent = holiday ? `Happy ${holiday}!` : isWeekend(barDay) ? 'Brunch 11 AM – 3 PM' : (barDay === 5 ? 'Game night' : TODAY_TICKET[barDay].name);
       const [nx, ny] = pt(now.h + now.m / 60);
       ['[data-dial-now]', '[data-dial-glow]'].forEach(s => { const c = $(s); c.setAttribute('cx', nx.toFixed(1)); c.setAttribute('cy', ny.toFixed(1)); });
     }
