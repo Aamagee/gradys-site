@@ -358,13 +358,23 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 }
 
 /* ----- Menu page: what's served when (script.js tags the live one with .now) ----- */
-.serve-times { list-style: none; padding: 0; margin: 1.4rem 0 1.2rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; max-width: 860px; }
-.serve-times li { position: relative; display: flex; flex-direction: column; gap: .15rem; padding: .8rem 1rem; border: 1px solid rgba(227, 160, 28, .35); border-radius: 10px; background: rgba(13, 12, 11, .55); backdrop-filter: blur(4px); }
+.serve-times { list-style: none; padding: 0; margin: 1.4rem 0 1.2rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; max-width: 880px; }
+/* Each box is a little marquee sign: bulbs light up and chase while that menu is being served, and sit dark when it isn't */
+.serve-times li { position: relative; display: flex; flex-direction: column; gap: .15rem; padding: 1.25rem 1.35rem; border: 3px solid #3d2c13; border-radius: 12px; background: linear-gradient(#1c130a, #0e0a06); box-shadow: inset 0 0 30px rgba(0, 0, 0, .8); transition: box-shadow .4s; }
+.serve-times b, .serve-times span, .serve-times small { position: relative; transition: opacity .4s; }
+.serve-times li:not(.now) b, .serve-times li:not(.now) span, .serve-times li:not(.now) small { opacity: .5; }
 .serve-times b { font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 600; color: var(--gold); }
 .serve-times span { font-family: var(--f-head); text-transform: uppercase; font-size: 1.15rem; letter-spacing: .02em; color: var(--parchment); }
 .serve-times small { font-size: .78rem; color: rgba(241, 236, 225, .7); }
-.serve-times li.now { border-color: var(--gold); background: rgba(227, 160, 28, .14); }
-.serve-times li.now::after { content: "Serving now"; position: absolute; top: 0; right: .8rem; transform: translateY(-50%); white-space: nowrap; background: var(--gold); color: var(--black); font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .62rem; font-weight: 600; padding: .15em .55em; border-radius: 999px; }
+.serve-times li.now { box-shadow: inset 0 0 30px rgba(0, 0, 0, .8), 0 0 28px rgba(227, 160, 28, .22); }
+.serve-times li.now::after { content: "Serving now"; position: relative; align-self: flex-start; margin-top: .45rem; white-space: nowrap; background: var(--gold); color: var(--black); font-family: var(--f-head); text-transform: uppercase; letter-spacing: .12em; font-size: .62rem; font-weight: 600; padding: .15em .6em; border-radius: 999px; }
+.serve-bulbs { position: absolute; inset: 6px; pointer-events: none; }
+.serve-bulbs i { position: absolute; width: 6px; height: 6px; border-radius: 50%; transform: translate(-50%, -50%); background: #4a3612; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, .6); transition: background .3s, box-shadow .3s; }
+.serve-times li.now .serve-bulbs i { background: #fff4c9; box-shadow: 0 0 4px #fff1b8, 0 0 9px #f4c35a, 0 0 16px #e3a01c; animation: serveChase .9s var(--chase) infinite; }
+@keyframes serveChase {
+  0%, 100% { background: #fff4c9; box-shadow: 0 0 4px #fff1b8, 0 0 9px #f4c35a, 0 0 16px #e3a01c; }
+  50% { background: #6a4d16; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, .5); } }
+@media (prefers-reduced-motion: reduce) { .serve-times li.now .serve-bulbs i { animation: none; } }
 @media (max-width: 760px) {
   .serve-times { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .serve-times span { font-size: 1rem; }

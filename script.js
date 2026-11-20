@@ -241,6 +241,27 @@
     $('[data-s]', el).textContent = String(s).padStart(2, '0');
   }
 
+  // Menu page "what's served when" boxes: a ring of marquee bulbs (~every 18px) around each box.
+  // CSS lights them and makes them chase when the box has .now; otherwise they sit dark.
+  function serveBulbs(li) {
+    const ring = $('.serve-bulbs', li) || li.appendChild(Object.assign(document.createElement('div'), { className: 'serve-bulbs' }));
+    ring.setAttribute('aria-hidden', 'true');
+    const w = ring.clientWidth, h = ring.clientHeight;
+    if (!w || !h) return;
+    const nx = Math.max(2, Math.round(w / 18)), ny = Math.max(1, Math.round(h / 18));
+    const pts = [];
+    for (let i = 0; i <= nx; i++) pts.push([i / nx * 100, 0]);
+    for (let i = 1; i <= ny; i++) pts.push([100, i / ny * 100]);
+    for (let i = nx - 1; i >= 0; i--) pts.push([i / nx * 100, 100]);
+    for (let i = ny - 1; i >= 1; i--) pts.push([0, i / ny * 100]);
+    ring.innerHTML = pts.map(([x, y], i) => `<i style="left:${x}%;top:${y}%;--chase:${i % 2 ? '-.45s' : '0s'}"></i>`).join('');
+  }
+  const serveBoxes = $$('[data-serve]');
+  if (serveBoxes.length) {
+    const ro = new ResizeObserver(entries => entries.forEach(en => serveBulbs(en.target)));
+    serveBoxes.forEach(li => ro.observe(li));
+  }
+
   let lastMinute = -1;
   function tick() {
     const now = mountainNow();
