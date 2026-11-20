@@ -358,7 +358,7 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 }
 
 /* ----- Menu page: what's served when (script.js tags the live one with .now) ----- */
-.serve-times { list-style: none; padding: 0; margin: 1.4rem 0 1.2rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; max-width: 880px; }
+.serve-times { list-style: none; padding: 0; margin: 1.4rem 0 1.2rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; max-width: 760px; }
 /* Each box is a little marquee sign: bulbs light up and chase while that menu is being served, and sit dark when it isn't */
 .serve-times li { position: relative; display: flex; flex-direction: column; gap: .15rem; padding: 1.25rem 1.35rem; border: 3px solid #3d2c13; border-radius: 12px; background: linear-gradient(#1c130a, #0e0a06); box-shadow: inset 0 0 30px rgba(0, 0, 0, .8); transition: box-shadow .4s; }
 .serve-times b, .serve-times span, .serve-times small { position: relative; transition: opacity .4s; }
@@ -376,7 +376,7 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
   50% { background: #6a4d16; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, .5); } }
 @media (prefers-reduced-motion: reduce) { .serve-times li.now .serve-bulbs i { animation: none; } }
 @media (max-width: 760px) {
-  .serve-times { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .serve-times { grid-template-columns: 1fr; }
   .serve-times span { font-size: 1rem; }
 }
 
@@ -398,4 +398,4 @@ body:not(.header-hidden) .cat-bar { top: calc(66px + var(--hb)); }
 .page-menu .cat-bar:not(.show) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; pointer-events: none; }
 
 /* ----- Home: "What's Cooking Now" band (replaced the red Specials & Game Days band) ----- */
-.serving-home .serve-times { margin: 2.2rem auto 0; max-width: 980px; }
+.serving-home .serve-times { margin: 2.2rem auto 0; max-width: 860px; }
